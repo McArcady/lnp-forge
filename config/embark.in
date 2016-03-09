@@ -1,0 +1,16 @@
+# DF options
+
+menu "Embark profiles"
+
+config EMBARK_VERSION
+	string
+    default "2014-v3"
+	
+config EMBARK
+	bool
+	default y
+	prompt "Include embark profiles"
+	help
+	  Select this to include extended embark profiles.
+
+endmenu

@@ -1,0 +1,102 @@
+# Options specific to downloading packages
+
+comment "Downloading"
+
+config FORBID_DOWNLOAD
+    bool
+    prompt "Forbid downloads"
+    help
+      Normally, crosstool-NG will try to download missing tarballs (or
+      checkout from CVS/SVN...).
+      If you do not have network connectivity when you run crosstool-NG,
+      and some files are missing, it can be a long time before crosstool-NG
+      fails.
+      
+      Saying 'y' here will prevent crosstool-NG from downloading missing
+      files, thus failing early so that you don't get stuck.
+
+if ! FORBID_DOWNLOAD
+
+config FORCE_DOWNLOAD
+    bool
+    prompt "Force downloads"
+    help
+      Force downloading tarballs, even if one already exists.
+      
+      Useful if you suspect a tarball to be damaged.
+
+config CONNECT_TIMEOUT
+    int
+    prompt "Connection timeout"
+    default 10
+    help
+      Maximum time in seconds that you allow the connection to the server to take.
+      
+      The scenario is as follows;
+        - some enterprise networks have firewalls that prohibit FTP traffic, while
+          still allowing HTTP
+        - most download sites have http:// equivalent for the ftp:// URL
+        - after this number of seconds, it is considered that the connection could
+          not be established, and the next URL in the list is tried, until we reach
+          an URL that will go through the firewall, most probably an http:// URL.
+      
+      If you have a slow network, you'd better set this value higher than the default
+      10s. If you know a firewall is blocking connections, but your network is globally
+      fast, you can try to lower this value to jump more quickly to allowed URLs. YMMV.
+      
+      If '-1' is specified, no timeout reconfiguration options are passed to wget.
+
+config ONLY_DOWNLOAD
+    bool
+    prompt "Stop after downloading tarballs"
+    help
+      Only download the tarballs. Exit once it done.
+      
+      Useful to pre-retrieve the tarballs before going off-line.
+
+config USE_MIRROR
+    bool
+    prompt "Use a mirror"
+    help
+      If you have a machine on your LAN that mirrors some of the needed
+      tarballs, you can say 'Y' here, and configure adequate values in
+      the following options.
+      
+      Obviously, nothing prevents you from using a mirror that is in fact
+      *not* on your LAN, for example on another subnet of your company's
+      network, or a mirror on the Internet.
+
+if USE_MIRROR
+
+config FORCE_MIRROR
+    bool
+    prompt "Only use mirror"
+    help
+      Only allow downloading from the mirror specified, other download locations
+      will NOT be used, and the package will fail to be located if not present
+      on the mirror provided
+
+config MIRROR_BASE_URL
+    string
+    prompt "Base URL"
+    default "http://crosstool-ng.org/mirrors/"
+    help
+      This is the base URL searched in for tarballs.
+      
+      The crosstool-NG server hosts a few of the required components, but
+      it is limited to volatile snashots (eg. uClibc) that are used in some
+      samples, or to mirror some archives which upstream can be flaky (eg.
+      mpfr), or for which upstream releases can be missing due to upstream
+      not doing archives (eg. glibc-ports).
+      
+      The mirror is provided as-is, no guarantee is made as to the actual
+      content of the archives, or to the availability of the mirror.
+      
+      Excercise caution, use at your own risks!
+      
+      The mirror is available at:
+        http://crosstool-ng.org/mirrors/
+
+endif # USE_MIRROR
+
+endif # ! FORBID_DOWNLOAD

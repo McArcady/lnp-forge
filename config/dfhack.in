@@ -1,0 +1,77 @@
+# DF_HACK options
+
+menu "DFHack"
+
+config DFHACK_VERSION
+	string
+    default "0.42.05-alpha1" if DF_V_0_42_05
+    default "0.42.03-alpha1" if DF_V_0_42_03
+    default "0.40.24.r5" if DF_V_0_40_24
+    default ""
+
+if !DFHACK_VERSION = ""
+
+config DFHACK
+	bool
+	prompt "Build DFHack"
+	default "true"
+	help
+	  Select this to include DFHack.
+
+config DFHACK_ALT
+	bool
+	prompt "Use non-default version of DFHack"
+	depends on DFHACK
+	help
+	  Select this to force the version of DFHack to build.
+
+config DFHACK_REV
+	string
+	prompt "Github revision of DFHack"
+	default "master"
+	depends on DFHACK_ALT
+	help
+	  Build DFHack using given git revision. No guarantee!
+
+endif
+
+if DFHACK_VERSION = ""
+comment "no DFHack version known for the selected DF version."
+
+config DFHACK
+	bool
+	prompt "Build DFHack anyway using specific revision"
+	help
+	  Select this to force use of DFHack. No guarantee!
+
+config DFHACK_REV
+	string
+	prompt "Github revision of DFHack"
+	default "master"
+	depends on DFHACK
+	help
+	  Build DFHack using a specific git revision. No guarantee!
+
+endif
+
+config TWBT
+	bool
+	default y
+	depends on DFHACK
+	  
+choice
+    bool
+    prompt "TWBT version"
+	depends on TWBT
+
+config TWBT_V_5_56
+	bool
+	prompt "5.56"
+
+endchoice
+
+config TWBT_VERSION
+	string
+    default "v5.56" if TWBT_V_5_56
+
+endmenu

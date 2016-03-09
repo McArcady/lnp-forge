@@ -1,0 +1,20 @@
+# SOUNDSENSE options
+
+menu "SoundSense"
+
+config SOUNDSENSE
+	bool
+	prompt "Include SoundSense"
+	default y
+	help
+	  Select this to include SoundSense.
+
+config SOUNDSENSE_VERSION
+	string
+	prompt "Version"
+    default "2015-1_194"
+	depends on SOUNDSENSE
+	help
+	  Select version of SoundSense
+
+endmenu

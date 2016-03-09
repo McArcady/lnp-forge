@@ -1,0 +1,650 @@
+#!@@CT_bash@@
+# Copyright 2007 Yann E. MORIN
+# Licensed under the GPL v2. See COPYING in the root of this package.
+
+# This is the main entry point to crosstool
+# This will:
+#   - download, extract and patch the toolchain components
+#   - build and install each components in turn
+#   - and eventually test the resulting toolchain
+
+# What this file does is prepare the environment, based upon the user-choosen
+# options. It also checks the existing environment for un-friendly variables,
+# and builds the tools.
+
+# Parse the common functions
+# Note: some initialisation and sanitizing is done while parsing this file,
+# most notably:
+#  - set trap handler on errors,
+#  - don't hash commands lookups,
+#  - initialise logging.
+. "${CT_LIB_DIR}/scripts/functions"
+
+# Parse the configuration file
+# It has some info about the logging facility, so include it early
+. .config.2
+# Yes! We can do full logging from now on!
+
+# Check running as root
+if [ -z "${CT_ALLOW_BUILD_AS_ROOT_SURE}" ]; then
+    if [ $(id -u) -eq 0 ]; then
+        CT_DoLog ERROR "You must NOT be root to run @@CT_PROG_NAME@@"
+        exit 1
+    fi
+fi
+
+# If we want an interactive debug-shell, we must ensure these FDs
+# are indeed connected to a terminal (and not redirected in any way).
+if [ "${CT_DEBUG_INTERACTIVE}" = "y" -a ! \( -t 0 -a -t 6 -a -t 2 \) ]; then
+    CT_DoLog ERROR "Can't spawn interactive debug-shell,"
+    CT_DoLog ERROR "because stdout/stderr has been redirected."
+    exit 1
+fi
+
+# Override the locale early, in case we ever translate crosstool-NG messages
+if [ -z "${CT_NO_OVERIDE_LC_MESSAGES}" ]; then
+    export LC_ALL=C
+    export LANG=C
+fi
+
+# remove . from PATH since it can cause gcc build failures
+CT_SanitizePath
+
+# Some sanity checks in the environment and needed tools
+CT_DoLog INFO "Performing some trivial sanity checks"
+CT_TestAndAbort "Don't set LD_LIBRARY_PATH. It screws up the build." -n "${LD_LIBRARY_PATH}"
+CT_TestAndAbort "Don't set LIBRARY_PATH. It screws up the build." -n "${LIBRARY_PATH}"
+CT_TestAndAbort "Don't set LPATH. It screws up the build." -n "${LPATH}"
+CT_TestAndAbort "Don't set CFLAGS. It screws up the build." -n "${CFLAGS}"
+CT_TestAndAbort "Don't set CXXFLAGS. It screws up the build." -n "${CXXFLAGS}"
+CT_Test "GREP_OPTIONS screws up the build. Resetting." -n "${GREP_OPTIONS}"
+export GREP_OPTIONS=
+# Workaround against openSUSE 12.1 that breaks ./configure for cross-compilation:
+export CONFIG_SITE=
+
+# Some sanity checks on paths content
+for d in            \
+    LOCAL_TARBALLS  \
+    WORK            \
+    PREFIX          \
+    INSTALL         \
+    ; do
+        eval dir="\${CT_${d}_DIR}"
+        case "${dir}" in
+            *" "*)
+                CT_Abort "'CT_${d}_DIR'='${dir}' contains a space in it.\nDon't use spaces in paths, it breaks things."
+                ;;
+            *:*)
+                CT_Abort "'CT_${d}_DIR'='${dir}' contains a colon in it.\nDon't use colons in paths, it breaks things."
+                ;;
+            *,*)
+                CT_Abort "'CT_${d}_DIR'='${dir}' contains a comma in it.\nDon't use commas in paths, it breaks things."
+                ;;
+        esac
+done
+
+# Where will we work?
+CT_WORK_DIR="${CT_WORK_DIR:-${CT_TOP_DIR}/.build}"
+CT_DoExecLog ALL mkdir -p "${CT_WORK_DIR}"
+CT_DoExecLog DEBUG rm -f "${CT_WORK_DIR}/backtrace"
+
+# Check build file system case-sensitiveness
+CT_DoExecLog DEBUG touch "${CT_WORK_DIR}/foo"
+CT_TestAndAbort "Your file system in '${CT_WORK_DIR}' is *not* case-sensitive!" -f "${CT_WORK_DIR}/FOO"
+CT_DoExecLog DEBUG rm -f "${CT_WORK_DIR}/foo"
+
+# Check the user is using an existing SHELL to be used by ./configure and Makefiles
+CT_TestOrAbort "The CONFIG_SHELL '${CT_CONFIG_SHELL}' is not valid" -f "${CT_CONFIG_SHELL}" -a -x "${CT_CONFIG_SHELL}"
+
+# Create the bin-override early
+# Contains symlinks to the tools found by ./configure
+# Note: CT_DoLog and CT_DoExecLog do not use any of those tool, so
+# they can be safely used
+CT_TOOLS_OVERIDE_DIR="${CT_WORK_DIR}/tools"
+CT_DoLog DEBUG "Creating bin-override for tools in '${CT_TOOLS_OVERIDE_DIR}'"
+CT_DoExecLog DEBUG mkdir -p "${CT_TOOLS_OVERIDE_DIR}/bin"
+cat "${CT_LIB_DIR}/paths.sh" |while read trash line; do
+    tool="${line%%=*}"
+    path="${line#*=}"
+    CT_DoLog DEBUG "Creating script-override for '${tool}' -> '${path}'"
+    # Note: we need to supress the " in the path because
+    # there can be arguments in there (thanks autostuff...)
+    printf "#${BANG}${CT_CONFIG_SHELL}\nexec ${path//\"/} \"\${@}\"\n" >"${CT_TOOLS_OVERIDE_DIR}/bin/${tool}"
+    CT_DoExecLog ALL chmod 700 "${CT_TOOLS_OVERIDE_DIR}/bin/${tool}"
+done
+export PATH="${CT_TOOLS_OVERIDE_DIR}/bin:${PATH}"
+
+# Start date. Can't be done until we know the locale
+# Also requires the bin-override tools
+CT_STAR_DATE=$(CT_DoDate +%s%N)
+CT_STAR_DATE_HUMAN=$(CT_DoDate +%Y%m%d.%H%M%S)
+
+# Log real begining of build, now
+CT_DoLog INFO "Build started ${CT_STAR_DATE_HUMAN}"
+
+# We really need to extract from ,config and not .config.2, as we
+# do want the kconfig's values, not our mangled config with arrays.
+CT_DoStep DEBUG "Dumping user-supplied @@CT_PROG_NAME configuration"
+CT_DoExecLog DEBUG ${grep} -E '^(# )?CT_' .config
+CT_EndStep
+
+CT_DoLog DEBUG "Unsetting and unexporting MAKEFLAGS"
+unset MAKEFLAGS
+export MAKEFLAGS
+
+CT_DoLog INFO "Building environment variables"
+
+# Include sub-scripts instead of calling them: that way, we do not have to
+# export any variable, nor re-parse the configuration and functions files.
+. "${CT_LIB_DIR}/scripts/build/internals.sh"
+for step in ${CT_STEPS}; do
+	. "${CT_LIB_DIR}/scripts/build/${step}.sh"
+done
+
+# Target tuple: CT_TARGET needs a little love:
+#CT_DoBuildTargetTuple
+
+# Kludge: If any of the configured options needs CT_TARGET,
+# then rescan the options file now:
+. .config.2
+
+# Sanity check some directories
+CT_TestAndAbort "'CT_PREFIX_DIR' is not set: where should I install?" -z "${CT_PREFIX_DIR}"
+
+# Avoid multiple '/' in the prefix dir, it breaks relocatability
+CT_PREFIX_DIR="$( "${sed}" -r -e 's:/+:/:g; s:/*$::;' <<<"${CT_PREFIX_DIR}" )"
+
+# Second kludge: merge user-supplied target CFLAGS with architecture-provided
+# target CFLAGS. Do the same for LDFLAGS in case it happens in the future.
+# Put user-supplied flags at the end, so that they take precedence.
+CT_TARGET_CFLAGS="${CT_ARCH_TARGET_CFLAGS} ${CT_TARGET_CFLAGS}"
+CT_TARGET_LDFLAGS="${CT_ARCH_TARGET_LDFLAGS} ${CT_TARGET_LDFLAGS}"
+CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY=( ${CT_ARCH_CC_CORE_EXTRA_CONFIG} "${CT_CC_GCC_CORE_EXTRA_CONFIG_ARRAY[@]}" )
+CT_CC_GCC_EXTRA_CONFIG_ARRAY=( ${CT_ARCH_CC_EXTRA_CONFIG} "${CT_CC_GCC_EXTRA_CONFIG_ARRAY[@]}" )
+
+# Compute the package version string
+CT_PKGVERSION="@@CT_PROG_NAME@@ ${CT_VERSION}${CT_TOOLCHAIN_PKGVERSION:+ - ${CT_TOOLCHAIN_PKGVERSION}}"
+
+# Compute the working directories names
+CT_TARBALLS_DIR="${CT_WORK_DIR}/tarballs"
+CT_SRC_DIR="${CT_WORK_DIR}/src"
+CT_BUILD_DIR="${CT_WORK_DIR}/${CT_TARGET}/build"
+CT_BUILDTOOLS_PREFIX_DIR="${CT_WORK_DIR}/${CT_TARGET}/buildtools"
+CT_STATE_DIR="${CT_WORK_DIR}/${CT_TARGET}/state"
+CT_CONFIG_DIR="${CT_BUILD_DIR}/configs"
+# Note about HOST_COMPLIBS_DIR: it's always gonna be in the buildtools dir, or a
+# sub-dir. So we won't have to save/restore it, not even create it.
+# In case of cross or native, host-complibs are used for build-complibs;
+# in case of canadian or cross-native, host-complibs are specific
+case "${CT_TOOLCHAIN_TYPE}" in
+    native|cross)
+        CT_HOST_COMPLIBS_DIR="${CT_BUILDTOOLS_PREFIX_DIR}"
+        ;;
+    canadian|cross-native)
+        CT_HOST_COMPLIBS_DIR="${CT_BUILDTOOLS_PREFIX_DIR}/complibs-host"
+        ;;
+esac
+
+# Compute test suite install directory
+CT_TEST_SUITE_DIR=${CT_INSTALL_DIR}/test-suite
+
+# We must ensure that we can restart if asked for!
+if [ -n "${CT_RESTART}" -a ! -d "${CT_STATE_DIR}"  ]; then
+    CT_DoLog ERROR "You asked to restart a non-restartable build"
+    CT_DoLog ERROR "This happened because you didn't set CT_DEBUG_CT_SAVE_STEPS"
+    CT_DoLog ERROR "in the config options for the previous build, or the state"
+    CT_DoLog ERROR "directory for the previous build was deleted."
+    CT_Abort "I will stop here to avoid any carnage"
+fi
+
+# If the local tarball directory does not exist, say so, and don't try to save there!
+if [    "${CT_SAVE_TARBALLS}" = "y"     \
+     -a ! -d "${CT_LOCAL_TARBALLS_DIR}" ]; then
+    CT_DoLog WARN "Directory '${CT_LOCAL_TARBALLS_DIR}' does not exist."
+    CT_DoLog WARN "Will not save downloaded tarballs to local storage."
+    CT_SAVE_TARBALLS=
+fi
+
+# Check now if we can write to the destination directory:
+if [ -d "${CT_INSTALL_DIR}" ]; then
+    CT_TestAndAbort "Destination directory '${CT_INSTALL_DIR}' is not removable" ! -w $(dirname "${CT_INSTALL_DIR}")
+fi
+
+# Good, now grab a bit of informations on the system we're being run on,
+# just in case something goes awok, and it's not our fault:
+CT_SYS_USER=$(id -un)
+CT_SYS_HOSTNAME=$(hostname -f 2>/dev/null || true)
+# Hmmm. Some non-DHCP-enabled machines do not have an FQDN... Fall back to node name.
+CT_SYS_HOSTNAME="${CT_SYS_HOSTNAME:-$(uname -n)}"
+CT_SYS_KERNEL=$(uname -s)
+CT_SYS_REVISION=$(uname -r)
+CT_SYS_OS=$(uname -s)
+CT_SYS_MACHINE=$(uname -m)
+CT_SYS_PROCESSOR=$(uname -p)
+CT_SYS_GCC=$(gcc -dumpversion)
+CT_SYS_TARGET=$(CT_DoConfigGuess)
+CT_TOOLCHAIN_ID="crosstool-${CT_VERSION} build ${CT_STAR_DATE_HUMAN} by ${CT_SYS_USER}@${CT_SYS_HOSTNAME}"
+
+CT_DoLog EXTRA "Preparing working directories"
+
+# Ah! The build directory shall be eradicated, even if we restart!
+# Ditto for the build tools install dir
+CT_DoForceRmdir "${CT_BUILD_DIR}" "${CT_BUILDTOOLS_PREFIX_DIR}"
+
+# Don't eradicate directories if we need to restart
+if [ -z "${CT_RESTART}" ]; then
+    # Get rid of pre-existing installed toolchain and previous build directories.
+    if [ "${CT_FORCE_DOWNLOAD}" = "y" -a -d "${CT_TARBALLS_DIR}" ]; then
+        CT_DoForceRmdir "${CT_TARBALLS_DIR}"
+    fi
+    if [ "${CT_FORCE_EXTRACT}" = "y" -a -d "${CT_SRC_DIR}" ]; then
+        CT_DoForceRmdir "${CT_SRC_DIR}"
+    fi
+    if [ -d "${CT_INSTALL_DIR}" -a "${CT_RM_RF_PREFIX_DIR}" = "y" ]; then
+        CT_DoForceRmdir "${CT_INSTALL_DIR}"
+    fi
+    # In case we start anew, get rid of the previously saved state directory
+    if [ -d "${CT_STATE_DIR}" ]; then
+        CT_DoForceRmdir "${CT_STATE_DIR}"
+    fi
+fi
+
+# Create the directories we'll use, even if restarting: it does no harm to
+# create already existent directories, and CT_BUILD_DIR needs to be created
+# anyway
+CT_DoExecLog ALL mkdir -p "${CT_TARBALLS_DIR}"
+CT_DoExecLog ALL mkdir -p "${CT_SRC_DIR}"
+CT_DoExecLog ALL mkdir -p "${CT_BUILD_DIR}"
+CT_DoExecLog ALL mkdir -p "${CT_BUILDTOOLS_PREFIX_DIR}/bin"
+CT_DoExecLog ALL mkdir -p "${CT_CONFIG_DIR}"
+CT_DoExecLog ALL mkdir -p "${CT_INSTALL_DIR}"
+CT_DoExecLog ALL mkdir -p "${CT_PREFIX_DIR}"
+CT_DoExecLog ALL mkdir -p "${CT_HOST_COMPLIBS_DIR}"
+
+# Only create the state dir if asked for a restartable build
+[ -n "${CT_DEBUG_CT_SAVE_STEPS}" ] && CT_DoExecLog ALL mkdir -p "${CT_STATE_DIR}"
+
+# Check install file system case-sensitiveness
+CT_DoExecLog DEBUG touch "${CT_PREFIX_DIR}/foo"
+CT_TestAndAbort "Your file system in '${CT_PREFIX_DIR}' is *not* case-sensitive!" -f "${CT_PREFIX_DIR}/FOO"
+CT_DoExecLog DEBUG rm -f "${CT_PREFIX_DIR}/foo"
+
+# Kludge: CT_INSTALL_DIR and CT_PREFIX_DIR might have grown read-only if
+# the previous build was successful.
+CT_DoExecLog ALL chmod -R u+w "${CT_INSTALL_DIR}" "${CT_PREFIX_DIR}"
+
+# Setting up the rest of the environment only if not restarting
+if [ -z "${CT_RESTART}" ]; then
+    case "${CT_SYSROOT_NAME}" in
+        "")     CT_SYSROOT_NAME="sysroot";;
+        .)      CT_Abort "Sysroot name is set to '.' which is forbidden";;
+        *' '*)  CT_Abort "Sysroot name contains forbidden space(s): '${CT_SYSROOT_NAME}'";;
+        */*)    CT_Abort "Sysroot name contains forbidden slash(es): '${CT_SYSROOT_NAME}'";;
+    esac
+
+    # Arrange paths depending on wether we use sysroot or not.
+    if [ "${CT_USE_SYSROOT}" = "y" ]; then
+        CT_SYSROOT_REL_DIR="${CT_SYSROOT_DIR_PREFIX:+${CT_SYSROOT_DIR_PREFIX}/}${CT_SYSROOT_NAME}"
+        CT_SYSROOT_DIR="${CT_PREFIX_DIR}/${CT_TARGET}/${CT_SYSROOT_REL_DIR}"
+        CT_DEBUGROOT_DIR="${CT_PREFIX_DIR}/${CT_TARGET}/${CT_SYSROOT_DIR_PREFIX}/debug-root"
+        CT_HEADERS_DIR="${CT_SYSROOT_DIR}/usr/include"
+        CT_SanitiseVarDir CT_SYSROOT_REL_DIR CT_SYSROOT_DIR CT_DEBUGROOT_DIR CT_HEADERS_DIR 
+        BINUTILS_SYSROOT_ARG="--with-sysroot=${CT_SYSROOT_DIR}"
+        CC_CORE_SYSROOT_ARG="--with-sysroot=${CT_SYSROOT_DIR}"
+        CC_SYSROOT_ARG="--with-sysroot=${CT_SYSROOT_DIR}"
+        LIBC_SYSROOT_ARG=""
+        # glibc's prefix must be exactly /usr, else --with-sysroot'd gcc will get
+        # confused when $sysroot/usr/include is not present.
+        # Note: --prefix=/usr is magic!
+        # See http://www.gnu.org/software/libc/FAQ.html#s-2.2
+    else
+        # plain old way. All libraries in prefix/target/lib
+        CT_SYSROOT_DIR="${CT_PREFIX_DIR}/${CT_TARGET}"
+        CT_DEBUGROOT_DIR="${CT_SYSROOT_DIR}"
+        CT_HEADERS_DIR="${CT_SYSROOT_DIR}/include"
+        CT_SanitiseVarDir CT_SYSROOT_DIR CT_DEBUGROOT_DIR CT_HEADERS_DIR 
+        # hack!  Always use --with-sysroot for binutils.
+        # binutils 2.14 and later obey it, older binutils ignore it.
+        # Lets you build a working 32->64 bit cross gcc
+        BINUTILS_SYSROOT_ARG="--with-sysroot=${CT_SYSROOT_DIR}"
+        # Use --with-headers, else final gcc will define disable_glibc while
+        # building libgcc, and you'll have no profiling
+        CC_CORE_SYSROOT_ARG="--without-headers"
+        CC_SYSROOT_ARG="--with-headers=${CT_HEADERS_DIR}"
+        LIBC_SYSROOT_ARG="prefix="
+    fi
+    CT_DoExecLog ALL mkdir -p "${CT_SYSROOT_DIR}"
+    CT_DoExecLog ALL mkdir -p "${CT_DEBUGROOT_DIR}"
+
+    # Prepare the 'lib' directories in sysroot, else the ../lib64 hack used by
+    # 32 -> 64 bit crosscompilers won't work, and build of final gcc will fail
+    # with: "ld: cannot open crti.o: No such file or directory"
+    # Also prepare the lib directory in the install dir, else some 64 bit archs
+    # won't build
+    CT_DoExecLog ALL mkdir -p "${CT_PREFIX_DIR}/lib"
+    CT_DoExecLog ALL mkdir -p "${CT_SYSROOT_DIR}/lib"
+    CT_DoExecLog ALL mkdir -p "${CT_SYSROOT_DIR}/usr/lib"
+    CT_DoExecLog ALL mkdir -p "${CT_HEADERS_DIR}"
+
+    if [ "${CT_USE_SYSROOT}" = "y" ]; then
+        # Prevent gcc from installing its libraries outside of the sysroot
+        CT_Pushd "${CT_PREFIX_DIR}/${CT_TARGET}"
+        CT_DoExecLog ALL ln -sf "${CT_SYSROOT_REL_DIR}/lib" "lib"
+        CT_Popd
+    fi
+
+    # Since we're *not* multilib on the target side, we want all the
+    # libraries to end up in "lib".  We create "lib64" (for 64-bit
+    # build or host architectures) and "lib32" (for 32-bit emulation
+    # on 64-bit) as symlinks to "lib".
+    #
+    # Not all of these symlinks are necessary, but better safe than
+    # sorry. They are summarily removed by build/internals.sh:do_finish.
+    for d in                            \
+        "${CT_PREFIX_DIR}"              \
+        "${CT_SYSROOT_DIR}"             \
+        "${CT_SYSROOT_DIR}/usr"         \
+        "${CT_PREFIX_DIR}/${CT_TARGET}" \
+    ; do
+        CT_DoExecLog ALL ln -sf "lib" "${d}/lib32"
+        CT_DoExecLog ALL ln -sf "lib" "${d}/lib64"
+    done
+
+    # Determine build system if not set by the user
+    if [ -z "${CT_BUILD}" ]; then
+        CT_BUILD=$(CT_DoConfigGuess)
+    fi
+
+    # Prepare mangling patterns to later modify BUILD and HOST (see below)
+    case "${CT_TOOLCHAIN_TYPE}" in
+        cross)
+            # A cross-compiler runs on the same machine it is built on
+            CT_HOST="${CT_BUILD}"
+            build_mangle="build_"
+            host_mangle="build_"
+            target_mangle=""
+            install_build_tools_for="BUILD HOST"
+            ;;
+        canadian)
+            build_mangle="build_"
+            host_mangle="host_"
+            target_mangle=""
+            install_build_tools_for="BUILD HOST"
+            ;;
+        *)  CT_Abort "No code for '${CT_TOOLCHAIN_TYPE}' toolchain type!"
+            ;;
+    esac
+
+    # Save the real tuples to generate shell-wrappers to the real tools
+    CT_REAL_BUILD="${CT_BUILD}"
+    CT_REAL_HOST="${CT_HOST}"
+    CT_REAL_TARGET="${CT_TARGET}"
+
+    # Canonicalise CT_BUILD and CT_HOST
+    # Not only will it give us full-qualified tuples, but it will also ensure
+    # that they are valid tuples (in case of typo with user-provided tuples)
+    # That's way better than trying to rewrite config.sub ourselves...
+    # CT_TARGET is already made canonical in CT_DoBuildTargetTuple
+    CT_BUILD=$(CT_DoConfigSub "${CT_BUILD}")
+    CT_HOST=$(CT_DoConfigSub "${CT_HOST}")
+
+    # Modify BUILD and HOST so that gcc always generate a cross-compiler
+    # even if any of the build, host or target machines are the same.
+    # NOTE: we'll have to mangle the (BUILD|HOST)->TARGET x-compiler to
+    #       support canadain build, later...
+    CT_BUILD="${CT_BUILD/-/-${build_mangle}}"
+    CT_HOST="${CT_HOST/-/-${host_mangle}}"
+    CT_TARGET="${CT_TARGET/-/-${target_mangle}}"
+
+    # Now we have mangled our BUILD and HOST tuples, we must fake the new
+    # cross-tools for those mangled tuples.
+    CT_DoLog DEBUG "Making build system tools available"
+    for m in ${install_build_tools_for}; do
+        r="CT_REAL_${m}"
+        v="CT_${m}"
+        p="CT_${m}_PREFIX"
+        s="CT_${m}_SUFFIX"
+        if [ -n "${!p}" ]; then
+            t="${!p}"
+        else
+            t="${!r}-"
+        fi
+
+        for tool in ar as dlltool gcc g++ gcj gnatbind gnatmake ld nm objcopy objdump ranlib strip windres; do
+            # First try with prefix + suffix
+            # Then try with prefix only
+            # Then try with suffix only, but only for BUILD, and HOST iff REAL_BUILD == REAL_HOST
+            # Finally try with neither prefix nor suffix, but only for BUILD, and HOST iff REAL_BUILD == REAL_HOST
+            # This is needed, because some tools have a prefix and
+            # a suffix (eg. gcc), while others may have only one,
+            # or even none (eg. binutils)
+            where=$(CT_Which "${t}${tool}${!s}")
+            [ -z "${where}" ] && where=$(CT_Which "${t}${tool}")
+            if [    -z "${where}"                         \
+                 -a \(    "${m}" = "BUILD"                \
+                       -o "${CT_REAL_BUILD}" = "${!r}" \) ]; then
+                where=$(CT_Which "${tool}${!s}")
+            fi
+            if [ -z "${where}"                            \
+                 -a \(    "${m}" = "BUILD"                \
+                       -o "${CT_REAL_BUILD}" = "${!r}" \) ]; then
+                where=$(CT_Which "${tool}")
+            fi
+
+            # Not all tools are available for all platforms, but some are required.
+            if [ -n "${where}" ]; then
+                CT_DoLog DEBUG "  '${!v}-${tool}' -> '${where}'"
+                printf "#${BANG}${CT_CONFIG_SHELL}\nexec '${where}' \"\${@}\"\n" >"${CT_BUILDTOOLS_PREFIX_DIR}/bin/${!v}-${tool}"
+                CT_DoExecLog ALL chmod 700 "${CT_BUILDTOOLS_PREFIX_DIR}/bin/${!v}-${tool}"
+            else
+                case "${tool}" in
+                    # We'll at least need some of them...
+                    ar|as|gcc|ld|nm|objcopy|objdump|ranlib)
+                        CT_Abort "Missing: '${t}${tool}${!s}' or '${t}${tool}' or '${tool}' : either needed!"
+                        ;;
+                    # Some are conditionnally required
+                    # Add them in alphabetical (C locale) ordering
+                    g++)
+                        # g++ (needed for companion lib), only needed for HOST
+                        CT_TestAndAbort "Missing: '${t}${tool}${!s}' or '${t}${tool}' or '${tool}' : either needed!" "${m}" = "HOST"
+                        ;;
+                    gcj)
+                        CT_TestAndAbort "Missing: '${t}${tool}${!s}' or '${t}${tool}' or '${tool}' : either needed!" "${CT_CC_LANG_JAVA}" = "y"
+                        ;;
+                    strip)
+                        CT_TestAndAbort "Missing: '${t}${tool}${!s}' or '${t}${tool}' or '${tool}' : either needed!" "${CT_STRIP_HOST_TOOLCHAIN_EXECUTABLES}" = "y"
+                        ;;
+                    # If any other is missing, only warn at low level
+                    *)
+                        # It does not deserve a WARN level.
+                        CT_DoLog DEBUG "  Missing: '${t}${tool}${!s}' or '${t}${tool}' or '${tool}' : not required."
+                        ;;
+                esac
+            fi
+        done
+    done
+
+    # Some makeinfo versions are a pain in [put your most sensible body part here].
+    # Go ahead with those, by creating a wrapper that keeps partial files, and that
+    # never fails:
+    CT_DoLog DEBUG "  'makeinfo' -> '$(CT_Which makeinfo)'"
+    printf "#${BANG}${CT_CONFIG_SHELL}\n$(CT_Which makeinfo) --force \"\${@}\"\ntrue\n" >"${CT_BUILDTOOLS_PREFIX_DIR}/bin/makeinfo"
+    CT_DoExecLog ALL chmod 700 "${CT_BUILDTOOLS_PREFIX_DIR}/bin/makeinfo"
+
+    # Carefully add paths in the order we want them:
+    #  - first try in ${CT_PREFIX_DIR}/bin
+    #  - then try the buildtools dir
+    #  - fall back to searching user's PATH
+    # Of course, neither cross-native nor canadian can run on BUILD,
+    # so don't add those PATHs in this case...
+    case "${CT_TOOLCHAIN_TYPE}" in
+        cross)  export PATH="${CT_PREFIX_DIR}/bin:${CT_BUILDTOOLS_PREFIX_DIR}/bin:${PATH}";;
+        canadian) export PATH="${CT_BUILDTOOLS_PREFIX_DIR}/bin:${PATH}";;
+        *)  ;;
+    esac
+
+    # Help build gcc
+    # Explicitly optimise, else the lines below will overide the
+    # package's default optimisation flags
+    CT_CFLAGS_FOR_BUILD="-O2 -g"
+    CT_CFLAGS_FOR_BUILD+=" ${CT_EXTRA_CFLAGS_FOR_BUILD}"
+    CT_LDFLAGS_FOR_BUILD=
+    CT_LDFLAGS_FOR_BUILD+=" ${CT_EXTRA_LDFLAGS_FOR_BUILD}"
+    
+    # Help host gcc
+    # Explicitly optimise, else the lines below will overide the
+    # package's default optimisation flags
+    CT_CFLAGS_FOR_HOST="-O2 -g"
+    [ "${CT_USE_PIPES}" = "y" ] && CT_CFLAGS_FOR_HOST+=" -pipe"
+    CT_CFLAGS_FOR_HOST+=" ${CT_EXTRA_CFLAGS_FOR_HOST}"
+    CT_LDFLAGS_FOR_HOST=
+    CT_LDFLAGS_FOR_HOST+=" ${CT_EXTRA_LDFLAGS_FOR_HOST}"
+    CT_DoLog DEBUG "CFLAGS for host compiler: '${CT_CFLAGS_FOR_HOST}'"
+    CT_DoLog DEBUG "LDFLAGS for host compiler: '${CT_LDFLAGS_FOR_HOST}'"
+
+    # Set the shell to be used by ./configure scripts and by Makefiles (those
+    # that support it!).
+    export CONFIG_SHELL="${CT_CONFIG_SHELL}"    # for ./configure
+    export SHELL="${CT_CONFIG_SHELL}"           # for Makefiles
+
+    # And help make go faster
+    JOBSFLAGS=
+    # Override the configured jobs with what's been given on the command line
+    if [ -n "${CT_JOBS}" ]; then
+        if [ ! -z "`echo "${CT_JOBS}" | ${sed} 's/[0-9]//g'`" ]; then
+            CT_Abort "Number of parallel jobs must be integer."
+        fi
+        CT_PARALLEL_JOBS="${CT_JOBS}"
+    fi
+    # Use the number of processors+1 when automatically setting the number of
+    # parallel jobs.  Fall back to 1 if the host doesn't use GLIBC.
+    AUTO_JOBS=$((`getconf _NPROCESSORS_ONLN 2> /dev/null || echo 0` + 1))
+    [ ${CT_PARALLEL_JOBS} -eq 0 ] && JOBSFLAGS="${JOBSFLAGS} -j${AUTO_JOBS}"
+    [ ${CT_PARALLEL_JOBS} -gt 0 ] && JOBSFLAGS="${JOBSFLAGS} -j${CT_PARALLEL_JOBS}"
+    JOBSFLAGS="${JOBSFLAGS} -l${CT_LOAD}"
+
+    # Override 'download only' option
+    [ -n "${CT_SOURCE}" ] && CT_ONLY_DOWNLOAD=y
+
+    # Now that we've set up $PATH and $CT_CFLAGS_FOR_HOST, sanity test that gcc
+    # is runnable so that the user can troubleshoot problems if not.
+    CT_DoStep DEBUG "Checking that we can run gcc -v"
+    CT_DoExecLog DEBUG "${CT_HOST}-gcc" -v
+    CT_EndStep
+
+    # Create a simple C program for testing.
+    testc="${CT_BUILD_DIR}/test.c"
+    printf "int main() { return 0; }\n" >"${testc}"
+    gccout="${CT_BUILD_DIR}/.gccout"
+
+    CT_DoStep DEBUG "Checking that gcc can compile a trivial program"
+    CT_DoExecLog DEBUG "${CT_HOST}-gcc" ${CT_CFLAGS_FOR_HOST} ${CT_LDFLAGS_FOR_HOST} "${testc}" -o "${gccout}"
+    rm -f "${gccout}"
+    CT_EndStep
+
+    if [ "${CT_WANTS_STATIC_LINK}" = "y" ]; then
+        CT_DoStep DEBUG "Checking that gcc can compile a trivial statically linked program (CT_WANTS_STATIC_LINK)"
+        CT_DoLog DEBUG "You may need to ensure that static libraries such as libc.a are installed on your system"
+        CT_DoExecLog DEBUG "${CT_HOST}-gcc" ${CT_CFLAGS_FOR_HOST} ${CT_LDFLAGS_FOR_HOST} "${testc}" -static -o "${gccout}"
+        rm -f "${gccout}"
+        CT_EndStep
+    fi
+
+    if [ "${CT_CC_GCC_STATIC_LIBSTDCXX}" = "y" ]; then
+        CT_DoStep DEBUG "Checking that gcc can statically link libstdc++ (CT_CC_GCC_STATIC_LIBSTDCXX)"
+        CT_DoLog DEBUG "You may need to ensure that libstdc++.a is installed on your system"
+        CT_DoExecLog DEBUG "${CT_HOST}-gcc" ${CT_CFLAGS_FOR_HOST} ${CT_LDFLAGS_FOR_HOST} "${testc}" -static -lstdc++ -o "${gccout}"
+        rm -f "${gccout}"
+        CT_EndStep
+    fi
+    rm -f "${testc}"
+
+    # We need to save the real .config with kconfig's value,
+    # not our mangled .config.2 with arrays.
+    CT_DoLog EXTRA "Installing user-supplied @@CT_PROG_NAME@@ configuration"
+    CT_DoExecLog ALL mkdir -p "${CT_PREFIX_DIR}/bin"
+    CT_DoExecLog DEBUG ${install} -m 0755 "${CT_LIB_DIR}/scripts/toolchain-config.in" "${CT_PREFIX_DIR}/bin/${CT_TARGET}-ct-ng.config"
+    CT_DoExecLog DEBUG ${sed} -i -e 's,@@grep@@,"'"${grep}"'",;' "${CT_PREFIX_DIR}/bin/${CT_TARGET}-ct-ng.config"
+    bzip2 -c -9 .config >>"${CT_PREFIX_DIR}/bin/${CT_TARGET}-ct-ng.config"
+
+    CT_DoStep EXTRA "Dumping internal @@CT_PROG_NAME@@ configuration"
+    CT_DoLog EXTRA "Building a toolchain for:"
+    CT_DoLog EXTRA "  build  = ${CT_REAL_BUILD}"
+    CT_DoLog EXTRA "  host   = ${CT_REAL_HOST}"
+    CT_DoLog EXTRA "  target = ${CT_TARGET}"
+    set |${grep} -E '^CT_.+=' |sort |CT_DoLog DEBUG
+    CT_DoLog DEBUG "Other environment:"
+    printenv |${grep} -v -E '^CT_.+=' |CT_DoLog DEBUG
+    CT_EndStep
+fi
+
+if [ -z "${CT_RESTART}" ]; then
+    CT_DoStep INFO "Retrieving needed components' tarballs"
+	for step in ${CT_STEPS}; do
+		var=CT_$(echo ${step} | tr 'a-z' 'A-Z')
+		eval val=\$$var
+		CT_DoLog DEBUG "\$$var=$val"
+		if [ "${val}" = "y" ]; then
+			eval do_${step}_get
+		fi
+	done
+    CT_EndStep
+
+    if [ "${CT_ONLY_DOWNLOAD}" != "y" ]; then
+        if [ "${CT_FORCE_EXTRACT}" = "y" ]; then
+            CT_DoForceRmdir "${CT_SRC_DIR}"
+            CT_DoExecLog ALL mkdir -p "${CT_SRC_DIR}"
+        fi
+
+        CT_DoStep INFO "Extracting and patching components"
+		for step in ${CT_STEPS}; do
+			var=CT_$(echo ${step} | tr 'a-z' 'A-Z')
+			eval val=\$$var
+			if [ "${val}" = "y" ]; then
+				eval do_${step}_extract
+			fi
+		done
+        CT_EndStep
+    fi
+fi
+
+# Now for the job by itself. Go have a coffee!
+if [ "${CT_ONLY_DOWNLOAD}" != "y" -a "${CT_ONLY_EXTRACT}" != "y" ]; then
+
+	CT_DoStep INFO "Building components"
+	for step in ${CT_STEPS}; do
+		var=CT_$(echo ${step} | tr 'a-z' 'A-Z')
+		eval val=\$"$var"
+		eval ver=\$"${var}_VERSION"
+		if [ "${val}" = "y" ]; then
+			CT_DoStep INFO "Building ${step}-${ver}"
+			eval do_${step}_build
+			CT_EndStep
+		fi
+	done
+    CT_EndStep
+fi
+
+CT_DoEnd INFO
+
+# From now-on, it can become impossible to log any time, because
+# either we're compressing the log file, or it can become RO any
+# moment... Restore original stdout, stderr and stdin
+CT_DoLog INFO "Finishing installation (may take a few seconds)..."
+exec >&6 2>&7 <&8
+rm -f ${CT_PREFIX_DIR}/build.log.bz2
+if [ "${CT_LOG_TO_FILE}" = "y" ]; then
+    cp "${tmp_log_file}" "${CT_PREFIX_DIR}/build.log"
+    if [ "${CT_LOG_FILE_COMPRESS}" = y ]; then
+        bzip2 -9 "${CT_PREFIX_DIR}/build.log"
+    fi
+fi
+if [ "${CT_INSTALL_DIR_RO}" = "y" ]; then
+    chmod -R a-w "${CT_INSTALL_DIR}"
+fi
+# CT_TEST_SUITE_DIR may not exist if only downloading or extracting
+if [ "${CT_TEST_SUITE}" = "y" -a -d "${CT_TEST_SUITE_DIR}" ]; then
+    chmod -R u+w "${CT_TEST_SUITE_DIR}"
+fi
+
+trap - EXIT

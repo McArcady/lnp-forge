@@ -1,0 +1,55 @@
+# Dwarf-Therapist options
+
+menu "Dwarf-Therapist"
+
+config THERAPIST_VERSION
+	string
+    default "v36.0.0" if DF_V_0_42_05 || DF_V_0_42_03
+    default "v32.0.0" if DF_V_0_40_24
+    default ""
+
+if !THERAPIST_VERSION = ""
+
+config THERAPIST
+	bool
+	prompt "Build Dwarf-Therapist"
+	help
+	  Select this to include Dwarf-Therapist.
+
+config THERAPIST_ALT
+	bool
+	prompt "Use non-default version of Dwarf-Therapist"
+	depends on THERAPIST
+	help
+	  Select this to force the version of Dwarf-Therapist to build.
+
+config THERAPIST_REV
+	string
+	prompt "Github revision of Dwarf-Therapist"
+	default "master"
+	depends on THERAPIST_ALT
+	help
+	  Build Dwarf-Therapist using given git revision. No guarantee!
+
+endif
+
+if THERAPIST_VERSION = ""
+comment "no Dwarf-Therapist version known for the selected DF version."
+
+config THERAPIST
+	bool
+	prompt "Build Dwarf-Therapist anyway using specific revision"
+	help
+	  Select this to force use of Dwarf-Therapist. No guarantee!
+
+config THERAPIST_REV
+	string
+	prompt "Github revision of Dwarf-Therapist"
+	default "master"
+	depends on THERAPIST
+	help
+	  Build Dwarf-Therapist using given git revision. No guarantee!
+
+endif
+
+endmenu

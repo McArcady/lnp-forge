@@ -1,0 +1,35 @@
+--- lnp-0.10f.orig/PyLNP.json	2016-02-22 21:57:25.773005966 +0100
++++ lnp-0.10f/PyLNP.json	2016-02-22 21:59:52.431243027 +0100
+@@ -18,5 +18,31 @@
+ 	"hideUtilityExt": false,
+ 	"updates": {
+ 		"updateMethod": ""
+-	}
++	},
++    "dfhack": {
++        "Partial Mouse Control": {
++            "command": "mousequery edge enable",
++            "tooltip": "allows scrolling by hovering near edge of map; conflicts with isometric view; may cause trouble with macros"
++        },
++        "Automatic Job Assignments": {
++            "command": "autolabor 1",
++            "tooltip": "the 'autolabor' plugin automates job assignments, replacing tools such as Dwarf Therapist"
++        },
++        "Other Automation plugins": {
++            "command": "multicmd autonestbox start; repeat -time 7 -timeUnits days -command [ burial ] -name burial",
++            "tooltip": "more automation plugins - autonestbox, burial"
++        },
++        "Workflow - production targets": {
++            "command": "workflow enable",
++            "tooltip": "the 'workflow' plugin disables cancelling repeat jobs.  Use 'alt-W' to set targets (eg 'if less than 100 drinks, unsuspend drink production until 200 drinks').  Great for automating complicated industries."
++        },
++        "Performance Tweaks": {
++            "command": "multicmd tweak fast-heat; repeat -time 1 -timeUnits months -command [ cleanowned X ] -name cleanowned; repeat -time 1 -timeUnits months -command [ clean all ] -name clean",
++            "tooltip": "dfhack fixes to run regularly, changes the game a little but helps a lot on old or slow hardware (fast-heat, dump worn items, remove all contaminants)"
++        },
++        "Pure Bugfixes": {
++            "command": "multicmd fix/blood-del enable; repeat -time 1 -timeUnits months -command [ fix/feeding-timers ] -name feeding-timers; repeat -time 1 -timeUnits months -command [ fix/stuckdoors ] -name stuckdoors",
++            "tooltip": "bugfixes to run regularly, strongly recommended (fix: feeding prisoners, stuckdoors)"
++        }
++    }
+ }

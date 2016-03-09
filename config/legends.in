@@ -1,0 +1,20 @@
+# DF options
+
+menu "Legends Browser"
+
+config LEGENDS
+	bool
+	prompt "Include Legends Browser"
+	default y
+	help
+	  Select this to include Legends Browser utility.
+
+config LEGENDS_VERSION
+	string
+	prompt "Release version"
+    default "1.0.10a"
+	depends on LEGENDS
+	help
+	  Release version from https://github.com/robertjanetzko/LegendsBrowser
+
+endmenu

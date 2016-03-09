@@ -1,0 +1,11 @@
+--- dfhack-0.42.05-alpha1.orig/package/linux/dfhack	2016-02-20 23:37:34.519111160 +0100
++++ dfhack-0.42.05-alpha1/package/linux/dfhack	2016-02-20 23:38:40.850650127 +0100
+@@ -61,7 +61,7 @@
+ 
+ export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:"./hack/libs":"./hack"
+ 
+-PRELOAD_LIB="${PRELOAD_LIB:+$PRELOAD_LIB:}./hack/libdfhack.so"
++PRELOAD_LIB="${PRELOAD_LIB:+$PRELOAD_LIB:}./hack/libdfhack.so:/usr/lib/libz.so"
+ 
+ case "$1" in
+   -g | --gdb)

@@ -1,0 +1,341 @@
+# Makefile.in for building crosstool-NG
+# This file serves as source for the ./configure operation
+
+# This series of test is here because GNU make 3.81 will *not* use MAKEFLAGS
+# to set additional flags in the current Makfile ( see:
+# http://savannah.gnu.org/bugs/?20501 ), although the make manual says it
+# should ( see: http://www.gnu.org/software/make/manual/make.html#Options_002fRecursion )
+# so we have to work it around by calling ourselves back if needed
+
+# So why do we need not to use the built rules and variables? Because we
+# need to generate scripts/crosstool-NG.sh from scripts/crosstool-NG.sh.in
+# and there is a built-in implicit rule '%.sh:' that has neither a pre-requisite
+# nor a command associated, and that built-in implicit rule takes precedence
+# over our non-built-in implicit rule '%: %.in', below.
+
+# CT_MAKEFLAGS will be used later, below...
+
+# Do not print directories as we descend into them
+ifeq ($(filter --no-print-directory,$(MAKEFLAGS)),)
+CT_MAKEFLAGS += --no-print-directory
+endif
+
+# Use neither builtin rules, nor builtin variables
+# Note: dual test, because if -R and -r are given on the command line
+# (who knows?), MAKEFLAGS contains 'Rr' instead of '-Rr', while adding
+# '-Rr' to MAKEFLAGS adds it literaly ( and does not add 'Rr' )
+# Further: quad test because the flags 'rR' and '-rR' can be reordered.
+ifeq ($(filter Rr,$(MAKEFLAGS)),)
+ifeq ($(filter -Rr,$(MAKEFLAGS)),)
+ifeq ($(filter rR,$(MAKEFLAGS)),)
+ifeq ($(filter -rR,$(MAKEFLAGS)),)
+CT_MAKEFLAGS += -Rr
+endif # No -rR
+endif # No rR
+endif # No -Rr
+endif # No Rr
+
+# Remove any suffix rules
+.SUFFIXES:
+
+all: Makefile build
+
+###############################################################################
+# Configuration variables
+
+# Stuff found by ./configure
+export DATE            := @DATE@
+export LOCAL           := @enable_local@
+export PROG_SED        := @program_transform_name@
+export PACKAGE_TARNAME := @PACKAGE_TARNAME@
+export VERSION         := @PACKAGE_VERSION@
+export prefix          := @prefix@
+export exec_prefix     := @exec_prefix@
+export bindir          := @bindir@
+export libdir          := @libdir@@sublibdir@
+export datarootdir     := @datarootdir@
+export install         := @INSTALL@
+export bash            := @_BASH@
+export awk             := @_AWK@
+export grep            := @GREP@
+export make            := @MAKE@
+export sed             := @SED@
+export libtool         := @LIBTOOL@
+export libtoolize      := @LIBTOOLIZE@
+export objcopy         := @OBJCOPY@
+export objdump         := @OBJDUMP@
+export readelf         := @READELF@
+export patch           := @PATCH@
+export gperf           := @GPERF@
+export CC              := @CC@
+export CPP             := @CPP@
+export CPPFLAGS        := @CPPFLAGS@
+export CFLAGS          := @CFLAGS@
+export LDFLAGS         := @LDFLAGS@
+export LIBS            := @LIBS@
+export INTL_LIBS       := @INTL_LIBS@
+export curses_hdr      := @ac_ct_curses_hdr@
+export gettext         := @gettext@
+
+# config options to push down to kconfig
+KCONFIG:= @kconfig_options@
+
+###############################################################################
+# Non-configure variables
+MAN_SECTION := 1
+MAN_SUBDIR := /man$(MAN_SECTION)
+
+PROG_NAME := $(shell echo 'lnp-forge' |$(sed) -r -e '$(PROG_SED)' )
+
+###############################################################################
+# Sanity checks
+
+# Check if Makefile is up to date:
+Makefile: Makefile.in
+	@echo "$< did changed: you must re-run './configure'"
+	@false
+
+# If installing with DESTDIR, check it's an absolute path
+ifneq ($(strip $(DESTDIR)),)
+  ifneq ($(DESTDIR),$(abspath /$(DESTDIR)))
+    $(error DESTDIR is not an absolute PATH: '$(DESTDIR)')
+  endif
+endif
+
+###############################################################################
+# Global make rules
+
+# If any extra MAKEFLAGS were added, re-run ourselves
+# See top of file for an explanation of why this is needed...
+ifneq ($(strip $(CT_MAKEFLAGS)),)
+
+# Somehow, the new auto-completion for make in the recent distributions
+# trigger a behavior where our Makefile calls itself recursively, in a
+# never-ending loop (except on lack of ressources, swap, PIDs...)
+# Avoid this situation by cutting the recursion short at the first
+# level.
+# This has the side effect of only showing the real targets, and hiding our
+# internal ones. :-)
+ifneq ($(MAKELEVEL),0)
+$(error Recursion detected, bailing out...)
+endif
+
+MAKEFLAGS += $(CT_MAKEFLAGS)
+build install clean distclean mrproper uninstall:
+	@$(MAKE) $@
+
+else
+# There were no additional MAKEFLAGS to add, do the job
+
+TARGETS := bin lib lib-kconfig
+
+build: $(patsubst %,build-%,$(TARGETS))
+
+install: build real-install
+
+clean: $(patsubst %,clean-%,$(TARGETS))
+
+distclean: clean
+	@echo "  RM     'Makefile'"
+	@rm -f Makefile
+
+mrproper: distclean
+	@echo "  RM     'autostuff'"
+	@ rm -rf autom4te.cache config.log config.status configure
+
+uninstall: real-uninstall
+
+###############################################################################
+# Specific make rules
+
+#--------------------------------------
+# Build rules
+
+build-bin: $(PROG_NAME)             \
+           scripts/crosstool-NG.sh  \
+           scripts/showTuple.sh
+	@chmod 755 $^
+
+build-lib: config/configure.in  \
+           paths.mk             \
+           paths.sh
+
+build-lib-kconfig:
+	@$(MAKE) -C kconfig
+
+define sed_it
+	@echo "  SED    '$@'"
+	@$(sed) -r -e 's,@@CT_BINDIR@@,$(bindir),g;'        \
+	           -e 's,@@CT_LIBDIR@@,$(libdir),g;'        \
+	           -e 's,@@CT_PROG_NAME@@,$(PROG_NAME),g;'  \
+	           -e 's,@@CT_VERSION@@,$(VERSION),g;'	    \
+	           -e 's,@@CT_DATE@@,$(DATE),g;'            \
+	           -e 's,@@CT_make@@,$(make),g;'            \
+	           -e 's,@@CT_bash@@,$(bash),g;'            \
+	           -e 's,@@CT_awk@@,$(awk),g;'              \
+	           $< >$@
+endef
+
+$(PROG_NAME): lnp-forge.in Makefile
+	$(call sed_it)
+
+%: %.in Makefile
+	$(call sed_it)
+
+# We create a script fragment that is parseable from inside a Makefile,
+# and one from inside a shell script
+paths.mk: FORCE
+	@echo "  GEN    '$@'"
+	@(echo 'export install=$(install)';         \
+	  echo 'export bash=$(bash)';               \
+	  echo 'export awk=$(awk)';                 \
+	  echo 'export grep=$(grep)';               \
+	  echo 'export make=$(make)';               \
+	  echo 'export sed=$(sed)';                 \
+	  echo 'export libtool=$(libtool)';         \
+	  echo 'export libtoolize=$(libtoolize)';   \
+	  echo 'export objcopy=$(objcopy)';         \
+	  echo 'export objdump=$(objdump)';         \
+	  echo 'export readelf=$(readelf)';         \
+	  echo 'export patch=$(patch)';             \
+	  echo 'export gperf=$(gperf)';             \
+	 ) >$@
+
+paths.sh: FORCE
+	@echo "  GEN    '$@'"
+	@(echo 'export install="$(install)"';       \
+	  echo 'export bash="$(bash)"';             \
+	  echo 'export awk="$(awk)"';               \
+	  echo 'export grep="$(grep)"';             \
+	  echo 'export make="$(make)"';             \
+	  echo 'export sed="$(sed)"';               \
+	  echo 'export libtool="$(libtool)"';       \
+	  echo 'export libtoolize="$(libtoolize)"'; \
+	  echo 'export objcopy="$(objcopy)"';       \
+	  echo 'export objdump="$(objdump)"';       \
+	  echo 'export readelf="$(readelf)"';       \
+	  echo 'export patch="$(patch)"';           \
+	  echo 'export gperf="$(gperf)"';           \
+	 ) >$@
+
+config/configure.in: FORCE
+	@echo "  GEN    '$@'"
+	@{  printf "# Generated file, do not edit\n";            \
+	    printf "# Default values as found by ./configure\n"; \
+	    for var in $(KCONFIG); do                            \
+	        printf "\n";                                     \
+	        printf "config CONFIGURE_$${var%%=*}\n";         \
+	        if [ "$${var#*=}" = "y" ]; then                  \
+	            printf "    def_bool y\n";                   \
+	        else                                             \
+	            printf "    bool\n";                         \
+	        fi;                                              \
+	    done;                                                \
+	 } >$@
+
+FORCE:
+
+#--------------------------------------
+# Clean rules
+
+clean-bin:
+	@echo "  RM     '$(PROG_NAME)'"
+	@rm -f $(PROG_NAME)
+	@echo "  RM     'scripts/crosstool-NG.sh'"
+	@rm -f scripts/crosstool-NG.sh
+	@echo "  RM     'scripts/showTuple.sh'"
+	@rm -f scripts/showTuple.sh
+
+clean-lib:
+	@echo "  RM     'paths'"
+	@rm -f paths.mk paths.sh
+	@echo "  RM     'config/configure.in'"
+	@rm -f config/configure.in
+
+clean-lib-kconfig:
+	@$(MAKE) -C kconfig clean
+
+#--------------------------------------
+# Check for --local setup
+
+ifeq ($(strip $(LOCAL)),yes)
+
+real-install:
+	@true
+
+real-uninstall:
+	@true
+
+else
+
+#--------------------------------------
+# Install rules
+
+real-install: $(patsubst %,install-%,$(TARGETS)) install-post
+
+install-bin: $(DESTDIR)$(bindir)
+	@echo "  INST    '$(PROG_NAME)'"
+	@$(install) -m 755 $(PROG_NAME) "$(DESTDIR)$(bindir)/$(PROG_NAME)"
+
+# If one is hacking crosstool-NG, the patch set might change between any two
+# installations of the same VERSION, thus the patches must be removed prior
+# to being installed. It is the responsibility of the user to call uninstall
+# first, if (s)he deems it necessary
+install-lib: $(DESTDIR)$(libdir)    \
+             install-lib-main
+
+LIB_SUB_DIR := config patches scripts
+$(patsubst %,install-lib-%-copy,$(LIB_SUB_DIR)): $(DESTDIR)$(libdir)
+	@echo "  INSTDIR '$(patsubst install-lib-%-copy,%,$(@))/'"
+	@tar cf - --exclude='*.sh.in' $(patsubst install-lib-%-copy,%,$(@)) \
+	 |(cd "$(DESTDIR)$(libdir)"; tar xf -)
+
+# Huh? It seems we need at least one command to make this rule kick-in.
+install-lib-%: install-lib-%-copy; @true
+
+# Huh? that one does not inherit the -opy dependency, above...
+install-lib-scripts: install-lib-scripts-copy
+	@chmod a+x $(DESTDIR)$(libdir)/scripts/crosstool-NG.sh
+	@rm -f "$(DESTDIR)$(libdir)/scripts/addToolVersion.sh"
+
+install-lib-main: $(DESTDIR)$(libdir) $(patsubst %,install-lib-%,$(LIB_SUB_DIR))
+	@echo "  INST    'steps.mk'"
+	@$(install) -m 644 steps.mk "$(DESTDIR)$(libdir)/steps.mk"
+	@echo "  INST    'paths'"
+	@$(install) -m 644 paths.mk paths.sh "$(DESTDIR)$(libdir)"
+
+KCONFIG_FILES := conf mconf nconf kconfig.mk
+install-lib-kconfig: $(DESTDIR)$(libdir) install-lib-main
+	@echo "  INST    'kconfig/'"
+	@mkdir -p "$(DESTDIR)$(libdir)/kconfig"
+	@for f in $(KCONFIG_FILES); do                                      \
+	    install "kconfig/$${f}" "$(DESTDIR)$(libdir)/kconfig/$${f}";    \
+	 done
+
+$(sort $(DESTDIR)$(bindir) $(DESTDIR)$(libdir)):
+	@echo "  MKDIR   '$@/'"
+	@$(install) -m 755 -d "$@"
+
+install-post:
+	@echo
+	@echo "For auto-completion, do not forget to install '$(PROG_NAME).comp' into"
+	@echo "your bash completion directory (usually /etc/bash_completion.d)"
+
+#--------------------------------------
+# Uninstall rules
+
+real-uninstall: $(patsubst %,uninstall-%,$(filter-out lib-kconfig,$(TARGETS)))
+
+uninstall-bin:
+	@echo "  RM      '$(DESTDIR)$(bindir)/$(PROG_NAME)'"
+	@rm -f "$(DESTDIR)$(bindir)/$(PROG_NAME)"
+
+uninstall-lib:
+	@echo "  RMDIR   '$(DESTDIR)$(libdir)/'"
+	@rm -rf "$(DESTDIR)$(libdir)"
+
+endif # Not --local
+
+endif # No extra MAKEFLAGS were added
+
+.PHONY: build $(patsubst %,build-%,$(TARGETS)) install

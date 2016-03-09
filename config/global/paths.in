@@ -1,0 +1,138 @@
+# Options related to paths and install
+
+comment "Paths"
+
+config LOCAL_TARBALLS_DIR
+    string
+    prompt "Local tarballs directory" if ! BACKEND
+    default ""
+    help
+      If you have previously downloaded the tarballs, enter the PATH where
+      you stored them here.
+
+config SAVE_TARBALLS
+    bool
+    prompt "Save new tarballs" if ! BACKEND
+    depends on LOCAL_TARBALLS_DIR != "" || BACKEND
+    default y if BACKEND
+    help
+      If you say 'y' here, new downloaded tarballs will be saved in the
+      directory you entered above.
+
+config CUSTOM_LOCATION_ROOT_DIR
+    string
+    prompt "Directory containing custom source components"
+    depends on EXPERIMENTAL
+    help
+      This is the path CT-NG will attempt to use as a root for locating
+      local copies of source components (CUSTOM_LOCATION_ROOT_DIR/component)
+      unless a component declares its own specific custom location.
+
+config WORK_DIR
+    string
+    prompt "Working directory" if ! BACKEND
+    default "${CT_TOP_DIR}/.build"
+    help
+      Set this to the directory where all build actions will be done.
+      
+      The default is "${CT_TOP_DIR}/.build", and leaving this option
+      empty will also use the default.
+      
+      You should not need to change that, except in one very peculiar
+      setup:
+       - your crosstool-NG source directory is on the network
+       - you configured crosstool-NG with --local
+      This kind of setup is a pain, as any action involving source file
+      access would have to go through the wire. In this case, you should
+      set CT_WORK_DIR to point to a path local to your machine, to avoid
+      any network overhead.
+      
+      Do *NOT* change it if you don't know better.
+
+config PREFIX_DIR
+    string
+    prompt "Prefix directory" if ! BACKEND
+    default "${HOME}/x-tools/${CT_TARGET}"
+    help
+      This is the path the toolchain will run from.
+
+config INSTALL_DIR
+    string
+#    prompt "Install directory"
+    default "${CT_PREFIX_DIR}"
+#    help
+#      This is the path the toolchain will be installed into.
+#      
+#      Normally, you would set this to ${CT_PREFIX_DIR}, but if for some reasons
+#      you can't write there, you can install somewhere else and have a third
+#      person do the install for you.
+#      The reason you might also want to install elsewhere is if you are going
+#      to package your shinny new toolchain for distribution.
+
+config RM_RF_PREFIX_DIR
+    bool
+    prompt "|  Remove the prefix dir prior to building"
+    default y
+    depends on !BACKEND
+    help
+      If you say 'y' here, then PREFIX_DIR (above) will be eradicated
+      prior to the toolchain is built.
+      
+      This can be useful when you are trying different settings (due
+      to build failures or feature tests). In this case, to avoid using
+      a potentially broken previous toolchain, the install location is
+      removed, to start afresh.
+      
+      On the other hand, if you are building a final toolchain, and install
+      it into a directory with pre-install, unrelated programs, it would be
+      damageable to remove that directory. In this case, you may want to
+      say 'n' here.
+      
+      Note that when acting as a backend, this option is not available, and
+      is forced to 'n'.
+
+config REMOVE_DOCS
+    bool
+    prompt "Remove documentation"
+    default y
+    help
+      Remove the installed documentation (man and info pages).
+      Gains around 8MiB for a uClibc-based, C and C++ compiler.
+
+config BUILD_MANUALS
+    bool
+    prompt "Build the manuals"
+    depends on ! REMOVE_DOCS
+    help
+      Build the PDF and HTML manuals for the main components such as
+      binutils, GCC, GDB, and the C library.
+
+config INSTALL_DIR_RO
+    bool
+    prompt "Render the toolchain read-only"
+    default y
+    help
+      Render the directory of the toolchain (and its sub-directories)
+      read-only.
+      
+      Useful for toolchains destined for production.
+
+config STRIP_HOST_TOOLCHAIN_EXECUTABLES
+    bool
+    prompt "Strip host toolchain executables"
+    default y
+    help
+      All build host executables contain a lot of unnecessary info.
+      By stripping host executables it slightly speeds up the compilation
+      of large projects.
+      NOTE: It does NOT strip the target libraries, only HOST executables
+
+config STRIP_TARGET_TOOLCHAIN_EXECUTABLES
+    bool
+    prompt "Strip target toolchain executables"
+    depends on CC_GCC_4_6_or_later
+    help
+      It means using install-strip target for GCC 4.6 or later.
+      An install-strip make target is provided that installs stripped
+      executables, and may install libraries with unneeded or debugging
+      sections stripped. 

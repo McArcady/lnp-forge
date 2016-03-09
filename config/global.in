@@ -1,0 +1,18 @@
+# Overall toolchain configuration: paths, jobs, etc...
+
+# Allow unconditional usage of tristates
+config MODULES
+    bool
+    option modules
+    default y
+
+menu "Paths and misc options"
+
+source "config/global/ct-behave.in"
+source "config/global/paths.in"
+source "config/global/download.in"
+source "config/global/extract.in"
+source "config/global/build-behave.in"
+source "config/global/logging.in"
+
+endmenu
