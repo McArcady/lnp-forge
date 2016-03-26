@@ -4,7 +4,7 @@ menu "DFHack"
 
 config DFHACK_VERSION
 	string
-    default "0.42.05-alpha1" if DF_V_0_42_05
+    default "0.42.06-alpha2" if DF_V_0_42_06
     default "0.42.03-alpha1" if DF_V_0_42_03
     default "0.40.24.r5" if DF_V_0_40_24
     default ""

@@ -14,10 +14,6 @@ config DF_V_0_42_06
     bool
     prompt "0.42.06"
 	
-config DF_V_0_42_05
-    bool
-    prompt "0.42.05"
-
 config DF_V_0_42_03
     bool
     prompt "0.42.03"
@@ -53,7 +49,6 @@ config DF_VERSION
 # Don't remove next line
 # CT_INSERT_VERSION_STRING_BELOW
     default "42_06" if DF_V_0_42_06
-    default "42_05" if DF_V_0_42_05
     default "42_03" if DF_V_0_42_03
     default "40_24" if DF_V_0_40_24
 
