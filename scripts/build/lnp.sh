@@ -24,7 +24,8 @@ do_lnp_extract() {
 
 do_lnp_build() {
 	util_dir="$(get_lnp_dir)/LNP/Utilities"
-	# Clean-up
 	CT_DoExecLog ALL mkdir -p "${util_dir}"
+	CT_DoExecLog ALL mkdir -p "$(get_lnp_dir)/LNP/Keybinds"
+	# Clean-up
 	CT_DoExecLog ALL rm -f "${util_dir}/utilities.txt"
 }

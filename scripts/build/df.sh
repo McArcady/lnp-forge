@@ -34,7 +34,7 @@ do_df_extract() {
 		# CT_DoExecLog ALL rm -f df_linux
 		# CT_DoExecLog ALL ln -s df_${CT_DF_VERSION}_linux df_linux
 		# Save default init files
-		CT_DoExecLog ALL mkdir -p "LNP/Defaults/"
+		CT_DoExecLog ALL mkdir -p "LNP/Defaults"
 		CT_DoExecLog ALL cp -f "${df_dir}/data/init/init.txt" "LNP/Defaults/"
 		CT_DoExecLog ALL cp -f "${df_dir}/data/init/d_init.txt" "LNP/Defaults/"
 		CT_Popd
