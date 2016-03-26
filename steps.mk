@@ -20,6 +20,7 @@ help-env::
 # it helps when diffing and merging.
 CT_STEPS := lnp			\
 			df			\
+			graphics	\
 			embark		\
 			keybinds	\
 			dfhack		\
