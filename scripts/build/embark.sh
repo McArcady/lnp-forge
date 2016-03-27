@@ -1,7 +1,7 @@
 # Install embark profiles
 
 get_embark_dir() {
-	echo "$(get_df_dir)/data/init"
+	echo "$(get_lnp_dir)/LNP/Embarks"
 }
 
 # Download
@@ -19,6 +19,5 @@ do_embark_extract() {
 
 # Build
 do_embark_build() {
-	# copy to dir data/init
 	CT_DoExecLog ALL cp -f "${CT_TARBALLS_DIR}/embark_profiles.txt" "$(get_embark_dir)/"
 }
