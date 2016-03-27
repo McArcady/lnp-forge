@@ -29,7 +29,7 @@ do_soundsense_build() {
 	CT_DoExecLog ALL dos2unix "$(get_soundsense_dir)/soundSense.sh"
 	CT_DoExecLog ALL chmod +x "$(get_soundsense_dir)/soundSense.sh"
 	echo "#!/bin/sh" > ${script}
-	echo "cd ../../df_${CT_DF_VERSION}_linux/soundsense" >> ${script}
+	echo "cd ../../df_${CT_DF_VERSION}/soundsense" >> ${script}
 	echo "./soundSense.sh" >> ${script}
 	CT_DoExecLog ALL chmod +x "${script}"
 	

@@ -13,12 +13,14 @@ do_dfhack_get() {
 do_dfhack_extract() {
 	# extract archived git repo
     CT_Extract "dfhack-${CT_DFHACK_VERSION}"
+	# patch
+	CT_Patch "dfhack" "${CT_DFHACK_VERSION}"
 }
 
 # Build
 do_dfhack_build() {
 	dfhack_src_dir="${CT_SRC_DIR}/dfhack-${CT_DFHACK_VERSION}"
-	df_dir=${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}/df_${CT_DF_VERSION}_linux
+	df_dir=${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}/df_${CT_DF_VERSION}
 
 	CT_Pushd "${dfhack_src_dir}/build"
     CT_DoExecLog ALL cmake .. -DCMAKE_INSTALL_PREFIX=${df_dir}
