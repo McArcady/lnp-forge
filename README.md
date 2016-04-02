@@ -9,6 +9,8 @@ Yet another DF LazyNewbPack builder for Linux/MacOS.
 `bin/lnp-forge build`  
 -> download and build components of your LazyNewbPack  
 
+The pack is ready to use in: `.build/src/lnp-x.xx` (and can be moved elsewhere)
+
 ### Features:
 Components of the pack are downloaded and built from their original repository. No prebuilt binaries from Armok knows where!  
 Includes:  
