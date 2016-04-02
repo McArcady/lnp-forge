@@ -33,7 +33,7 @@ CT_STEPS := lnp			\
 # Keep an empty line above this comment, so the last
 # back-slash terminated line works as expected.
 
-# Make the list available to sub-processes (scripts/crosstool-NG.sh needs it)
+# Make the list available to sub-processes (scripts/lnp-forge.sh needs it)
 export CT_STEPS
 
 # Print the steps list

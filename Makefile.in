@@ -8,7 +8,7 @@
 # so we have to work it around by calling ourselves back if needed
 
 # So why do we need not to use the built rules and variables? Because we
-# need to generate scripts/crosstool-NG.sh from scripts/crosstool-NG.sh.in
+# need to generate scripts/lnp-forge.sh from scripts/lnp-forge.sh.in
 # and there is a built-in implicit rule '%.sh:' that has neither a pre-requisite
 # nor a command associated, and that built-in implicit rule takes precedence
 # over our non-built-in implicit rule '%: %.in', below.
@@ -152,7 +152,7 @@ uninstall: real-uninstall
 # Build rules
 
 build-bin: $(PROG_NAME)             \
-           scripts/crosstool-NG.sh  \
+           scripts/lnp-forge.sh  \
            scripts/showTuple.sh
 	@chmod 755 $^
 
@@ -241,8 +241,8 @@ FORCE:
 clean-bin:
 	@echo "  RM     '$(PROG_NAME)'"
 	@rm -f $(PROG_NAME)
-	@echo "  RM     'scripts/crosstool-NG.sh'"
-	@rm -f scripts/crosstool-NG.sh
+	@echo "  RM     'scripts/lnp-forge.sh'"
+	@rm -f scripts/lnp-forge.sh
 	@echo "  RM     'scripts/showTuple.sh'"
 	@rm -f scripts/showTuple.sh
 
@@ -295,7 +295,7 @@ install-lib-%: install-lib-%-copy; @true
 
 # Huh? that one does not inherit the -opy dependency, above...
 install-lib-scripts: install-lib-scripts-copy
-	@chmod a+x $(DESTDIR)$(libdir)/scripts/crosstool-NG.sh
+	@chmod a+x $(DESTDIR)$(libdir)/scripts/lnp-forge.sh
 	@rm -f "$(DESTDIR)$(libdir)/scripts/addToolVersion.sh"
 
 install-lib-main: $(DESTDIR)$(libdir) $(patsubst %,install-lib-%,$(LIB_SUB_DIR))
