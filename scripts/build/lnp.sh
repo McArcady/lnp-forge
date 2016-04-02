@@ -18,14 +18,15 @@ do_lnp_get() {
 do_lnp_extract() {
 	# extract archived git repo
     CT_Extract "lnp-${CT_LNP_VERSION}"
-	# set DF folder
-	CT_Patch "lnp" "${CT_LNP_VERSION}"		
+	# patch
+	CT_Patch "lnp" "${CT_LNP_VERSION}"
 }
 
 do_lnp_build() {
 	util_dir="$(get_lnp_dir)/LNP/Utilities"
 	CT_DoExecLog ALL mkdir -p "${util_dir}"
-	CT_DoExecLog ALL mkdir -p "$(get_lnp_dir)/LNP/Keybinds"
+	CT_DoExecLog ALL mkdir -p "$(get_keybinds_dir)"
+	CT_DoExecLog ALL mkdir -p "$(get_embark_dir)"
 	# Clean-up
 	CT_DoExecLog ALL rm -f "${util_dir}/utilities.txt"
 }
