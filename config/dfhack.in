@@ -64,14 +64,14 @@ choice
     prompt "TWBT version"
 	depends on TWBT
 
-config TWBT_V_5_56
+config TWBT_V_5_58
 	bool
-	prompt "5.56"
+	prompt "5.58"
 
 endchoice
 
 config TWBT_VERSION
 	string
-    default "v5.56" if TWBT_V_5_56
+    default "v5.58" if TWBT_V_5_58
 
 endmenu
