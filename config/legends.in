@@ -12,9 +12,9 @@ config LEGENDS
 config LEGENDS_VERSION
 	string
 	prompt "Release version"
-    default "1.0.10a"
+    default "1.0.11"
 	depends on LEGENDS
 	help
-	  Release version from https://github.com/robertjanetzko/LegendsBrowser
+	  Release version from https://github.com/robertjanetzko/LegendsBrowser.
 
 endmenu
