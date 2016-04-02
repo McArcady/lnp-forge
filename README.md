@@ -1,5 +1,5 @@
 ## lnp-forge
-Yet another DF LazyNewbPack builder
+Yet another DF LazyNewbPack builder for Linux/MacOS.
 
 ### Usage:
 `./configure --prefix=$PWD && make install`  
@@ -18,4 +18,4 @@ Includes:
 * various keybinds and embark profiles
 * Dwarf Therapist
 * SoundSense
-* Legends Viewer
+* Legends Browser
