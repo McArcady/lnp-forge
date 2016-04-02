@@ -11,6 +11,8 @@ do_therapist_get() {
 do_therapist_extract() {
 	# extract archived git repo
     CT_Extract "therapist-${CT_THERAPIST_VERSION}"
+	# patch
+	CT_Patch "therapist" "${CT_THERAPIST_VERSION}"
 }
 
 # Build
@@ -22,8 +24,11 @@ do_therapist_build() {
     CT_DoExecLog ALL qmake-qt5 PREFIX=${dist_dir}
 	CT_DoExecLog ALL make ${JOBSFLAGS} install
 	# link with .sh extension required for detection by LNP
-	CT_DoExecLog ALL rm -f "${dist_dir}/LNP/Utilities/DwarfTherapist.sh"
-	CT_DoExecLog ALL ln -s "${dist_dir}/bin/DwarfTherapist" "${dist_dir}/LNP/Utilities/DwarfTherapist.sh"
+
+	CT_Pushd "${dist_dir}/LNP/Utilities"
+	CT_DoExecLog ALL rm -f "DwarfTherapist.sh"
+	CT_DoExecLog ALL ln -s "../../bin/dwarftherapist" "DwarfTherapist.sh"
+	CT_Popd
 	
 	# add description
 	echo "[DwarfTherapist.sh:Dwarf-Therapist:Management tool that offers several views and interface improvements to Dwarf Fortress]" >> ${dist_dir}/LNP/Utilities/utilities.txt
