@@ -1,0 +1,12 @@
+scripts/lnp-forge.sh
+scripts/showTuple.sh
+Makefile
+build.log
+config.*
+.build/
+lib
+bin
+bootstrap
+autom4te.cache
+lnp-forge
+paths.*
