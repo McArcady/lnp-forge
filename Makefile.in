@@ -1,4 +1,10 @@
-# Makefile.in for building crosstool-NG
+#################################################################
+# lnp-forge and this file are based on the crosstool-NG software.
+# (copyright 2007 Yann E. MORIN - licensed under the GPL v2)
+# Adapted by McArcady (https://github.com/McArcady/lnp-forge).
+#################################################################
+
+# Makefile.in for building lnp-forge
 # This file serves as source for the ./configure operation
 
 # This series of test is here because GNU make 3.81 will *not* use MAKEFLAGS

@@ -1,6 +1,11 @@
 #!@@CT_make@@ -rf
-# Makefile for crosstool-NG.
-# Copyright 2006 Yann E. MORIN <yann.morin.1998@free.fr>
+#################################################################
+# lnp-forge and this file are based on the crosstool-NG software.
+# (copyright 2007 Yann E. MORIN - licensed under the GPL v2)
+# Adapted by McArcady (https://github.com/McArcady/lnp-forge).
+#################################################################
+
+# Makefile for lnp-forge.
 
 # Don't print directory as we descend into them
 # Don't use built-in rules, we know what we're doing
@@ -19,7 +24,7 @@ export CT_TOP_DIR:=$(shell pwd)
 export CT_LIB_DIR:=@@CT_LIBDIR@@
 export CT_DOC_DIR:=@@CT_DOCDIR@@
 
-# This is crosstool-NG version string
+# Version string
 export CT_VERSION:=@@CT_VERSION@@
 
 # Paths found by ./configure
@@ -151,9 +156,11 @@ build.%:
 
 PHONY += version
 version:
-	@echo 'This is crosstool-NG version $(CT_VERSION)'
+	@echo 'This is lnp-forge version $(CT_VERSION)'
 	@echo
-	@echo 'Copyright (C) 2008  Yann E. MORIN <yann.morin.1998@free.fr>'
+	@echo 'lnp-forge is based on the crosstool-NG software.'
+	@echo '(copyright 2007 Yann E. MORIN - licensed under the GPL v2)'
+	@echo 'Adapted by McArcady (https://github.com/McArcady/lnp-forge).'
 	@echo 'This is free software; see the source for copying conditions.'
 	@echo 'There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A'
 	@echo 'PARTICULAR PURPOSE.'

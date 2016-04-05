@@ -1,4 +1,4 @@
-# Options specific to crosstool-NG acting as a backend
+# Options specific to lnp-forge acting as a backend
 
 config IS_A_BACKEND
     string

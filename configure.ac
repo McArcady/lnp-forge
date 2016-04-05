@@ -1,3 +1,9 @@
+#################################################################
+# lnp-forge and this file are based on the crosstool-NG software.
+# (copyright 2007 Yann E. MORIN - licensed under the GPL v2)
+# Adapted by McArcady (https://github.com/McArcady/lnp-forge).
+#################################################################
+
 #                                               -*- Autoconf -*-
 # Process this file with autoconf to produce a configure script.
 

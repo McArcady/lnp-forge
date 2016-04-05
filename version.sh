@@ -1,2 +1,2 @@
 #!/bin/sh
-echo -n "lnp-forge"
+echo -n "0.0.1"

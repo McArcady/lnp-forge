@@ -1,6 +1,4 @@
-# This file adds the function to install LNP package
-# Copyright 2007 Yann E. MORIN
-# Licensed under the GPL v2. See COPYING in the root of this package
+# Install the LazyNewbPack
 
 get_lnp_dir() {
 	echo "${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}"

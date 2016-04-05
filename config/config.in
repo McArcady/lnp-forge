@@ -1,18 +1,10 @@
+# crosstool-NG framework
 source "config/configure.in"
 source "config/backend.in"
 source "config/global.in"
-#source "config/target.in"
 source "config/toolchain.in"
-#source "config/kernel.in"
-#source "config/binutils.in"
-#source "config/libc.in"
-#source "config/cc.in"
-#source "config/debug.in"
-#source "config/companion_libs.in"
-#source "config/companion_tools.in"
-#source "config/test_suite.in"
 
-# df specific
+# lnp-forge specific
 source "config/df.in"
 source "config/lnp.in"
 source "config/embark.in"

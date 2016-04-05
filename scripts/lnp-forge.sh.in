@@ -1,8 +1,12 @@
 #!@@CT_bash@@
-# Copyright 2007 Yann E. MORIN
-# Licensed under the GPL v2. See COPYING in the root of this package.
 
-# This is the main entry point to crosstool
+#################################################################
+# lnp-forge and this file are based on the crosstool-NG software.
+# (copyright 2007 Yann E. MORIN - licensed under the GPL v2)
+# Adapted by McArcady (https://github.com/McArcady/lnp-forge).
+#################################################################
+
+# This is the main entry point to lnp-forge
 # This will:
 #   - download, extract and patch the toolchain components
 #   - build and install each components in turn
@@ -41,7 +45,7 @@ if [ "${CT_DEBUG_INTERACTIVE}" = "y" -a ! \( -t 0 -a -t 6 -a -t 2 \) ]; then
     exit 1
 fi
 
-# Override the locale early, in case we ever translate crosstool-NG messages
+# Override the locale early, in case we ever translate messages
 if [ -z "${CT_NO_OVERIDE_LC_MESSAGES}" ]; then
     export LC_ALL=C
     export LANG=C

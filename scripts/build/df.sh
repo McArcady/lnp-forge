@@ -1,6 +1,4 @@
-# This file adds the function to install DF package
-# Copyright 2007 Yann E. MORIN
-# Licensed under the GPL v2. See COPYING in the root of this package
+# Install DwarfFortress
 
 get_df_dir() {
 	echo "$(get_lnp_dir)/df_${CT_DF_VERSION}"

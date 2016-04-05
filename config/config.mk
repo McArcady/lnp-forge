@@ -1,5 +1,10 @@
-# ===========================================================================
-# crosstool-NG genererated config files
+#################################################################
+# lnp-forge and this file are based on the crosstool-NG software.
+# (copyright 2007 Yann E. MORIN - licensed under the GPL v2)
+# Adapted by McArcady (https://github.com/McArcady/lnp-forge).
+#################################################################
+
+# lnp-forge genererated config files
 # These targets are used from top-level makefile
 
 #-----------------------------------------------------------

@@ -1,5 +1,10 @@
+#################################################################
+# lnp-forge and this file are based on the crosstool-NG software.
+# (copyright 2007 Yann E. MORIN - licensed under the GPL v2)
+# Adapted by McArcady (https://github.com/McArcady/lnp-forge).
+#################################################################
+
 # Makefile for each steps
-# Copyright 2006 Yann E. MORIN <yann.morin.1998@free.fr>
 
 # ----------------------------------------------------------
 # This is the steps help entry

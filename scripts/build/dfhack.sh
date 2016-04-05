@@ -1,6 +1,4 @@
-# This file adds the function to install DFHack
-# Copyright 2007 Yann E. MORIN
-# Licensed under the GPL v2. See COPYING in the root of this package
+# Install DFHack
 
 # Download
 do_dfhack_get() {

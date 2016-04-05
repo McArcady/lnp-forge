@@ -1,6 +1,4 @@
-# This file adds the function to install SoundSense
-# Copyright 2007 Yann E. MORIN
-# Licensed under the GPL v2. See COPYING in the root of this package
+# Install SoundSense
 
 get_soundsense_dir() {
 	echo "$(get_df_dir)/soundsense"
