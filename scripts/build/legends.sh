@@ -6,7 +6,7 @@ get_legends_dir() {
 
 # Download
 do_legends_get() {
-    # official package: https://github.com/robertjanetzko/LegendsBrowser/releases/download/1.0.10a/legendsbrowser-1.0.10a.jar
+    # official package from https://github.com/robertjanetzko/LegendsBrowser/releases
     CT_GetFile "legendsbrowser-${CT_LEGENDS_VERSION}" ".jar" \
                "https://github.com/robertjanetzko/LegendsBrowser/releases/download/${CT_LEGENDS_VERSION}"
 }
@@ -29,6 +29,9 @@ do_legends_build() {
 	echo "cd ../../" >> ${script}
 	echo "exec java -jar ${jarname}" >> ${script}
 	CT_DoExecLog ALL chmod +x "${script}"
+
+	# conf file
+	echo "root=df_${CT_DF_VERSION}" > "$(get_lnp_dir)/legendsbrowser.properties"
 	
 	# add description
 	echo "[LegendsBrowser.sh:Legends Browser:Web-based legends viewer]" >> ${dist_dir}/utilities.txt
