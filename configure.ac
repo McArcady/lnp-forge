@@ -139,28 +139,6 @@ AS_IF([test -z "$CC"],
       [AC_MSG_ERROR([no suitable compiler found])])
 AC_PROG_CPP
 
-# But we still need a way to specify the PATH to GNU versions (Damn MacOS)
-AC_ARG_WITH([objcopy],
-    AS_HELP_STRING([--with-objcopy=PATH],
-                   [Specify the full PATH to GNU objcopy]),
-    [OBJCOPY=$withval])
-AC_ARG_WITH([objdump],
-    AS_HELP_STRING([--with-objdump=PATH],
-                   [Specify the full PATH to GNU objdump]),
-    [OBJDUMP=$withval])
-AC_ARG_WITH([ranlib],
-    AS_HELP_STRING([--with-ranlib=PATH],
-                   [Specify the full PATH to GNU ranlib]),
-    [RANLIB=$withval])
-AC_ARG_WITH([readelf],
-    AS_HELP_STRING([--with-readelf=PATH],
-                   [Specify the full PATH to GNU readelf]),
-    [READELF=$withval])
-AC_ARG_WITH([gperf],
-    AS_HELP_STRING([--with-gperf=PATH],
-                   [Specify the full PATH to GNU gperf]),
-    [GPERF=$withval])
-
 AC_PROG_RANLIB
 ACX_PATH_TOOL_REQ([OBJCOPY], [gobjcopy objcopy])
 ACX_PATH_TOOL_REQ([OBJDUMP], [gobjdump objdump])
@@ -295,6 +273,20 @@ AC_CACHE_CHECK([for GNU automake >= 1.10], [ac_cv_path_automake],
         [AC_MSG_RESULT([no])
          AC_MSG_ERROR([could not find GNU automake >= 1.10])])])
 AC_SUBST([automake], [$ac_cv_path_automake])
+
+#----------------------------------------
+# Check for Python >= 2
+AC_PATH_PROG([PYTHON],[python])
+if test -z "$PYTHON"; then
+	AC_MSG_ERROR([Python not found])
+fi
+
+#----------------------------------------
+# Check for Java >= 7
+AC_PATH_PROG([JAVA],[java])
+if test -z "$JAVA"; then
+	AC_MSG_ERROR([Java not found])
+fi
 
 #--------------------------------------------------------------------
 # Boring again... But still a bit of work to do...
