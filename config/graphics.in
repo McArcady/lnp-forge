@@ -2,60 +2,21 @@
 
 menu "Graphics"
 
-config GRAPHICS_VERSION
-	string
-    default "master" if DF_V_0_42_06
-    default "42.03" if DF_V_0_42_03
-    default "40.24" if DF_V_0_40_24
-    default ""
-
-if !GRAPHICS_VERSION = ""
-
 config GRAPHICS
 	bool
 	prompt "Include DFGraphics"
 	help
-	  Select this to include all the DFGraphics sets.
+	  Select this to donwload all the DFGraphics tilesets.
 
-endif
-
-if GRAPHICS_VERSION = ""
-comment "no DFGraphics version known for the selected DF version."
-
-config GRAPHICS
-	bool
-	prompt "Include specific revision of DFGraphics"
-	help
-	  Manually select a version of DFGraphics.
-
-config GRAPHICS_REV
+config GRAPHICS_VERSION
 	string
 	prompt "Github revision of DFGraphics"
-	default "master"
+    default "master" if DF_V_0_42_06
+    default "42.03" if DF_V_0_42_03
+    default "40.24" if DF_V_0_40_24
+	default ""
 	depends on GRAPHICS
 	help
-	  Download specific revision of DFGraphics. No guarantee!
-
-endif
-	
-# config IRONHAND
-#     bool
-#     prompt "Ironhand"
-
-# config PHOEBUS
-#     bool
-#     prompt "Phoebus"
-
-# config IRONHAND_VERSION
-# 	   string
-# # Don't remove next line
-# # CT_INSERT_VERSION_STRING_BELOW
-#     default "40_24A" if IRONHAND
-
-# config PHOEBUS_VERSION
-# 	   string
-# # Don't remove next line
-# # CT_INSERT_VERSION_STRING_BELOW
-#     default "40_24v00" if PHOEBUS
+	  DFGraphics revision from https://github.com/DFgraphics.
 
 endmenu
