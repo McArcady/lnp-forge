@@ -22,5 +22,15 @@ Includes:
 * SoundSense
 * Legends Browser
 
+### Dependencies:
+
+lnp-forge checks for the following packages:
+* git
+* mercurial
+* gcc-c++
+* make
+* python
+* java
+
 ### Bug reports:
 Please include the log file `build.log` to your issue report in Github.
