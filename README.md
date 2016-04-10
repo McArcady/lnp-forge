@@ -21,3 +21,6 @@ Includes:
 * Dwarf Therapist
 * SoundSense
 * Legends Browser
+
+### Bug reports:
+Please include the log file `build.log` to your issue report in Github.
