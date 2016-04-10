@@ -12,7 +12,7 @@ config MODULES
     option modules
     default y
 
-menu "Paths and misc options"
+menu "Paths and misc options (for advanced users only!)"
 
 source "config/global/ct-behave.in"
 source "config/global/paths.in"

@@ -1,4 +1,4 @@
-menu "Toolchain options"
+menu "Toolchain options (for advanced users only!)"
 
 comment "General toolchain options"
 
