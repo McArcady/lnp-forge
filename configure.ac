@@ -288,6 +288,20 @@ if test -z "$JAVA"; then
 	AC_MSG_ERROR([Java not found])
 fi
 
+#----------------------------------------
+# Check for Git
+AC_PATH_PROG([GIT],[git])
+if test -z "$GIT"; then
+	AC_MSG_ERROR([Git not found])
+fi
+
+#----------------------------------------
+# Check for Mercurial
+AC_PATH_PROG([MERCURIAL],[hg])
+if test -z "$MERCURIAL"; then
+	AC_MSG_ERROR([Mercurial not found])
+fi
+
 #--------------------------------------------------------------------
 # Boring again... But still a bit of work to do...
 #--------------------------------------------------------------------
