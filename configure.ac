@@ -14,6 +14,8 @@ AC_INIT(
     [crossgcc@sourceware.org])
 AC_CONFIG_AUX_DIR([scripts])
 
+m4_include([m4/ax_prog_perl_modules.m4])
+
 #--------------------------------------------------------------------
 # A few helper macros
 
@@ -302,6 +304,11 @@ if test -z "$MERCURIAL"; then
 	AC_MSG_ERROR([Mercurial not found])
 fi
 
+#----------------------------------------
+# Check for Perl + modules
+AX_PROG_PERL_MODULES( XML::LibXML XML::LibXSLT, [],
+                      AC_MSG_ERROR([Need Perl and modules XML::LibXML XML::LibXSLT]) )
+
 #--------------------------------------------------------------------
 # Boring again... But still a bit of work to do...
 #--------------------------------------------------------------------
@@ -315,6 +322,7 @@ AS_IF(
     [AC_CHECK_PROGS([lzma], [lzma])])
 ACX_SET_KCONFIG_OPTION([lzma])
 
+# FIXME: remove need for cvs & svn
 #----------------------------------------
 AC_CHECK_PROGS([cvs], [cvs])
 ACX_SET_KCONFIG_OPTION([cvs])
