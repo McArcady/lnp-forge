@@ -10,3 +10,4 @@ bootstrap
 autom4te.cache
 lnp-forge
 paths.*
+config/configure.in

@@ -141,12 +141,6 @@ AS_IF([test -z "$CC"],
       [AC_MSG_ERROR([no suitable compiler found])])
 AC_PROG_CPP
 
-AC_PROG_RANLIB
-ACX_PATH_TOOL_REQ([OBJCOPY], [gobjcopy objcopy])
-ACX_PATH_TOOL_REQ([OBJDUMP], [gobjdump objdump])
-ACX_PATH_TOOL_REQ([READELF], [greadelf readelf])
-ACX_PATH_TOOL_REQ([GPERF], [gperf])
-
 ACX_CHECK_PROGS_REQ([bison], [bison])
 ACX_CHECK_PROGS_REQ([flex], [flex])
 ACX_CHECK_PROGS_REQ([makeinfo], [makeinfo])
@@ -321,15 +315,6 @@ AS_IF(
     [test -z "$xz"],
     [AC_CHECK_PROGS([lzma], [lzma])])
 ACX_SET_KCONFIG_OPTION([lzma])
-
-# FIXME: remove need for cvs & svn
-#----------------------------------------
-AC_CHECK_PROGS([cvs], [cvs])
-ACX_SET_KCONFIG_OPTION([cvs])
-
-#----------------------------------------
-AC_CHECK_PROGS([svn], [svn])
-ACX_SET_KCONFIG_OPTION([svn])
 
 #--------------------------------------------------------------------
 # Now, for some fun...
