@@ -13,7 +13,7 @@ The pack is ready to use in: `.build/src/lnp-x.xx` (and can be moved elsewhere)
 
 ### Features:
 Components of the pack are downloaded and built from their original repository. No prebuilt binaries from Armok knows where!  
-Includes:  
+Does include:  
 * DwarfFortress
 * DFHack + TWBT
 * full DFGraphics tilesets
@@ -35,4 +35,4 @@ lnp-forge checks for the following software:
 * ncurses
 
 ### Bug reports:
-Please include the log file `build.log` to your issue report in Github.
+Please attach the log file `build.log` to your issue report in Github.
