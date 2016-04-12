@@ -24,13 +24,15 @@ Includes:
 
 ### Dependencies:
 
-lnp-forge checks for the following packages:
+lnp-forge checks for the following software:
 * git
 * mercurial
 * gcc-c++
 * make
 * python
 * java
+* perl + modules XML::LibXML & XML::LibXSLT
+* ncurses
 
 ### Bug reports:
 Please include the log file `build.log` to your issue report in Github.
