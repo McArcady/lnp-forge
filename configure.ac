@@ -284,10 +284,18 @@ if test -z "$PYTHON"; then
 fi
 
 #----------------------------------------
-# Check for Java >= 7
+# Check for Java >= 8
 AC_PATH_PROG([JAVA],[java])
 if test -z "$JAVA"; then
 	AC_MSG_ERROR([Java not found])
+fi
+AC_MSG_CHECKING([for java >= 1.8])
+$JAVA -version 2>&1 |grep "1.8" >/dev/null
+if [[ $? = 0 ]]; then
+    AC_MSG_RESULT([yes])
+else
+    AC_MSG_RESULT([no])
+    AC_MSG_ERROR()
 fi
 
 #----------------------------------------
