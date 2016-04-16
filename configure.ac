@@ -318,11 +318,16 @@ AX_PROG_PERL_MODULES( XML::LibXML XML::LibXSLT, [],
                       AC_MSG_ERROR([Need Perl and modules XML::LibXML XML::LibXSLT]) )
 
 #----------------------------------------
-# Check for libSDL_image, libSDL_ttf
+# Check for libSDL_image, libSDL_ttf, libz, OpenAL
 AC_CHECK_LIB( :libSDL_image-1.2.so.0, IMG_Load, [],
-			  AC_MSG_ERROR([Could not find library libSDL_image-1.2]) )
+			  AC_MSG_ERROR([Could not find 32-bit library libSDL_image-1.2]), -m32 )
 AC_CHECK_LIB( :libSDL_ttf-2.0.so.0, TTF_OpenFont, [],
-			  AC_MSG_ERROR([Could not find library libSDL_ttf-2.0]) )
+			  AC_MSG_ERROR([Could not find 32-bit library libSDL_ttf-2.0]), -m32 )
+AC_CHECK_LIB( z, gzopen, [],
+			  AC_MSG_ERROR([Could not find 32-bit library Zlib]), -m32 )
+# FIXME: the following check breaks AC_SEARCH_LIBS(ncurses)
+dnl AC_CHECK_LIB( openal, alEnable, [],
+dnl 			  AC_MSG_ERROR([Could not find 32-bit library OpenAL]), -m32 )
 
 #--------------------------------------------------------------------
 # Boring again... But still a bit of work to do...
