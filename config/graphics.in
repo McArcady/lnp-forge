@@ -5,6 +5,7 @@ menu "Graphics"
 config GRAPHICS
 	bool
 	prompt "Include DFGraphics"
+	default y
 	help
 	  Select this to donwload all the DFGraphics tilesets.
 

@@ -2,76 +2,34 @@
 
 menu "DFHack"
 
-config DFHACK_VERSION
-	string
-    default "0.42.06-alpha2" if DF_V_0_42_06
-    default "0.42.03-alpha1" if DF_V_0_42_03
-    default "0.40.24.r5" if DF_V_0_40_24
-    default ""
-
-if !DFHACK_VERSION = ""
-
 config DFHACK
 	bool
 	prompt "Build DFHack"
-	default "true"
+	default y
 	help
-	  Select this to include DFHack.
+	  Select this to build DFHack.
 
-config DFHACK_ALT
-	bool
-	prompt "Use non-default version of DFHack"
-	depends on DFHACK
-	help
-	  Select this to force the version of DFHack to build.
-
-config DFHACK_REV
+config DFHACK_VERSION
 	string
 	prompt "Github revision of DFHack"
-	default "master"
-	depends on DFHACK_ALT
-	help
-	  Build DFHack using given git revision. No guarantee!
-
-endif
-
-if DFHACK_VERSION = ""
-comment "no DFHack version known for the selected DF version."
-
-config DFHACK
-	bool
-	prompt "Build DFHack anyway using specific revision"
-	help
-	  Select this to force use of DFHack. No guarantee!
-
-config DFHACK_REV
-	string
-	prompt "Github revision of DFHack"
-	default "master"
+    default "0.42.06-beta1" if DF_V_0_42_06
+    default "0.40.24.r5" if DF_V_0_40_24
+    default "master"
 	depends on DFHACK
 	help
-	  Build DFHack using a specific git revision. No guarantee!
-
-endif
+	  DFHack revision from https://github.com/DFHack/dfhack.
 
 config TWBT
 	bool
 	default y
 	depends on DFHACK
-	  
-choice
-    bool
-    prompt "TWBT version"
-	depends on TWBT
-
-config TWBT_V_5_58
-	bool
-	prompt "5.58"
-
-endchoice
 
 config TWBT_VERSION
 	string
-    default "v5.58" if TWBT_V_5_58
+	prompt "Github revision of TWBT"
+    default "v5.59"
+	depends on TWBT
+	help
+	  TWBT revision from https://github.com/mifki/df-twbt
 
 endmenu
