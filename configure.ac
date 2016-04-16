@@ -15,6 +15,7 @@ AC_INIT(
 AC_CONFIG_AUX_DIR([scripts])
 
 m4_include([m4/ax_prog_perl_modules.m4])
+m4_include([m4/ac_python_module.m4])
 
 #--------------------------------------------------------------------
 # A few helper macros
@@ -229,6 +230,20 @@ AS_IF(
 ACX_SET_KCONFIG_OPTION([make381])
 
 #----------------------------------------
+# Check for cmake
+AC_PATH_PROG([CMAKE],[cmake])
+if test -z "$CMAKE"; then
+	AC_MSG_ERROR([CMake not found])
+fi
+
+#----------------------------------------
+# Check for qmake-qt5
+AC_PATH_PROG([QMAKE_QT],[qmake-qt5])
+if test -z "$QMAKE_QT"; then
+	AC_MSG_ERROR([QMake(QT) not found])
+fi
+
+#----------------------------------------
 # Check for libtool >= 1.5.26
 AC_CACHE_VAL([ac_cv_path_LIBTOOL],
     [AC_ARG_WITH([libtool],
@@ -277,11 +292,12 @@ AC_CACHE_CHECK([for GNU automake >= 1.10], [ac_cv_path_automake],
 AC_SUBST([automake], [$ac_cv_path_automake])
 
 #----------------------------------------
-# Check for Python >= 2
+# Check for Python and module python-tk
 AC_PATH_PROG([PYTHON],[python])
 if test -z "$PYTHON"; then
 	AC_MSG_ERROR([Python not found])
 fi
+AC_PYTHON_MODULE([Tkinter], fatal)
 
 #----------------------------------------
 # Check for Java >= 8
