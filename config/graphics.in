@@ -12,10 +12,8 @@ config GRAPHICS
 config GRAPHICS_VERSION
 	string
 	prompt "Github revision of DFGraphics"
-    default "master" if DF_V_0_42_06
-    default "42.03" if DF_V_0_42_03
     default "40.24" if DF_V_0_40_24
-	default ""
+	default "master"
 	depends on GRAPHICS
 	help
 	  DFGraphics revision from https://github.com/DFgraphics.
