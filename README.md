@@ -29,12 +29,13 @@ lnp-forge checks for the following software:
 * mercurial
 * gcc-c++
 * make & cmake
-* python
+* Tcl/Tk
+* python + module Tkinter
 * java 8
 * perl + modules XML::LibXML & XML::LibXSLT
 * ncurses
 * Qt5
-* libraries SDL-image & SDL-ttf
+* 32-bit libraries OpenAL, SDL-image & SDL-ttf
 
 ### Bug reports:
 Please attach the log file `build.log` to your issue report in Github.
