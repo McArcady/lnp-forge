@@ -16,6 +16,7 @@ AC_CONFIG_AUX_DIR([scripts])
 
 m4_include([m4/ax_prog_perl_modules.m4])
 m4_include([m4/ac_python_module.m4])
+m4_include([m4/ax_prog_tcl.m4])
 
 #--------------------------------------------------------------------
 # A few helper macros
@@ -290,6 +291,10 @@ AC_CACHE_CHECK([for GNU automake >= 1.10], [ac_cv_path_automake],
         [AC_MSG_RESULT([no])
          AC_MSG_ERROR([could not find GNU automake >= 1.10])])])
 AC_SUBST([automake], [$ac_cv_path_automake])
+
+#----------------------------------------
+# Check for Tcl >= 8.0
+AX_PROG_TCL([8.0])
 
 #----------------------------------------
 # Check for Python and module python-tk
