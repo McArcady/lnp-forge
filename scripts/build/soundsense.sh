@@ -32,5 +32,5 @@ do_soundsense_build() {
 	CT_DoExecLog ALL chmod +x "${script}"
 	
 	# add description
-	echo "[SoundSense.sh:SoundSense:Tool that parses game logs and reacts to game events with sound effects, incidental music and dwarfy comments]" >> ${dist_dir}/LNP/Utilities/utilities.txt
+	echo "[SoundSense.sh:SoundSense:Tool that parses game logs and reacts to game events with sound effects, incidental music and dwarfy comments]" >> "$(get_lnp_dir)/LNP/Utilities/utilities.txt"
 }
