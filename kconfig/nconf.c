@@ -123,7 +123,7 @@ static const char nconf_global_help[] = N_(
 "rather than the default multimenu hierarchy, run nconfig with\n"
 "NCONFIG_MODE environment variable set to single_menu.  Example:\n"
 "\n"
-"ct-ng NCONFIG_MODE=single_menu nconfig\n"
+"lnp-forge NCONFIG_MODE=single_menu nconfig\n"
 "\n"
 "<Enter> will then unfold the appropriate category, or fold it if it\n"
 "is already unfolded.  Folded menu entries will be designated by a\n"

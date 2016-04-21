@@ -102,7 +102,6 @@ help-tail::
 	@echo  'Use action "menuconfig" to configure your toolchain'
 	@echo  'Use action "build" to build your toolchain'
 	@echo  'Use action "version" to see the version'
-	@echo  'See "man 1 $(notdir $(CT_NG))" for some help as well'
 
 help-build::
 	@echo  '  source             - Download sources for currently configured toolchain'
