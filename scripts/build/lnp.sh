@@ -27,4 +27,6 @@ do_lnp_build() {
 	CT_DoExecLog ALL mkdir -p "$(get_embark_dir)"
 	# Clean-up
 	CT_DoExecLog ALL rm -f "${util_dir}/utilities.txt"
+	# Script
+	CT_DoExecLog ALL chmod +x "$(get_lnp_dir)/startlnp.sh"
 }
