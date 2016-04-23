@@ -34,8 +34,9 @@ lnp-forge checks for the following software:
 * java 8
 * perl + modules XML::LibXML & XML::LibXSLT
 * ncurses
-* Qt5
+* Qt4/5
 * 32-bit libraries OpenAL, SDL-image & SDL-ttf
 
 ### Bug reports:
-Please attach the log file `build.log` to your issue report in Github.
+Please attach the log file `build.log` to your issue report in Github.  
+For help and discussion, see also the [Bay12 forums lnp-forge topic](http://www.bay12forums.com/smf/index.php?topic=157712)
