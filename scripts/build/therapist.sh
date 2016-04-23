@@ -21,7 +21,7 @@ do_therapist_build() {
 	dist_dir="$(get_lnp_dir)"
 
 	CT_Pushd "${dt_src_dir}"
-    CT_DoExecLog ALL qmake-qt5 PREFIX=${dist_dir}
+    CT_DoExecLog ALL ${QMAKE_QT} PREFIX=${dist_dir}
 	CT_DoExecLog ALL make ${JOBSFLAGS} install
 	# link with .sh extension required for detection by LNP
 

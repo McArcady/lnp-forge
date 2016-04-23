@@ -238,10 +238,10 @@ if test -z "$CMAKE"; then
 fi
 
 #----------------------------------------
-# Check for qmake-qt5
-AC_PATH_PROG([QMAKE_QT],[qmake-qt5])
+# Check for qmake >= 4
+AC_PATH_PROGS([QMAKE_QT],[qmake-qt5 qmake-qt4 qmake])
 if test -z "$QMAKE_QT"; then
-	AC_MSG_ERROR([QMake(QT) not found])
+   AC_MSG_ERROR([could not find QT/QMake >=4])
 fi
 
 #----------------------------------------
