@@ -1,0 +1,29 @@
+--- a/dwarftherapist.pro	2016-04-23 11:57:25.841122896 +0200
++++ b/dwarftherapist.pro	2016-04-23 11:57:05.788685062 +0200
+@@ -98,16 +98,16 @@
+         doc.path = $$PREFIX/share/doc/dwarftherapist
+         doc.files += LICENSE.txt
+         doc.files += README.rst
+-        system("printf 'Checking for pdflatex... '; if ! command -v pdflatex; then echo 'not found'; exit 1; fi") {
+-            manual.depends = "$$PWD/doc/Dwarf Therapist.tex" $$PWD/doc/images/*
+-            manual.commands = [ -d doc ] || mkdir doc;
+-            manual.commands += TEXINPUTS=".:$$PWD/doc/images:" pdflatex -output-directory=doc \"$<\"
+-            manual.target = "doc/Dwarf Therapist.pdf"
+-            QMAKE_EXTRA_TARGETS += manual
+-            POST_TARGETDEPS += "$$manual.target"
+-            doc.files += "$$manual.target"
+-        }
+-        INSTALLS += doc
++#        system("printf 'Checking for pdflatex... '; if ! command -v pdflatex; then echo 'not found'; exit 1; fi") {
++#            manual.depends = "$$PWD/doc/Dwarf Therapist.tex" $$PWD/doc/images/*
++#            manual.commands = [ -d doc ] || mkdir doc;
++#            manual.commands += TEXINPUTS=".:$$PWD/doc/images:" pdflatex -output-directory=doc \"$<\"
++#            manual.target = "doc/Dwarf Therapist.pdf"
++#            QMAKE_EXTRA_TARGETS += manual
++#            POST_TARGETDEPS += "$$manual.target"
++#            doc.files += "$$manual.target"
++#        }
++#        INSTALLS += doc
+ 
+         icon.path = $$PREFIX/share/pixmaps
+         icon.files += img/dwarftherapist.png
