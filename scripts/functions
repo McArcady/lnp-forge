@@ -913,6 +913,7 @@ CT_GetGit() {
         CT_SaveLocal "${dest}"
         CT_DoExecLog ALL rm -rf "${tmp}.tar.gz" "${tmp}.tar" "${tmp}" "${dir}"
         CT_Popd
+        CT_DoLog INFO "Got '${basename}' from ${url}"
         return 0
     else
         # Woops...
@@ -1159,7 +1160,7 @@ CT_Patch() {
 
     CT_Pushd "${nochdir}"
 
-    CT_DoLog EXTRA "Patching '${pkgdir}'"
+    CT_DoLog INFO "Patching '${pkgdir}'"
 
     bundled_patch_dir="${CT_LIB_DIR}/patches/${pkgname}/${version}"
     local_patch_dir="${CT_LOCAL_PATCH_DIR}/${pkgname}/${version}"
