@@ -913,7 +913,7 @@ CT_GetGit() {
         CT_SaveLocal "${dest}"
         CT_DoExecLog ALL rm -rf "${tmp}.tar.gz" "${tmp}.tar" "${tmp}" "${dir}"
         CT_Popd
-        CT_DoLog INFO "Got '${basename}' from ${url}"
+        CT_DoLog INFO "Got '${basename}-${cset}' from ${url}"
         return 0
     else
         # Woops...
