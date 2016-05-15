@@ -14,6 +14,7 @@ do_soundsense_get() {
 # Extract
 do_soundsense_extract() {
 	# extract in DF dir
+	# FIXME: should extract to srcdir, then during build: copy to df_dir
 	CT_Pushd "$(get_df_dir)"
     CT_Extract nochdir "soundSense_${CT_SOUNDSENSE_VERSION}"
  	CT_Popd
