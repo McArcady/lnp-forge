@@ -1,0 +1,17 @@
+--- a/dfhack.init-example	2016-04-16 22:21:33.448883349 +0200
++++ b/dfhack.init-example	2016-04-16 22:21:22.352644838 +0200
+@@ -248,3 +248,14 @@
+ #######################################################
+ # Apply binary patches at runtime                     #
+ #######################################################
++
++
++#######################################################
++# Loading TWBT Default multirender                    #
++#######################################################
++
++# Number of levels to render
++multilevel 6
++
++# making the shadow a little darker, better for a bright tileset.
++multilevel shadowcolor 0 0 0 0.5
