@@ -7,7 +7,7 @@ Yet another DF LazyNewbPack builder for Linux/MacOS.
 `bin/lnp-forge menuconfig`  
 -> change DF version and other stuff (optional)  
 `bin/lnp-forge build`  
--> download and build components of your LazyNewbPack  
+-> downloads and builds components of your LazyNewbPack  
 
 The pack is ready to use in: `.build/src/lnp-x.xx` (and can be moved elsewhere)
 
@@ -36,8 +36,8 @@ lnp-forge checks for the following software:
 * Qt4/5
 * 32-bit libraries OpenAL, SDL-image & SDL-ttf
   
-Check the wiki (<https://github.com/McArcady/lnp-forge/wiki>) for help on installing those dependencies.
+Check the wiki (<https://github.com/McArcady/lnp-forge/wiki/Installing-dependencies>) for help on installing those dependencies.
 
 ### Bug reports:
 Please attach the log file `build.log` to your issue report in Github.  
-For help and discussion, see also the [Bay12 forums lnp-forge topic](http://www.bay12forums.com/smf/index.php?topic=157712)
+For help and discussion, see also the [Bay12 forums lnp-forge topic](http://www.bay12forums.com/smf/index.php?topic=157712).
