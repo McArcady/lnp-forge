@@ -5,7 +5,7 @@ Yet another DF LazyNewbPack builder for Linux/MacOS.
 `./configure --prefix=$PWD && make install`  
 -> configures the tool for your system and install in local directory (`./bin/`)  
 `bin/lnp-forge menuconfig`  
--> select DF version and other stuff (optional)  
+-> change DF version and other stuff (optional)  
 `bin/lnp-forge build`  
 -> download and build components of your LazyNewbPack  
 
@@ -23,7 +23,6 @@ Does include:
 * Legends Browser
 
 ### Dependencies:
-
 lnp-forge checks for the following software:
 * git
 * mercurial
@@ -36,6 +35,8 @@ lnp-forge checks for the following software:
 * ncurses
 * Qt4/5
 * 32-bit libraries OpenAL, SDL-image & SDL-ttf
+  
+Check the wiki (<https://github.com/McArcady/lnp-forge/wiki>) for help on installing those dependencies.
 
 ### Bug reports:
 Please attach the log file `build.log` to your issue report in Github.  
