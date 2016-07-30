@@ -9,15 +9,15 @@ config DF
 choice
     bool
     prompt "Dwarf Fortress version"
-	default DF_V_0_42_06
+	default DF_V_0_43_03
+
+config DF_V_0_43_05
+    bool
+    prompt "0.43.05 (no DFHack)"
 
 config DF_V_0_43_03
     bool
     prompt "0.43.03"
-	
-config DF_V_0_42_06
-    bool
-    prompt "0.42.06"
 	
 config DF_V_0_40_24
     bool
@@ -47,8 +47,8 @@ endif #DF_CUSTOM
 
 config DF_VERSION
 	string
+    default "43_05_linux" if DF_V_0_43_05
     default "43_03_linux" if DF_V_0_43_03
-    default "42_06_linux" if DF_V_0_42_06
     default "40_24_linux" if DF_V_0_40_24
 
 endmenu

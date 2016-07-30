@@ -17,9 +17,9 @@ config LNP_V_0_10
 endchoice
 
 config LNP_VERSION
-	   string
-# Don't remove next line
-# CT_INSERT_VERSION_STRING_BELOW
+	string
     default "0.10f" if LNP_V_0_10
+	help
+	  LazyNewbPack revision from https://bitbucket.org/Pidgeot/python-lnp
 
 endmenu
