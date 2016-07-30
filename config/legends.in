@@ -2,10 +2,13 @@
 
 menu "Legends Browser"
 
+comment "Legends Browser disabled, requires Java 1.8"
+	depends on ! CONFIGURE_has_java8
+
 config LEGENDS
 	bool
-	prompt "Include Legends Browser"
-	default y
+	prompt "Include Legends Browser" if CONFIGURE_has_java8
+	default y if CONFIGURE_has_java8
 	help
 	  Select this to include Legends Browser utility.
 

@@ -310,13 +310,21 @@ AC_PATH_PROG([JAVA],[java])
 if test -z "$JAVA"; then
 	AC_MSG_ERROR([Java not found])
 fi
-AC_MSG_CHECKING([for java >= 1.8])
+AC_MSG_CHECKING([for java 1.8])
 $JAVA -version 2>&1 |grep "1.8" >/dev/null
 if [[ $? = 0 ]]; then
-    AC_MSG_RESULT([yes])
+   	ACX_SET_KCONFIG_OPTION([java8])
+	AC_MSG_RESULT([yes])
 else
     AC_MSG_RESULT([no])
-    AC_MSG_ERROR()
+	AC_MSG_CHECKING([for java 1.7])
+	$JAVA -version 2>&1 |grep "1.7" >/dev/null
+	if [[ $? = 0 ]]; then
+	    AC_MSG_RESULT([yes])
+	else
+		AC_MSG_RESULT([no])
+		AC_MSG_ERROR([could not find Java JRE >=1.7])
+	fi
 fi
 
 #----------------------------------------
