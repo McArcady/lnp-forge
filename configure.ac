@@ -313,9 +313,11 @@ fi
 AC_MSG_CHECKING([for java 1.8])
 $JAVA -version 2>&1 |grep "1.8" >/dev/null
 if [[ $? = 0 ]]; then
+    java8="y"
    	ACX_SET_KCONFIG_OPTION([java8])
 	AC_MSG_RESULT([yes])
 else
+	java8=
     AC_MSG_RESULT([no])
 	AC_MSG_CHECKING([for java 1.7])
 	$JAVA -version 2>&1 |grep "1.7" >/dev/null
