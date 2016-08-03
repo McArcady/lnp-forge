@@ -13,18 +13,17 @@ do_soundsense_get() {
 
 # Extract
 do_soundsense_extract() {
-	# extract in DF dir
-	# FIXME: should extract to srcdir, then during build: copy to df_dir
-	CT_Pushd "$(get_df_dir)"
-    CT_Extract nochdir "soundSense_${CT_SOUNDSENSE_VERSION}"
- 	CT_Popd
+	# extract in src dir
+    CT_Extract "soundSense_${CT_SOUNDSENSE_VERSION}"
 }
 
 # Build
 do_soundsense_build() {
-	script="$(get_lnp_dir)/LNP/Utilities/SoundSense.sh"
-	
+    # copy to DF dir
+	CT_DoExecLog ALL cp -fR "${CT_SRC_DIR}/soundsense" "$(get_soundsense_dir)"
+
 	# fix link for LNP
+	script="$(get_lnp_dir)/LNP/Utilities/SoundSense.sh"
 	CT_DoExecLog ALL dos2unix "$(get_soundsense_dir)/soundSense.sh"
 	CT_DoExecLog ALL chmod +x "$(get_soundsense_dir)/soundSense.sh"
 	echo "#!/bin/sh" > ${script}
