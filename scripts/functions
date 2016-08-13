@@ -1164,6 +1164,14 @@ CT_Patch() {
 
     bundled_patch_dir="${CT_LIB_DIR}/patches/${pkgname}/${version}"
     local_patch_dir="${CT_LOCAL_PATCH_DIR}/${pkgname}/${version}"
+	default_patch_dir="${CT_LIB_DIR}/patches/${pkgname}/default"
+	if [ ! -d "${bundled_patch_dir}" ]; then
+	    CT_DoLog DEBUG "No patch dir '${bundled_patch_dir}'"
+	    if [ -d "${default_patch_dir}" ]; then
+	   	    CT_DoLog DEBUG "Using default patch dir '${default_patch_dir}'"
+	   	    bundled_patch_dir="${default_patch_dir}"
+	    fi
+	fi
 
     case "${CT_PATCH_ORDER}" in
         bundled)        patch_dirs=("${bundled_patch_dir}");;
@@ -1184,6 +1192,8 @@ CT_Patch() {
             if [ "${CT_PATCH_SINGLE}" = "y" ]; then
                 break
             fi
+		else
+			CT_DoLog DEBUG "No patch found in '${d}'."
         fi
     done
 
