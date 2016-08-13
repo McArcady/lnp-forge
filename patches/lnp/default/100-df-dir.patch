@@ -1,0 +1,11 @@
+--- a/PyLNP.json	2016-02-18 23:06:38.724191044 +0100
++++ b/PyLNP.json	2016-02-18 23:07:01.714728413 +0100
+@@ -6,7 +6,7 @@
+ 		["-","-"],
+ 		["Main folder",""],
+ 		["LNP folder","LNP"],
+-		["Dwarf Fortress folder","<df>"],
++		["Dwarf Fortress folder","df_linux"],
+ 		["Init folder","<df>/data/init"]
+ 	],
+ 	"links": [

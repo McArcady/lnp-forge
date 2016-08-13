@@ -1,0 +1,25 @@
+Common subdirectories: lnp-0.10f.orig/bin and lnp-0.10f/bin
+diff -duN lnp-0.10f.orig/startlnp.sh lnp-0.10f/startlnp.sh
+--- a/startlnp.sh	1970-01-01 01:00:00.000000000 +0100
++++ b/startlnp.sh	2016-03-09 20:39:25.863604702 +0100
+@@ -0,0 +1,20 @@
++#!/bin/sh
++LNP_PATH=$(readlink -f "$0" 2>/dev/null || readlink "$0" 2>/dev/null)
++LNP_PATH="${LNP_PATH:-$0}"
++LNP_DIR=$(dirname "$LNP_PATH")
++cd "${LNP_DIR}"
++
++if [ -x /sbin/getcap ] && [ -x /sbin/setcap ]; then
++    #Check whether Dwarf Therapist can read from DF memory:
++    dt_capabilities=$(/sbin/getcap bin/DwarfTherapist |cut -f2 -d"="|tr -d " ")
++    dt_capabilities=${dt_capabilities:=0}
++    if [ ${dt_capabilities} != "cap_sys_ptrace+eip" ]; then
++        msg="Enable Dwarf Therapist to read from Dwarf Fortress memory"
++        xterm -e "echo $msg;sudo /sbin/setcap cap_sys_ptrace=eip LNP/utilities/dwarf_therapist/DwarfTherapist"
++    fi
++else
++    echo "Could not find /sbin/getcap and/or /sbin/setcap"
++fi
++
++#run Lazy Newb Pack
++./launch.py || warn "Failed to start PyLNP"
