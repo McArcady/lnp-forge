@@ -13,7 +13,7 @@ diff -duN lnp-0.10f.orig/startlnp.sh lnp-0.10f/startlnp.sh
 +    #Check whether Dwarf Therapist can read from DF memory:
 +    dt_capabilities=$(/sbin/getcap bin/DwarfTherapist |cut -f2 -d"="|tr -d " ")
 +    dt_capabilities=${dt_capabilities:=0}
-+    if [ ${dt_capabilities} != "cap_sys_ptrace+eip" ]; then
++    if [ ${dt_capabilities} != "0" -a ${dt_capabilities} != "cap_sys_ptrace+eip" ]; then
 +        msg="Enable Dwarf Therapist to read from Dwarf Fortress memory"
 +        xterm -e "echo $msg;sudo /sbin/setcap cap_sys_ptrace=eip LNP/utilities/dwarf_therapist/DwarfTherapist"
 +    fi
