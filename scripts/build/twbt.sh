@@ -1,4 +1,4 @@
-# Install DFHack plug TextWillBeText
+# Install DFHack plugin TextWillBeText
 
 # Download
 do_twbt_get() {

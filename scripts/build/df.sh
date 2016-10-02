@@ -18,6 +18,14 @@ do_df_get() {
 
 # Extract DF
 do_df_extract() {
+	# extract in src dir
+    CT_Extract "df_${CT_DF_VERSION}"
+}
+
+do_df_build() {
+    # copy to DF dir
+	CT_DoExecLog ALL rsync -qa "${CT_SRC_DIR}/df_${CT_DF_VERSION}" "$(get_lnp_dir)"
+
     # If using custom directory location, nothing to do
     if [ "${CT_DF_CUSTOM}" = "y"                    \
          -a -d "${CT_SRC_DIR}/df_${CT_DF_VERSION}" ]; then
@@ -39,9 +47,4 @@ do_df_extract() {
 	else
 		CT_Abort "LNP directory $lnp_dir not found!"
 	fi
-}
-
-do_df_build() {
-	# Nothing to do
-	echo -n
 }
