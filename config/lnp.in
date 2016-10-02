@@ -13,7 +13,7 @@ choice
 
 config LNP_V_0_12
     bool
-    prompt "0.12"
+    prompt "0.12a"
 config LNP_V_0_10
     bool
     prompt "0.10f"
@@ -22,7 +22,7 @@ endchoice
 
 config LNP_VERSION
 	string
-    default "0.12" if LNP_V_0_12
+    default "0.12a" if LNP_V_0_12
     default "0.10f" if LNP_V_0_10
 	help
 	  LazyNewbPack revision from https://bitbucket.org/Pidgeot/python-lnp
