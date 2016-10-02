@@ -20,7 +20,7 @@ do_soundsense_extract() {
 # Build
 do_soundsense_build() {
     # copy to DF dir
-	CT_DoExecLog ALL cp -fR "${CT_SRC_DIR}/soundsense" "$(get_soundsense_dir)"
+	CT_DoExecLog ALL rsync -qa "${CT_SRC_DIR}/soundsense" "$(get_df_dir)"
 
 	# fix link for LNP
 	script="$(get_lnp_dir)/LNP/Utilities/SoundSense.sh"
