@@ -317,6 +317,7 @@ if [[ $? = 0 ]]; then
    	ACX_SET_KCONFIG_OPTION([java8])
 	AC_MSG_RESULT([yes])
 else
+	AC_MSG_WARN([Java 1.8 is missing, LegendsBrowser will not be available])
 	java8=
     AC_MSG_RESULT([no])
 	AC_MSG_CHECKING([for java 1.7])
@@ -349,13 +350,25 @@ AX_PROG_PERL_MODULES( XML::LibXML XML::LibXSLT, [],
                       AC_MSG_ERROR([Need Perl and modules XML::LibXML XML::LibXSLT]) )
 
 #----------------------------------------
-# Check for libSDL_image, libSDL_ttf, libz, OpenAL
+# Check for 32-bit libSDL_image, libSDL_ttf, libz, OpenAL
+AC_SEARCH_LIBS( IMG_Load, :libSDL_image-1.2.so.0, [sdlimage32="y"],
+				[], -m32 )
+AC_SEARCH_LIBS( TTF_OpenFont, :libSDL_ttf-2.0.so.0, [sdlttf32="y"],
+			   [], -m32 )
+AC_SEARCH_LIBS( gzopen, z, [libz32="y"],
+			   [], -m32 )
+if [[ "$sdlimage32$sdlttf32$libz32" = "yyy" ]]; then
+    sdl32="y"
+   	ACX_SET_KCONFIG_OPTION([sdl32])
+else
+	AC_MSG_WARN([Some 32-bits dependencies are missing, DwarfFortress < 0.43.05 will not be available])
+fi
 AC_CHECK_LIB( :libSDL_image-1.2.so.0, IMG_Load, [],
-			  AC_MSG_ERROR([Could not find 32-bit library libSDL_image-1.2]), -m32 )
+			  AC_MSG_ERROR([Could not find library libSDL_image-1.2]), )
 AC_CHECK_LIB( :libSDL_ttf-2.0.so.0, TTF_OpenFont, [],
-			  AC_MSG_ERROR([Could not find 32-bit library libSDL_ttf-2.0]), -m32 )
+			  AC_MSG_ERROR([Could not find library libSDL_ttf-2.0]), )
 AC_CHECK_LIB( z, gzopen, [],
-			  AC_MSG_ERROR([Could not find 32-bit library Zlib]), -m32 )
+			  AC_MSG_ERROR([Could not find library Zlib]), )
 # FIXME: the following check breaks AC_SEARCH_LIBS(ncurses)
 dnl AC_CHECK_LIB( openal, alEnable, [],
 dnl 			  AC_MSG_ERROR([Could not find 32-bit library OpenAL]), -m32 )
