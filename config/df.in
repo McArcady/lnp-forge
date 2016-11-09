@@ -14,7 +14,7 @@ choice
 
 config DF_V_0_43_05
     bool
-    prompt "0.43.05 (no DFHack)"
+    prompt "0.43.05"
 
 config DF_V_0_43_03
     bool
