@@ -1,0 +1,10 @@
+--- a/plugins/CMakeLists.txt	2016-04-16 22:17:03.962440209 +0200
++++ b/plugins/CMakeLists.txt	2016-04-16 22:16:53.543258899 +0200
+@@ -148,6 +148,7 @@
+     DFHACK_PLUGIN(workflow workflow.cpp LINK_LIBRARIES lua)
+     DFHACK_PLUGIN(workNow workNow.cpp)
+     DFHACK_PLUGIN(zone zone.cpp LINK_LIBRARIES lua)
++    add_subdirectory(twbt)
+ endif()
+ 
+ # this is the skeleton plugin. If you want to make your own, make a copy and then change it
