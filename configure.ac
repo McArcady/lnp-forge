@@ -245,22 +245,6 @@ if test -z "$QMAKE_QT"; then
 fi
 
 #----------------------------------------
-# Check for libtool >= 1.5.26
-AC_CACHE_VAL([ac_cv_path_LIBTOOL],
-    [AC_ARG_WITH([libtool],
-        AS_HELP_STRING([--with-libtool=PATH],
-                       [Specify the full PATH to GNU libtool >= 1.5.26]),
-        [ac_cv_path_LIBTOOL=$withval])])
-AC_CACHE_CHECK([for GNU libtool >= 1.5.26], [ac_cv_path_LIBTOOL],
-    [AC_PATH_PROGS_FEATURE_CHECK([LIBTOOL], [glibtool libtool],
-        [[LIBTOOL_ver=$($ac_path_LIBTOOL --version 2>&1 \
-                        |$EGREP '\(GNU libtool.*\) (2[[:digit:]]*\.|1\.6[[:digit:]]*\.|1\.5\.[2-9][[:digit:]]+)')
-          test -n "$LIBTOOL_ver" && ac_cv_path_LIBTOOL=$ac_path_LIBTOOL ac_path_LIBTOOL_found=:]],
-        [AC_MSG_RESULT([no])
-         AC_MSG_ERROR([could not find GNU libtool >= 1.5.26])])])
-AC_SUBST([LIBTOOL], [$ac_cv_path_LIBTOOL])
-
-#----------------------------------------
 # Check for libtoolize >= 1.5.26
 AC_CACHE_VAL([ac_cv_path_LIBTOOLIZE],
     [AC_ARG_WITH([libtoolize],
