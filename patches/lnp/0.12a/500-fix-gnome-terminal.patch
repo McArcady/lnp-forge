@@ -1,0 +1,15 @@
+--- a/core/terminal.py	2016-11-13 11:52:50.916258002 +0100
++++ b/core/terminal.py	2016-11-12 00:03:09.697909874 +0100
+@@ -139,10 +139,10 @@
+     def get_command_line():
+         term = subprocess.check_output([
+             'gconftool-2', '--get',
+-            '/desktop/gnome/applications/terminal/exec'])
++            '/desktop/gnome/applications/terminal/exec']).strip()
+         term_arg = subprocess.check_output([
+             'gconftool-2', '--get',
+-            '/desktop/gnome/applications/terminal/exec_arg'])
++            '/desktop/gnome/applications/terminal/exec_arg']).strip()
+         return ['nohup', term, term_arg]
+ 
+ class XfceTerminal(LinuxTerminal):
