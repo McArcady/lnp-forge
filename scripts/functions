@@ -715,8 +715,7 @@ CT_GetFile() {
     fi
 
     # Try to retrieve the file
-    CT_DoLog INFO "Retrieving '${file}'"
-
+	
     # Add URLs on the LAN mirror
     if [ "${CT_USE_MIRROR}" = "y" ]; then
         CT_TestOrAbort "Please set the mirror base URL" -n "${CT_MIRROR_BASE_URL}"
@@ -736,9 +735,10 @@ CT_GetFile() {
         for url in "${URLS[@]}"; do
             [ -n "${url}" ] || continue
             CT_DoLog DEBUG "Trying '${url}/${file}${ext}'"
+    		CT_DoLog INFO "Retrieving '${file}' from ${url}"
             CT_DoGetFile "${url}/${file}${ext}"
             if [ -f "${CT_TARBALLS_DIR}/${file}${ext}" ]; then
-                CT_DoLog INFO "Got '${file}' from ${url}"
+                CT_DoLog INFO "Got '${file}'"
                 CT_SaveLocal "${CT_TARBALLS_DIR}/${file}${ext}"
                 return 0
             fi
@@ -894,7 +894,7 @@ CT_GetGit() {
         return 0
     fi
 
-    CT_DoLog EXTRA "Retrieving '${basename}-${cset}' (git)"
+    CT_DoLog INFO "Retrieving '${basename}-${cset}' from '${url}'"
 
     # Remove potential left-over from a previous run
     CT_DoExecLog ALL rm -rf "${tmp}.tar.gz" "${tmp}.tar" "${tmp}" "${dir}"
@@ -913,7 +913,7 @@ CT_GetGit() {
         CT_SaveLocal "${dest}"
         CT_DoExecLog ALL rm -rf "${tmp}.tar.gz" "${tmp}.tar" "${tmp}" "${dir}"
         CT_Popd
-        CT_DoLog INFO "Got '${basename}-${cset}' from ${url}"
+        CT_DoLog INFO "Got '${basename}-${cset}'"
         return 0
     else
         # Woops...
