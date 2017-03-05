@@ -5,6 +5,7 @@ menu "Dwarf-Therapist"
 config THERAPIST
 	bool
 	prompt "Build Dwarf-Therapist"
+	default n if DF_V_0_43_05
 	default y
 	help
 	  Select this to build Dwarf-Therapist.

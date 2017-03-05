@@ -12,7 +12,7 @@ config DFHACK
 config DFHACK_VERSION
 	string
 	prompt "Github revision of DFHack"
-    default "0.43.05-alpha4" if DF_V_0_43_05
+    default "0.43.05-beta1" if DF_V_0_43_05
     default "0.43.03-r1" if DF_V_0_43_03
     default "0.40.24-r5" if DF_V_0_40_24
     default "master"
@@ -22,6 +22,7 @@ config DFHACK_VERSION
 
 config TWBT
 	bool
+	default n if DF_V_0_43_05
 	default y
 	depends on DFHACK
 
