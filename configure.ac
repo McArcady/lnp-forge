@@ -277,6 +277,22 @@ AC_CACHE_CHECK([for GNU automake >= 1.10], [ac_cv_path_automake],
 AC_SUBST([automake], [$ac_cv_path_automake])
 
 #----------------------------------------
+# Gperf 3.1 started generating functions with size_t rather than unsigned int
+AC_MSG_CHECKING([for the type used in gperf declarations])
+echo "#include <string.h>" > conftest.gperf.c
+echo "const char * in_word_set(const char *, GPERF_LEN_TYPE);" >> conftest.gperf.c
+echo foo,bar | ${GPERF} -L ANSI-C >> conftest.gperf.c
+AS_IF([${CC} -c -o /dev/null conftest.gperf.c -DGPERF_LEN_TYPE='size_t' >/dev/null 2>&1],
+			 [AC_MSG_RESULT([size_t])
+             GPERF_LEN_TYPE='size_t'],
+        [${CC} -c -o /dev/null conftest.gperf.c -DGPERF_LEN_TYPE='unsigned int' >/dev/null 2>&1],
+            [AC_MSG_RESULT([unsigned int])
+             GPERF_LEN_TYPE='unsigned int'],
+        [AC_MSG_ERROR([unable to determine gperf len type])])
+rm -f conftest.gperf.c
+AC_SUBST([GPERF_LEN_TYPE])
+ 
+#----------------------------------------
 # Check for Tcl >= 8.0
 AX_PROG_TCL([8.0])
 
