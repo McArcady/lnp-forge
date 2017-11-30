@@ -12,8 +12,7 @@ config DFHACK
 config DFHACK_VERSION
 	string
 	prompt "Github revision of DFHack"
-    default "0.43.05-r1" if DF_V_0_43_05
-    default "0.43.03-r1" if DF_V_0_43_03
+    default "0.43.05-r3.1" if DF_V_0_43_05
     default "0.40.24-r5" if DF_V_0_40_24
     default "master"
 	depends on DFHACK
@@ -28,7 +27,7 @@ config TWBT
 config TWBT_VERSION
 	string
 	prompt "Github revision of TWBT"
-    default "v5.84"
+    default "v6.22"
 	depends on TWBT
 	help
 	  TWBT revision from https://github.com/mifki/df-twbt

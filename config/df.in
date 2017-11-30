@@ -10,16 +10,14 @@ choice
     bool
     prompt "Dwarf Fortress version"
 	default DF_V_0_43_05
-	default DF_V_0_43_03 if CONFIGURE_has_sdl32
+
+config DF_V_0_44_02
+    bool
+    prompt "0.44.02"
 
 config DF_V_0_43_05
     bool
     prompt "0.43.05"
-
-config DF_V_0_43_03
-    bool
-    prompt "0.43.03"
-	depends on CONFIGURE_has_sdl32
 	
 config DF_V_0_40_24
     bool
@@ -50,8 +48,8 @@ endif #DF_CUSTOM
 
 config DF_VERSION
 	string
+    default "44_02_linux" if DF_V_0_44_02
     default "43_05_linux" if DF_V_0_43_05
-    default "43_03_linux" if DF_V_0_43_03
     default "40_24_linux" if DF_V_0_40_24
 
 endmenu
