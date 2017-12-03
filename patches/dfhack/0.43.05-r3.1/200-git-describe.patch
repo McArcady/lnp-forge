@@ -1,0 +1,38 @@
+--- a/library/git-describe.cmake	2017-11-26 16:47:26.500003459 +0100
++++ b/library/git-describe.cmake	2017-11-27 11:52:50.520029173 +0100
+@@ -1,23 +1,10 @@
+-if(NOT EXISTS ${dfhack_SOURCE_DIR}/.git/index OR NOT EXISTS ${dfhack_SOURCE_DIR}/.git/modules/library/xml/index)
+-    MESSAGE(FATAL_ERROR "Could not find git index file(s)")
+-endif()
+-
+-set(git_describe_tmp_h ${dfhack_SOURCE_DIR}/library/include/git-describe.tmp.h)
+-set(git_describe_h ${dfhack_SOURCE_DIR}/library/include/git-describe.h)
+-
+-if(EXISTS ${git_describe_tmp_h} AND
+-        NOT(${dfhack_SOURCE_DIR}/.git/index IS_NEWER_THAN ${git_describe_tmp_h}) AND
+-        NOT(${dfhack_SOURCE_DIR}/.git/modules/library/xml/index IS_NEWER_THAN ${git_describe_tmp_h}))
+-    return()
+-endif()
+-
+-execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=8 --long
++execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --long
+     WORKING_DIRECTORY "${dfhack_SOURCE_DIR}"
+     OUTPUT_VARIABLE DFHACK_GIT_DESCRIPTION)
+ execute_process(COMMAND ${GIT_EXECUTABLE} rev-parse HEAD
+     WORKING_DIRECTORY "${dfhack_SOURCE_DIR}"
+     OUTPUT_VARIABLE DFHACK_GIT_COMMIT)
+-execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --abbrev=8 --exact-match
++execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --exact-match
+     WORKING_DIRECTORY "${dfhack_SOURCE_DIR}"
+     RESULT_VARIABLE DFHACK_GIT_TAGGED_RESULT
+     OUTPUT_QUIET ERROR_QUIET)
+@@ -30,6 +17,9 @@
+     WORKING_DIRECTORY "${dfhack_SOURCE_DIR}/library/xml"
+     OUTPUT_VARIABLE DFHACK_GIT_XML_COMMIT)
+ 
++set(git_describe_tmp_h ${dfhack_SOURCE_DIR}/library/include/git-describe.tmp.h)
++set(git_describe_h ${dfhack_SOURCE_DIR}/library/include/git-describe.h)
++
+ file(WRITE ${git_describe_tmp_h} "")
+ 
+ macro(git_describe_definition var)
