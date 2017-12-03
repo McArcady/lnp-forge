@@ -23,6 +23,9 @@ do_twbt_extract() {
 }
 
 do_twbt_build() {
-	# Done with DFHack
-	echo
+	twbt_dist_dir=${CT_SRC_DIR}/dfhack-${CT_DFHACK_VERSION}/plugins/twbt/dist
+	df_art_dir=${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}/df_${CT_DF_VERSION}/data/art/
+	# copy art
+	CT_DoExecLog ALL cp -f "${twbt_dist_dir}/white1px.png" "${df_art_dir}" || :
+	CT_DoExecLog ALL cp -f "${twbt_dist_dir}/transparent1px.png" "${df_art_dir}" || :
 }
