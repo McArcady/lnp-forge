@@ -281,7 +281,7 @@ else
 #--------------------------------------
 # Install rules
 
-real-install: $(patsubst %,install-%,$(TARGETS)) install-post
+real-install: $(patsubst %,install-%,$(TARGETS))
 
 install-bin: $(DESTDIR)$(bindir)
 	@echo "  INST    '$(PROG_NAME)'"
@@ -325,11 +325,6 @@ install-lib-kconfig: $(DESTDIR)$(libdir) install-lib-main
 $(sort $(DESTDIR)$(bindir) $(DESTDIR)$(libdir)):
 	@echo "  MKDIR   '$@/'"
 	@$(install) -m 755 -d "$@"
-
-install-post:
-	@echo
-	@echo "For auto-completion, do not forget to install '$(PROG_NAME).comp' into"
-	@echo "your bash completion directory (usually /etc/bash_completion.d)"
 
 #--------------------------------------
 # Uninstall rules
