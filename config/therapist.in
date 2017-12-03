@@ -14,6 +14,7 @@ config THERAPIST_VERSION
 	string
 	prompt "Github revision of Dwarf-Therapist"
 	default "v37.0.0"
+	default "DF2016" if DF_V_0_43_05
 	depends on THERAPIST
 	help
 	  Dwarf-Therapist revision from https://github.com/splintermind/Dwarf-Therapist.

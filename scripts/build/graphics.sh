@@ -8,7 +8,7 @@ get_graphics_dir() {
 do_graphics_get() {
     # DFGraphics set from Github
 	CT_GetGit "graphics" "${CT_GRAPHICS_VERSION}" \
-			  https://github.com/DFgraphics/DFgraphics.git
+			  https://github.com/McArcady/DFgraphics.git
 }
 
 # Extract
