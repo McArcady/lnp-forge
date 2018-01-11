@@ -3,6 +3,9 @@
 get_keybinds_dir() {
 	echo "$(get_lnp_dir)/LNP/Keybinds"
 }
+get_baselines_dir() {
+	echo "$(get_lnp_dir)/LNP/Baselines"
+}
 
 # Download
 do_keybinds_get() {
@@ -12,6 +15,11 @@ do_keybinds_get() {
 	url="https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core/master/keybinds/"
     # Keybinds set from Github repo 'Lazy-Newb-Pack/LNP-shared-core'
 	for kb in Classic_LNP New_LNP PeridexisErrant; do
+		CT_GetFile ${kb} ".txt" ${url}
+	done
+	url="https://raw.githubusercontent.com/McArcady/LNP-shared-core/master/keybinds/"
+    # McArcady Keybinds
+	for kb in McArcady_FR; do
 		CT_GetFile ${kb} ".txt" ${url}
 	done
 }
@@ -25,9 +33,10 @@ do_keybinds_extract() {
 # Build
 do_keybinds_build() {
 	# copy to dir LNP/Keybinds
-	for kb in Classic_LNP New_LNP PeridexisErrant; do
+	for kb in Classic_LNP New_LNP PeridexisErrant McArcady_FR; do
 		CT_DoExecLog ALL cp -f "${CT_TARBALLS_DIR}/${kb}.txt" "$(get_keybinds_dir)/"
 	done
 	# backup vanilla keybinds
+	CT_DoExecLog ALL cp -f "$(get_df_dir)/data/init/interface.txt" "$(get_baselines_dir)/"
 	CT_DoExecLog ALL cp -f "$(get_df_dir)/data/init/interface.txt" "$(get_keybinds_dir)/Vanilla_DF.txt"
 }
