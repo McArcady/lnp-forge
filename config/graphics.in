@@ -7,7 +7,7 @@ config GRAPHICS
 	prompt "Include DFGraphics"
 	default y
 	help
-	  Select this to donwload all the DFGraphics tilesets.
+	  Select this to download all the DFGraphics tilesets.
 
 config GRAPHICS_VERSION
 	string
