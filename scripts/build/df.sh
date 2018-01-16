@@ -37,12 +37,16 @@ do_df_build() {
 		CT_Pushd "$(get_lnp_dir)"
 		# Extract in LNP dir
 		CT_Extract nochdir "${df_dir}"
-		# CT_DoExecLog ALL rm -f df_linux
-		# CT_DoExecLog ALL ln -s df_${CT_DF_VERSION} df_linux
 		# Save default init files
 		CT_DoExecLog ALL mkdir -p "LNP/Defaults"
 		CT_DoExecLog ALL cp -f "${df_dir}/data/init/init.txt" "LNP/Defaults/"
 		CT_DoExecLog ALL cp -f "${df_dir}/data/init/d_init.txt" "LNP/Defaults/"
+		# Generate baselines
+		bl_dir="$(get_baselines_dir)/"$(echo "${df_dir}"|sed s/_linux//g)
+		CT_DoExecLog ALL mkdir -p "${bl_dir}"
+		CT_DoExecLog ALL cp -fr "${df_dir}/data" "${bl_dir}"
+		CT_DoExecLog ALL cp -fr "${df_dir}/raw" "${bl_dir}"
+		CT_DoExecLog ALL cp -fr "${df_dir}/sdl" "${bl_dir}"
 		CT_Popd
 	else
 		CT_Abort "LNP directory $lnp_dir not found!"

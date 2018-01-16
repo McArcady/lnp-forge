@@ -5,7 +5,6 @@ menu "Dwarf-Therapist"
 config THERAPIST
 	bool
 	prompt "Build Dwarf-Therapist"
-	default n if DF_V_0_43_05
 	default y
 	help
 	  Select this to build Dwarf-Therapist.
@@ -13,10 +12,9 @@ config THERAPIST
 config THERAPIST_VERSION
 	string
 	prompt "Github revision of Dwarf-Therapist"
-	default "v37.0.0"
-	default "DF2016" if DF_V_0_43_05
+	default "v39.1.2"
 	depends on THERAPIST
 	help
-	  Dwarf-Therapist revision from https://github.com/splintermind/Dwarf-Therapist.
+	  Dwarf-Therapist revision from https://github.com/Dwarf-Therapist/Dwarf-Therapist
 
 endmenu
