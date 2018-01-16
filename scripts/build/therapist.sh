@@ -4,7 +4,7 @@
 do_therapist_get() {
     # official Dwarf-Therapist from Github
 	CT_GetGit "therapist" "${CT_THERAPIST_VERSION}" \
-			  https://github.com/splintermind/Dwarf-Therapist.git
+			  https://github.com/McArcady/Dwarf-Therapist
 }
 
 # Extract
@@ -19,16 +19,25 @@ do_therapist_extract() {
 do_therapist_build() {
 	dt_src_dir="${CT_SRC_DIR}/therapist-${CT_THERAPIST_VERSION}"
 	dist_dir="$(get_lnp_dir)"
+	script="${dist_dir}/LNP/Utilities/DwarfTherapist.sh"
 
-	CT_Pushd "${dt_src_dir}"
-    CT_DoExecLog ALL ${QMAKE_QT} PREFIX=${dist_dir}
+	CT_DoExecLog ALL mkdir -p "${dt_src_dir}/build"
+	CT_Pushd "${dt_src_dir}/build"
+    CT_DoExecLog ALL cmake -DCMAKE_INSTALL_PREFIX=${dist_dir} ..
 	CT_DoExecLog ALL make ${JOBSFLAGS} install
-	# link with .sh extension required for detection by LNP
 
-	CT_Pushd "${dist_dir}/LNP/Utilities"
-	CT_DoExecLog ALL rm -f "DwarfTherapist.sh"
-	CT_DoExecLog ALL ln -s "../../bin/dwarftherapist" "DwarfTherapist.sh"
+	# link to memory layouts
+	CT_Pushd "$(get_lnp_dir)/share"
+	CT_DoExecLog ALL rm -f "memory_layouts"
+	CT_DoExecLog ALL ln -s "dwarftherapist/memory_layouts" .
 	CT_Popd
+	
+	# fix start script
+	CT_DoExecLog ALL rm -f "${script}"
+	echo "#!/bin/sh" > ${script}
+	echo "cd ../../" >> ${script}
+	echo "exec bin/DwarfTherapist" >> ${script}
+	CT_DoExecLog ALL chmod +x "${script}"
 	
 	# add description
 	echo "[DwarfTherapist.sh:Dwarf-Therapist:Management tool that offers several views and interface improvements to Dwarf Fortress]" >> ${dist_dir}/LNP/Utilities/utilities.txt
