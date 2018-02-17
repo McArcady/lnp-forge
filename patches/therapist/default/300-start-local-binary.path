@@ -1,0 +1,11 @@
+--- a/dist/ptrace_cap_wrapper/dwarftherapist	2016-04-02 15:43:43.139110578 +0200
++++ b/dist/ptrace_cap_wrapper/dwarftherapist	2016-04-02 15:44:31.042147643 +0200
+@@ -36,7 +36,7 @@
+
+ ## $_DT_BINARY
+ ## Set path to 'DwarfTherapist' binary
+-_DT_BINARY="`which DwarfTherapist`"
++_DT_BINARY="$(dirname $(readlink -n -m $0))/DwarfTherapist"
+ PREFIX="${_DT_BINARY%%/bin/DwarfTherapist}"
+ 
+ ## $_ETC_BASE_FOLDER
