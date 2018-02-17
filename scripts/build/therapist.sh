@@ -4,7 +4,7 @@
 do_therapist_get() {
     # official Dwarf-Therapist from Github
 	CT_GetGit "therapist" "${CT_THERAPIST_VERSION}" \
-			  https://github.com/McArcady/Dwarf-Therapist
+			  https://github.com/Dwarf-Therapist/Dwarf-Therapist
 }
 
 # Extract

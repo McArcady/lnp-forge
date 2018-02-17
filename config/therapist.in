@@ -12,7 +12,7 @@ config THERAPIST
 config THERAPIST_VERSION
 	string
 	prompt "Github revision of Dwarf-Therapist"
-	default "v39.1.2"
+	default "v39.2.0"
 	depends on THERAPIST
 	help
 	  Dwarf-Therapist revision from https://github.com/Dwarf-Therapist/Dwarf-Therapist

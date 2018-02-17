@@ -9,10 +9,19 @@ do_dfhack_get() {
 
 # Extract
 do_dfhack_extract() {
+	dfhack_src_dir="${CT_SRC_DIR}/dfhack-${CT_DFHACK_VERSION}"
 	# extract archived git repo
     CT_Extract "dfhack-${CT_DFHACK_VERSION}"
 	# patch
 	CT_Patch "dfhack" "${CT_DFHACK_VERSION}"
+	# generate git-describe.h
+	CT_Pushd "${dfhack_src_dir}"
+	echo > library/git-describe.cmake
+	echo "#define DFHACK_GIT_DESCRIPTION \"${CT_DFHACK_VERSION}\"" > library/include/git-describe.h
+	echo "#define DFHACK_GIT_COMMIT \"${CT_DFHACK_VERSION}\"" >> library/include/git-describe.h
+	echo "#define DFHACK_GIT_XML_COMMIT \"${CT_DFHACK_VERSION}\"" >> library/include/git-describe.h
+	echo "#define DFHACK_GIT_XML_EXPECTED_COMMIT \"${CT_DFHACK_VERSION}\"" >> library/include/git-describe.h
+ 	CT_Popd
 }
 
 # Build
