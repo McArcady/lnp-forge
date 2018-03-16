@@ -1,24 +1,17 @@
 # DF options
 
-menu "Key bindings"
-
-config KEYBINDS_VERSION
-	string
-    default "master"
-
 config KEYBINDS
-	bool
 	prompt "Include keybindings"
+	bool
 	default y
 	help
 	  Select this to include alternate keybindings
 
 config KEYBINDS_REV
-	string
 	prompt "Github revision of keybindings"
+	string
 	default "master"
 	depends on KEYBINDS
 	help
 	  Github revision of the keybindings from https://github.com/Lazy-Newb-Pack/LNP-shared-core
 
-endmenu
