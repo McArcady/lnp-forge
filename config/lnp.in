@@ -1,30 +1,12 @@
 # LNP options
 
-menu "Lazy Newb Pack"
-
 config LNP
 	bool
 	default y
 
-choice
-    bool
-    prompt "Lazy Newb Pack version"
-	default LNP_V_0_13
-
-config LNP_V_0_13
-    bool
-    prompt "0.13"
-config LNP_V_0_10
-    bool
-    prompt "0.10f"
-	
-endchoice
-
 config LNP_VERSION
+    prompt "PyLNP version"
 	string
     default "0.13" if LNP_V_0_13
-    default "0.10f" if LNP_V_0_10
 	help
 	  LazyNewbPack revision from https://bitbucket.org/Pidgeot/python-lnp
-
-endmenu

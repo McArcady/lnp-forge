@@ -1,7 +1,5 @@
 # DF options
 
-menu "Graphics"
-
 config GRAPHICS
 	bool
 	prompt "Include DFGraphics"
@@ -12,10 +10,8 @@ config GRAPHICS
 config GRAPHICS_VERSION
 	string
 	prompt "Github revision of DFGraphics"
-    default "40.24" if DF_V_0_40_24
 	default "master"
 	depends on GRAPHICS
 	help
 	  DFGraphics revision from https://github.com/DFgraphics.
 
-endmenu

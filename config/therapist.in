@@ -1,7 +1,5 @@
 # Dwarf-Therapist options
 
-menu "Dwarf-Therapist"
-
 config THERAPIST
 	bool
 	prompt "Build Dwarf-Therapist"
@@ -16,5 +14,3 @@ config THERAPIST_VERSION
 	depends on THERAPIST
 	help
 	  Dwarf-Therapist revision from https://github.com/Dwarf-Therapist/Dwarf-Therapist
-
-endmenu

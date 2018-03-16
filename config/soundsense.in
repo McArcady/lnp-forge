@@ -1,7 +1,5 @@
 # SOUNDSENSE options
 
-menu "SoundSense"
-
 config SOUNDSENSE
 	bool
 	prompt "Include SoundSense"
@@ -16,5 +14,3 @@ config SOUNDSENSE_VERSION
 	depends on SOUNDSENSE
 	help
 	  Select version of SoundSense
-
-endmenu

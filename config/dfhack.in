@@ -1,7 +1,5 @@
 # DF_HACK options
 
-menu "DFHack"
-
 config DFHACK
 	bool
 	prompt "Build DFHack"
@@ -30,5 +28,3 @@ config TWBT_VERSION
 	depends on TWBT
 	help
 	  TWBT revision from https://github.com/mifki/df-twbt
-
-endmenu
