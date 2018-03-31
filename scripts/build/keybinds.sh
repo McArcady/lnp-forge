@@ -19,7 +19,7 @@ do_keybinds_get() {
 	done
 	url="https://raw.githubusercontent.com/McArcady/LNP-shared-core/master/keybinds/"
     # McArcady Keybinds
-	for kb in McArcady_FR; do
+	for kb in Keyboard_FR; do
 		CT_GetFile ${kb} ".txt" ${url}
 	done
 }
@@ -33,7 +33,7 @@ do_keybinds_extract() {
 # Build
 do_keybinds_build() {
 	# copy to dir LNP/Keybinds
-	for kb in Classic_LNP New_LNP PeridexisErrant McArcady_FR; do
+	for kb in Classic_LNP New_LNP PeridexisErrant Keyboard_FR; do
 		CT_DoExecLog ALL cp -f "${CT_TARBALLS_DIR}/${kb}.txt" "$(get_keybinds_dir)/"
 	done
 	# backup vanilla keybinds
