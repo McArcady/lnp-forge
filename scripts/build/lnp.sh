@@ -1,5 +1,15 @@
 # Install the LazyNewbPack
 
+get_lnp_description() {
+	echo "LazyNewbPack interface v${CT_LNP_VERSION}"
+}
+get_lnp_credits() {
+	echo ""
+}
+get_lnp_url() {
+	echo "https://bitbucket.org/Pidgeot/python-lnp"
+}
+
 get_lnp_dir() {
 	echo "${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}"
 }
@@ -9,7 +19,7 @@ do_lnp_get() {
     # official python-LNP
 	# https://bitbucket.org/Pidgeot/python-lnp
 	CT_GetHG "lnp" "${CT_LNP_VERSION}" \
-			 https://bitbucket.org/Pidgeot/python-lnp
+			 "$(get_lnp_url)"
 }
 
 # Extract

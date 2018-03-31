@@ -1,10 +1,20 @@
 # Install DFHack plugin TextWillBeText
 
+get_twbt_description() {
+	echo "TWBT v${CT_TWBT_VERSION}"
+}
+get_twbt_credits() {
+	echo ""
+}
+get_twbt_url() {
+	echo "https://github.com/mifki/df-twbt.git"
+}
+
 # Download
 do_twbt_get() {
     # official TWBT from Github
 	CT_GetGit "twbt" "${CT_TWBT_VERSION}" \
-			  https://github.com/mifki/df-twbt.git
+			  "$(get_twbt_url)"
 }
 
 # Extract

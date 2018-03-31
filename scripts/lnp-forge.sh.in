@@ -612,6 +612,11 @@ if [ -z "${CT_RESTART}" ]; then
     fi
 fi
 
+# credits file
+credits_file="$(get_lnp_dir)/PRAISE_THE_MINERS"
+CT_DoExecLog DEBUG rm -f "${credits_file}"
+echo "All credits for the content of this pack are due to these creators, developers and maintainers:" > $credits_file
+
 # Now for the job by itself. Go have a coffee!
 if [ "${CT_ONLY_DOWNLOAD}" != "y" -a "${CT_ONLY_EXTRACT}" != "y" ]; then
 
@@ -623,6 +628,15 @@ if [ "${CT_ONLY_DOWNLOAD}" != "y" -a "${CT_ONLY_EXTRACT}" != "y" ]; then
 		if [ "${val}" = "y" ]; then
 			CT_DoStep INFO "Building ${step}-${ver}"
 			eval do_${step}_build
+			CT_EndStep
+			CT_DoStep INFO "Credits for ${step}-${ver}"
+			descr=$(get_${step}_description)
+			authors=$(get_${step}_credits)
+			if [ "$authors" != "" ]; then
+				authors=" by $authors"
+			fi
+			url=$(get_${step}_url)
+			echo "$descr$authors - $url" >> $credits_file
 			CT_EndStep
 		fi
 	done

@@ -1,10 +1,20 @@
 # Install Dwarf-Therapist
 
+get_therapist_description() {
+	echo "DwarfTherapist v${CT_THERAPIST_VERSION}"
+}
+get_therapist_credits() {
+	echo ""
+}
+get_therapist_url() {
+	echo "https://github.com/Dwarf-Therapist/Dwarf-Therapist"
+}
+
 # Download
 do_therapist_get() {
     # official Dwarf-Therapist from Github
 	CT_GetGit "therapist" "${CT_THERAPIST_VERSION}" \
-			  https://github.com/Dwarf-Therapist/Dwarf-Therapist
+			  "$(get_therapist_url)"
 }
 
 # Extract

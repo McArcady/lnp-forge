@@ -1,5 +1,15 @@
 # Install SoundSense
 
+get_soundsense_description() {
+	echo "Soundsense ${CT_SOUNDSENSE_VERSION}"
+}
+get_soundsense_credits() {
+	echo ""
+}
+get_soundsense_url() {
+	echo "http://df.zweistein.cz/soundsense"
+}
+
 get_soundsense_dir() {
 	echo "$(get_df_dir)/soundsense"
 }
@@ -8,7 +18,7 @@ get_soundsense_dir() {
 do_soundsense_get() {
     # official package: http://df.zweistein.cz/soundsense/soundSense_2015-1_194.zip
     CT_GetFile "soundSense_${CT_SOUNDSENSE_VERSION}" ".zip" \
-               http://df.zweistein.cz/soundsense
+               "$(get_soundsense_url)"
 }
 
 # Extract

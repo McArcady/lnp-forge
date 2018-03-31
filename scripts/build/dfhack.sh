@@ -1,10 +1,20 @@
 # Install DFHack
 
+get_dfhack_description() {
+	echo "DFHack v${CT_DFHACK_VERSION}"
+}
+get_dfhack_credits() {
+	echo ""
+}
+get_dfhack_url() {
+	echo "https://github.com/DFHack/dfhack.git"
+}
+
 # Download
 do_dfhack_get() {
     # official DFHack from Github
 	CT_GetGit "dfhack" "${CT_DFHACK_VERSION}" \
-			  https://github.com/DFHack/dfhack.git
+			  "$(get_dfhack_url)"
 }
 
 # Extract
@@ -42,4 +52,3 @@ do_dfhack_build() {
 	CT_DoExecLog ALL rm -f "${df_dir}/libs/libstdc++.so.6"
  	CT_Popd
 }
-

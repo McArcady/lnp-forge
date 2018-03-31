@@ -1,5 +1,15 @@
 # Install key bindings
 
+get_keybinds_description() {
+	echo "Key bindings"
+}
+get_keybinds_credits() {
+	echo ""
+}
+get_keybinds_url() {
+	echo "https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core"
+}
+
 get_keybinds_dir() {
 	echo "$(get_lnp_dir)/LNP/Keybinds"
 }
@@ -12,7 +22,7 @@ do_keybinds_get() {
 	if [ "${CT_KEYBINDS_VERSION}" = "" ]; then
 		export CT_KEYBINDS_VERSION="${CT_KEYBINDS_REV}"
 	fi
-	url="https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core/master/keybinds/"
+	url="$(get_keybinds_url)/master/keybinds/"
     # Keybinds set from Github repo 'Lazy-Newb-Pack/LNP-shared-core'
 	for kb in Classic_LNP New_LNP PeridexisErrant; do
 		CT_GetFile ${kb} ".txt" ${url}

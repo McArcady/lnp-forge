@@ -1,5 +1,15 @@
 # Install graphics
 
+get_graphics_description() {
+	echo "Graphics tilesets"
+}
+get_graphics_credits() {
+	echo ""
+}
+get_graphics_url() {
+	echo "https://github.com/McArcady/DFgraphics.git"
+}
+
 get_graphics_dir() {
 	echo "$(get_lnp_dir)/LNP/Graphics"
 }
@@ -8,7 +18,7 @@ get_graphics_dir() {
 do_graphics_get() {
     # DFGraphics set from Github
 	CT_GetGit "graphics" "${CT_GRAPHICS_VERSION}" \
-			  https://github.com/McArcady/DFgraphics.git
+			  "$(get_graphics_url)"
 }
 
 # Extract

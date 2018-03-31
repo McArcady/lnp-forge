@@ -1,5 +1,15 @@
 # Install DwarfFortress
 
+get_df_description() {
+	echo "DwarfFortress v${CT_DF_VERSION}"
+}
+get_df_credits() {
+	echo "Tarn and Zach Adams"
+}
+get_df_url() {
+	echo "http://www.bay12games.com/dwarves/"
+}
+
 get_df_dir() {
 	echo "$(get_lnp_dir)/df_${CT_DF_VERSION}"
 }

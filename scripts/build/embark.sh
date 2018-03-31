@@ -1,5 +1,15 @@
 # Install embark profiles
 
+get_embark_description() {
+	echo "Embark profiles"
+}
+get_embark_credits() {
+	echo ""
+}
+get_embark_url() {
+	echo "https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core"
+}
+
 get_embark_dir() {
 	echo "$(get_lnp_dir)/LNP/Embarks"
 }
@@ -8,7 +18,7 @@ get_embark_dir() {
 do_embark_get() {
     # captain_duck: http://pastebin.com/raw/4uiSfu8V
 	# clinodev: http://pastebin.com/raw/FRT4hpkJ
-    CT_GetFile "embark_profiles" ".txt" "https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core/master/defaults/"
+    CT_GetFile "embark_profiles" ".txt" "$(get_embark_url)/master/defaults/"
 }
 
 # Extract
