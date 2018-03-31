@@ -1,5 +1,15 @@
 # Install Legends Browser
 
+get_legends_description() {
+	echo "LegendsBrowser v${CT_LEGENDS_VERSION}"
+}
+get_legends_credits() {
+	echo "Robert Janetzko"
+}
+get_legends_url() {
+	echo "https://github.com/robertjanetzko/LegendsBrowser"
+}
+
 get_legends_dir() {
 	echo "$(get_lnp_dir)"
 }
@@ -8,7 +18,7 @@ get_legends_dir() {
 do_legends_get() {
     # official package from https://github.com/robertjanetzko/LegendsBrowser/releases
     CT_GetFile "legendsbrowser-${CT_LEGENDS_VERSION}" ".jar" \
-               "https://github.com/robertjanetzko/LegendsBrowser/releases/download/${CT_LEGENDS_VERSION}"
+               "$(get_legends_url)/releases/download/${CT_LEGENDS_VERSION}"
 }
 
 # Extract
