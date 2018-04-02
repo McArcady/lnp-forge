@@ -4,7 +4,7 @@ get_embark_description() {
 	echo "Embark profiles"
 }
 get_embark_credits() {
-	echo ""
+	echo "clinodev"
 }
 get_embark_url() {
 	echo "https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core"
