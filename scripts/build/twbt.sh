@@ -4,7 +4,7 @@ get_twbt_description() {
 	echo "TWBT v${CT_TWBT_VERSION}"
 }
 get_twbt_credits() {
-	echo ""
+	echo "Vitaly Pronkin"
 }
 get_twbt_url() {
 	echo "https://github.com/mifki/df-twbt.git"

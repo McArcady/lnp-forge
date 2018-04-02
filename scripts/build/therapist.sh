@@ -4,7 +4,7 @@ get_therapist_description() {
 	echo "DwarfTherapist v${CT_THERAPIST_VERSION}"
 }
 get_therapist_credits() {
-	echo ""
+	echo "Clement Vuchener"
 }
 get_therapist_url() {
 	echo "https://github.com/Dwarf-Therapist/Dwarf-Therapist"

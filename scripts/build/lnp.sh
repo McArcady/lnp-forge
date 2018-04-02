@@ -4,7 +4,7 @@ get_lnp_description() {
 	echo "LazyNewbPack interface v${CT_LNP_VERSION}"
 }
 get_lnp_credits() {
-	echo ""
+	echo "Michael Madsen"
 }
 get_lnp_url() {
 	echo "https://bitbucket.org/Pidgeot/python-lnp"
