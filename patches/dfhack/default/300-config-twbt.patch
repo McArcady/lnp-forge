@@ -1,9 +1,9 @@
---- a/dfhack.init-example	2016-04-16 22:21:33.448883349 +0200
-+++ b/dfhack.init-example	2016-04-16 22:21:22.352644838 +0200
-@@ -248,3 +248,14 @@
- #######################################################
- # Apply binary patches at runtime                     #
- #######################################################
+--- a/dfhack.init-example	2018-07-12 21:59:04.643606075 +0200
++++ b/dfhack.init-example	2018-07-12 21:59:51.332312720 +0200
+@@ -284,3 +284,14 @@
+ 
+ # Run commands in this file when a world loads
+ sc-script add SC_WORLD_LOADED onLoad.init-example
 +
 +
 +#######################################################
