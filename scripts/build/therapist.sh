@@ -46,7 +46,7 @@ do_therapist_build() {
 	CT_DoExecLog ALL rm -f "${script}"
 	echo "#!/bin/sh" > ${script}
 	echo "cd ../../" >> ${script}
-	echo "exec bin/DwarfTherapist" >> ${script}
+	echo "exec bin/dwarftherapist" >> ${script}
 	CT_DoExecLog ALL chmod +x "${script}"
 	
 	# add description
