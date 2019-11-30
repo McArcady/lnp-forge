@@ -5,7 +5,7 @@
  ## $_DT_BINARY
  ## Set path to 'DwarfTherapist' binary
 -_DT_BINARY="`which DwarfTherapist`"
-+_DT_BINARY="$(dirname $(readlink -n -m $0))/DwarfTherapist"
- PREFIX="${_DT_BINARY%%/bin/DwarfTherapist}"
++_DT_BINARY="$(dirname $(readlink -n -m $0))/dwarftherapist"
+ PREFIX="${_DT_BINARY%%/bin/dwarftherapist}"
  
  ## $_ETC_BASE_FOLDER
