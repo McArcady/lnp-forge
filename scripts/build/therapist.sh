@@ -1,7 +1,7 @@
 # Install Dwarf-Therapist
 
 get_therapist_description() {
-	echo "DwarfTherapist v${CT_THERAPIST_VERSION}"
+	echo "DwarfTherapist ${CT_THERAPIST_VERSION}"
 }
 get_therapist_credits() {
 	echo "Clement Vuchener"
