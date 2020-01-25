@@ -1,0 +1,10 @@
+--- dfhack-0.44.12-r3/plugins/CMakeLists.txt.orig	2020-01-21 22:51:53.331627499 +0100
++++ dfhack-0.44.12-r3/plugins/CMakeLists.txt	2020-01-21 22:52:21.919900839 +0100
+@@ -176,6 +176,7 @@
+     dfhack_plugin(workflow workflow.cpp LINK_LIBRARIES lua)
+     dfhack_plugin(workNow workNow.cpp)
+     dfhack_plugin(zone zone.cpp LINK_LIBRARIES lua)
++    add_subdirectory(twbt)
+ endif()
+ 
+ # this is the skeleton plugin. If you want to make your own, make a copy and then change it

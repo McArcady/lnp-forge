@@ -1,7 +1,7 @@
 # Install DFHack plugin TextWillBeText
 
 get_twbt_description() {
-	echo "TWBT v${CT_TWBT_VERSION}"
+	echo "TWBT ${CT_TWBT_VERSION}"
 }
 get_twbt_credits() {
 	echo "Vitaly Pronkin"

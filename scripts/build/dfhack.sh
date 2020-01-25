@@ -47,8 +47,12 @@ do_dfhack_build() {
 	fi
 	
 	CT_Pushd "${dfhack_src_dir}/build"
-    CT_DoExecLog ALL cmake .. -DCMAKE_BUILD_TYPE:string=Release -DCMAKE_INSTALL_PREFIX=${df_dir} ${extra_args}
-	CT_DoExecLog ALL make ${JOBSFLAGS} install
+    CT_DoExecLog ALL cmake .. -G Ninja -DCMAKE_BUILD_TYPE:string=Release -DCMAKE_INSTALL_PREFIX=${df_dir} ${extra_args}
+	# patch git-related constants
+	echo "#define DFHACK_BUILD_ID \"\"" >> ../library/include/git-describe.h
+	echo "#define DFHACK_GIT_TAGGED"    >> ../library/include/git-describe.h
+	echo "#define DFHACK_GIT_XML_MATCH" >> ../library/include/git-describe.h
+	CT_DoExecLog ALL ninja -j5 install
 	CT_DoExecLog ALL rm -f "${df_dir}/libs/libstdc++.so.6"
  	CT_Popd
 }

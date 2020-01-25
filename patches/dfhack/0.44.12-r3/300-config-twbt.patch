@@ -1,0 +1,17 @@
+--- a/dfhack.init-example	2018-07-12 21:59:04.643606075 +0200
++++ b/dfhack.init-example	2018-07-12 21:59:51.332312720 +0200
+@@ -284,3 +284,14 @@
+ 
+ # Run commands in this file when a world loads
+ sc-script add SC_WORLD_LOADED onLoad.init-example
++
++
++#######################################################
++# Loading TWBT Default multirender                    #
++#######################################################
++
++# Number of levels to render
++multilevel 6
++
++# making the shadow a little darker, better for a bright tileset.
++multilevel shadowcolor 0 0 0 0.5
