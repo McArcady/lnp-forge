@@ -33,7 +33,7 @@ do_therapist_build() {
 
 	CT_DoExecLog ALL mkdir -p "${dt_src_dir}/build"
 	CT_Pushd "${dt_src_dir}/build"
-    CT_DoExecLog ALL cmake -DCMAKE_INSTALL_PREFIX=${dist_dir} ..
+    CT_DoExecLog ALL cmake -DCMAKE_INSTALL_PREFIX=${dist_dir} -DBUILD_PORTABLE=ON ..
 	CT_DoExecLog ALL make ${JOBSFLAGS} install
 
 	# link to memory layouts
@@ -41,12 +41,20 @@ do_therapist_build() {
 	CT_DoExecLog ALL rm -f "memory_layouts"
 	CT_DoExecLog ALL ln -s "dwarftherapist/memory_layouts" .
 	CT_Popd
+
+	# dl experimental layout?
+	# e.g: https://raw.githubusercontent.com/cvuchener/Dwarf-Therapist/0.47.01-memory-layouts/share/memory_layouts/linux/v0.47.02_linux64.ini
+	if [ "${CT_THERAPIST_EXPERIMENTAL_LAYOUT}" ]; then
+		CT_DoGetFile "${CT_THERAPIST_EXPERIMENTAL_LAYOUT}"
+		fname=$(basename "${CT_THERAPIST_EXPERIMENTAL_LAYOUT}")
+		CT_DoExecLog ALL cp -f "${CT_TARBALLS_DIR}/${fname}" "${dt_src_dir}/share/memory_layouts/linux/"
+	fi
 	
 	# fix start script
 	CT_DoExecLog ALL rm -f "${script}"
 	echo "#!/bin/sh" > ${script}
 	echo "cd ../../" >> ${script}
-	echo "exec bin/dwarftherapist" >> ${script}
+	echo "exec bin/dwarftherapist --portable" >> ${script}
 	CT_DoExecLog ALL chmod +x "${script}"
 	
 	# add description
