@@ -17,8 +17,13 @@ get_legends_dir() {
 # Download
 do_legends_get() {
     # official package from https://github.com/robertjanetzko/LegendsBrowser/releases
+	subdir=${CT_LEGENDS_VERSION}
+	case ${CT_LEGENDS_VERSION} in *.0)
+		# strip last '.0'
+		subdir=${CT_LEGENDS_VERSION%??}
+	esac
     CT_GetFile "legendsbrowser-${CT_LEGENDS_VERSION}" ".jar" \
-               "$(get_legends_url)/releases/download/${CT_LEGENDS_VERSION}"
+               "$(get_legends_url)/releases/download/${subdir}"
 }
 
 # Extract
