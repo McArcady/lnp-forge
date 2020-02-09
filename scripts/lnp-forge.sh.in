@@ -613,7 +613,7 @@ if [ -z "${CT_RESTART}" ]; then
 fi
 
 # credits file
-credits_file="$(get_lnp_dir)/PRAISE_THE_MINERS"
+credits_file="$(get_lnp_dir)/PRAISE_THE_MODDERS"
 CT_DoExecLog DEBUG rm -f "${credits_file}"
 echo "All credits for the content of this pack are due to these creators, developers and maintainers:" > $credits_file
 
