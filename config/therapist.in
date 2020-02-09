@@ -10,7 +10,14 @@ config THERAPIST
 config THERAPIST_VERSION
 	string
 	prompt "Github revision of Dwarf-Therapist"
-	default "v39.2.0"
+	default "v41.1.2"
 	depends on THERAPIST
 	help
 	  Dwarf-Therapist revision from https://github.com/Dwarf-Therapist/Dwarf-Therapist
+
+config THERAPIST_EXPERIMENTAL_LAYOUT
+	string
+	prompt "URL for additional memory layout (Linux64 .ini file)"
+	depends on THERAPIST
+	help
+	  File will be added to the memory_layouts/ directory
