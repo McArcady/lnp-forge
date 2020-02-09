@@ -172,7 +172,7 @@ clean::
 	@$(CT_ECHO) "  CLEAN build dir"
 	$(SILENT)[ ! -d targets ] || chmod -R u+w targets
 	$(SILENT)[ ! -d .build  ] || chmod -R u+w .build
-	$(SILENT)rm -rf targets .build .build-all
+	$(SILENT)rm -rf targets .build/src .build-all
 
 PHONY += distclean
 distclean:: clean
