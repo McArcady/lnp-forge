@@ -4,7 +4,7 @@ get_graphics_description() {
 	echo "Graphics tilesets"
 }
 get_graphics_credits() {
-	echo ""
+	echo "claireanlage, fricy, jecowa, Mayday, Meph, sv-esk"
 }
 get_graphics_url() {
 	echo "https://github.com/McArcady/DFgraphics.git"

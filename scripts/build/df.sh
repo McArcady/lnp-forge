@@ -30,6 +30,9 @@ do_df_get() {
 do_df_extract() {
 	# extract in src dir
     CT_Extract "df_${CT_DF_VERSION}"
+
+	# rm provided libstdc++
+	CT_DoExecLog ALL rm -f "${CT_SRC_DIR}/df_${CT_DF_VERSION}/libs/libstdc++.so.6"
 }
 
 do_df_build() {
