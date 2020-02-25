@@ -41,7 +41,7 @@ do_therapist_build() {
 	if [ "${CT_THERAPIST_EXPERIMENTAL_LAYOUT}" ]; then
 		CT_DoGetFile "${CT_THERAPIST_EXPERIMENTAL_LAYOUT}"
 		fname=$(basename "${CT_THERAPIST_EXPERIMENTAL_LAYOUT}")
-		CT_DoExecLog ALL cp -f "${CT_TARBALLS_DIR}/${fname}" "${get_lnp_dir}/share/memory_layouts/linux/"
+		CT_DoExecLog ALL cp -f "${CT_TARBALLS_DIR}/${fname}" "${dist_dir}/share/memory_layouts/linux/"
 	fi
 	
 	# fix start script
