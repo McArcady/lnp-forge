@@ -302,7 +302,7 @@ AC_PATH_PROG([PYTHON],[python])
 if test -z "$PYTHON"; then
 	AC_MSG_ERROR([Python not found])
 fi
-AC_PYTHON_MODULE([tk], fatal)
+AC_PYTHON_MODULE([tkinter], fatal)
 
 #----------------------------------------
 # Check for Java >= 8
