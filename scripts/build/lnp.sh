@@ -7,7 +7,7 @@ get_lnp_credits() {
 	echo "Michael Madsen"
 }
 get_lnp_url() {
-	echo "https://bitbucket.org/Pidgeot/python-lnp"
+	echo "https://github.com/Pidgeot/python-lnp"
 }
 
 get_lnp_dir() {
@@ -18,7 +18,7 @@ get_lnp_dir() {
 do_lnp_get() {
     # official python-LNP
 	# https://bitbucket.org/Pidgeot/python-lnp
-	CT_GetHG "lnp" "${CT_LNP_VERSION}" \
+	CT_GetGit "lnp" "${CT_LNP_VERSION}" \
 			 "$(get_lnp_url)"
 }
 

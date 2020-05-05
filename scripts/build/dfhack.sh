@@ -54,5 +54,6 @@ do_dfhack_build() {
 	echo "#define DFHACK_GIT_XML_MATCH" >> ../library/include/git-describe.h
 	CT_DoExecLog ALL ninja -j5 install
 	CT_DoExecLog ALL rm -f "${df_dir}/libs/libstdc++.so.6"
+	CT_DoExecLog ALL cp -f "${df_dir}/dfhack.init-example" "${df_dir}/dfhack.init"
  	CT_Popd
 }

@@ -1,0 +1,57 @@
+--- a/core/terminal.py	2020-03-30 20:15:28.557439627 +0200
++++ b/core/terminal.py	2020-03-30 19:50:32.360184958 +0200
+@@ -121,7 +121,7 @@
+     def get_command_line():
+         s = subprocess.check_output(
+             ['kreadconfig', '--file', 'kdeglobals', '--group', 'General',
+-             '--key', 'TerminalApplication', '--default', 'konsole']).replace(
++             '--key', 'TerminalApplication', '--default', 'konsole']).decode().replace(
+                  '\n', '')
+         return ['nohup', s, '-e']
+ 
+@@ -159,11 +159,11 @@
+             term = subprocess.check_output([
+                 'gsettings', 'get',
+                 'org.gnome.desktop.default-applications.terminal', 'exec'
+-            ]).replace('\n', '').replace("'", '')
++            ]).decode().replace('\n', '').replace("'", '')
+             term_arg = subprocess.check_output([
+                 'gsettings', 'get',
+                 'org.gnome.desktop.default-applications.terminal', 'exec-arg'
+-            ]).replace('\n', '').replace("'", '')
++            ]).decode().replace('\n', '').replace("'", '')
+             return ['nohup', term, term_arg]
+         except: #fallback to older gconf
+             pass
+@@ -171,11 +171,11 @@
+             term = subprocess.check_output([
+                 'gconftool-2', '--get',
+                 '/desktop/gnome/applications/terminal/exec'
+-            ]).replace('\n', '')
++            ]).decode().replace('\n', '')
+             term_arg = subprocess.check_output([
+                 'gconftool-2', '--get',
+                 '/desktop/gnome/applications/terminal/exec_arg'
+-            ]).replace('\n', '')
++            ]).decode().replace('\n', '')
+             return ['nohup', term, term_arg]
+         except:
+             raise Exception("Unable to determine terminal command.")
+@@ -188,7 +188,7 @@
+     def detect():
+         try:
+             s = subprocess.check_output(
+-                ['ps', '-eo', 'comm='], stderr=subprocess.STDOUT)
++                ['ps', '-eo', 'comm='], stderr=subprocess.STDOUT).decode()
+             return 'xfce' in s
+         except:
+             return False
+@@ -364,7 +364,7 @@
+     while True:
+         try:
+             with open(fn, 'w+b') as f:
+-                f.write(str(value))
++                f.write(str(value).encode())
+             return
+         except IOError:
+             pass

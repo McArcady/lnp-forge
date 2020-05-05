@@ -13,3 +13,5 @@ paths.*
 config/configure.in
 x-tools
 .config.*
+*.bz2
+
