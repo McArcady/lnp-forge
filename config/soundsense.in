@@ -3,7 +3,7 @@
 config SOUNDSENSE
 	bool
 	prompt "Include SoundSense"
-	default y
+	default n
 	help
 	  Select this to include SoundSense.
 
