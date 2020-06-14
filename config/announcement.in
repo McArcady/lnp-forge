@@ -1,0 +1,16 @@
+# ANNOUNCEMENT options
+
+config ANNOUNCEMENT
+	bool
+	prompt "Include Announcement Window"
+	default y
+	help
+	  Select this to include Announcement Window.
+
+config ANNOUNCEMENT_VERSION
+	string
+	prompt "Github revision of Announcement Window"
+    default "1.3.0"
+	depends on ANNOUNCEMENT
+	help
+	  Release version from https://github.com/BrachystochroneSD/AnnouncementWindow.

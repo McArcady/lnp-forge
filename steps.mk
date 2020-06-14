@@ -33,6 +33,7 @@ CT_STEPS := lnp			\
 			therapist	\
 			soundsense	\
 			legends		\
+			announcement\
 			finish		
 
 # Keep an empty line above this comment, so the last
