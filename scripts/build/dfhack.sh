@@ -4,7 +4,7 @@ get_dfhack_description() {
 	echo "DFHack v${CT_DFHACK_VERSION}"
 }
 get_dfhack_credits() {
-	echo "lethosor, JapaMala, BenLubar"
+	echo "lethosor, JapaMala, BenLubar, PatrikLundell"
 }
 get_dfhack_url() {
 	echo "https://github.com/DFHack/dfhack.git"
@@ -41,9 +41,9 @@ do_dfhack_build() {
 
 	# 64-bit compile?
 	if [ "${CT_DFHACK_VERSION}" \> "0.43.05" ]; then
-		extra_args=" -DDFHACK_BUILD_ARCH=64"
+		extra_args=" -DDFHACK_BUILD_ARCH=64 -DBUILD_STONESENSE=1 -DBUILD_ISOWORLD=0"
 	else
-		extra_args=" -DBUILD_STONESENSE=1"
+		extra_args=" -DBUILD_STONESENSE=1 -DBUILD_ISOWORLD=0"
 	fi
 	
 	CT_Pushd "${dfhack_src_dir}/build"
