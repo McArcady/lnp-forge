@@ -42,10 +42,6 @@ do_announcement_build() {
 	echo "cd ../../announcement" >> ${script}
 	echo "exec python run.py" >> ${script}
 	CT_DoExecLog ALL chmod +x "${script}"
-
-	# conf file
-	# TODO: set location of gamelog.txt in Settings (sed -i)
-#	echo "root=df_${CT_DF_VERSION}" > "$(get_lnp_dir)/legendsbrowser.properties"
 	
 	# add description
 	echo "[AnnouncementWindow.sh:Announcement Window:Announcement filter]" >> ${dist_dir}/utilities.txt
