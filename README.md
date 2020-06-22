@@ -4,9 +4,9 @@ Yet another DF LazyNewbPack builder for Linux/MacOS.
 ### Usage:
 `./configure --prefix=$PWD && make install`  
 -> configures the tool for your system and install in local directory (`./bin/`)  
-`bin/lnp-forge menuconfig`  
+`./bin/lnp-forge menuconfig`  
 -> change DF version and other stuff (optional)  
-`bin/lnp-forge build`  
+`./bin/lnp-forge build`  
 -> downloads and builds components of your LazyNewbPack  
 
 The pack is ready to use in: `.build/src/lnp-x.xx` (and can be moved elsewhere)
