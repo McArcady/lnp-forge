@@ -1,0 +1,21 @@
+name: Build
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: sudo apt-get install ninja-build qt5-qmake qttools5-dev-tools qt5-default libqt5svg5-dev qt5-image-formats-plugins qtbase5-dev qtdeclarative5-dev
+    - run: ./configure --prefix=$PWD && make install
+    - run: ./bin/lnp-forge build
+    - run: tar -cvzf pack.tar.gz -C .build/src/lnp-0.14/ .
+    - uses: actions/upload-artifact@v2
+      with:
+        name: package
+        path: pack.tar.gz
