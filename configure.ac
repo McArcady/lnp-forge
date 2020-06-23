@@ -298,7 +298,7 @@ AX_PROG_TCL([8.0])
 
 #----------------------------------------
 # Check for Python and module python-tk
-AC_PATH_PROG([PYTHON],[python])
+AC_PATH_PROG([PYTHON],[python3])
 if test -z "$PYTHON"; then
 	AC_MSG_ERROR([Python not found])
 fi
