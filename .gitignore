@@ -14,4 +14,5 @@ config/configure.in
 x-tools
 .config.*
 *.bz2
-
+lazy-newb-pack-*.src.rpm
+x86_64/*.rpm
