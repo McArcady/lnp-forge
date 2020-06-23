@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Install dependencies
-      run: sudo apt-get install ninja-build qt5-qmake qttools5-dev-tools qt5-default libqt5svg5-dev qt5-image-formats-plugins qtbase5-dev qtdeclarative5-dev gperf bison
+      run: sudo apt-get install libxml-libxml-perl libxml-xslt-perl libxml-filter-xslt-perl mercurial help2man git openjdk-8-jre python python-tk libncurses5-dev zlib1g-dev lib32z1-dev mesa-common-dev gcc-multilib g++-multilib cmake dos2unix tcl autoconf gperf bison flex gawk libtool libsdl-dev libsdl-image1.2 libsdl-ttf2.0-0 texinfo ninja-build qt5-qmake qttools5-dev-tools qt5-default libqt5svg5-dev qt5-image-formats-plugins qtbase5-dev qtdeclarative5-dev 
     - run: ./configure --prefix=$PWD && make install
     - run: ./bin/lnp-forge build
     - run: tar -cvzf pack.tar.gz -C .build/src/lnp-0.14/ .
