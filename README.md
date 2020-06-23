@@ -11,6 +11,13 @@ Yet another DF LazyNewbPack builder for Linux/MacOS.
 
 The pack is ready to use in: `.build/src/lnp-x.xx` (and can be moved elsewhere)
 
+Optionally, you can also build an rpm package for Fedora by running:
+```bash
+fedpkg --release f32 local # Replace f32 for the version of fedora for which you want to build the pack
+```
+
+After building it, the binary rpm package can be found in `x86_64/lazy-newb-pack-*.*.x86_64.rpm`.
+
 ### Features:
 Components of the pack are downloaded and built from their original repository. No prebuilt binaries from Armok knows where!  
 Does include:  
