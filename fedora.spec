@@ -10,8 +10,8 @@ License:        Multiple
 URL:            https://github.com/McArcady/lnp-forge
 BuildArch:      x86_64
 
-BuildRequires:  gperf, qt5-qtbase-devel, ninja-build, qt5-qtdeclarative-devel, perl-IO-Compress, perl, perl-XML-LibXML, perl-XML-LibXSLT, mercurial, git, cmake, gcc-c++, zlib-devel, mesa-libGL-devel, ncurses-devel, gtk2-devel, dos2unix, texinfo, help2man
-Requires:       SDL, SDL_image, SDL_ttf, openal-soft, alsa-lib, alsa-plugins-pulseaudio, mesa-dri-drivers, python, gnome-terminal, java-1.8.0-openjdk, python3-tkinter, qt5-qttools
+BuildRequires:  gperf, qt5-qtbase-devel, ninja-build, qt5-qtdeclarative-devel, perl-IO-Compress, perl, perl-XML-LibXML, perl-XML-LibXSLT, mercurial, git, cmake, gcc-c++, zlib-devel, mesa-libGL-devel, ncurses-devel, dos2unix, texinfo, help2man
+Requires:       SDL, SDL_image, SDL_ttf, gtk2-devel, openal-soft, alsa-lib, alsa-plugins-pulseaudio, mesa-dri-drivers, python, gnome-terminal, java-1.8.0-openjdk, python3-tkinter, qt5-qttools
 
 %description
 A ready-to-go rpm package of McArcady's Lazy Newb Pack for Dwarf Fortress
