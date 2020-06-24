@@ -1,7 +1,7 @@
-# Prevent failure of rpmbuild when mangling shebangs (not entirely sure why the script fails but I believe it's linked to some packaged files having spaces in their filenames, there's an unfixed filezilla bug on that)
+# Prevent failure of rpmbuild when mangling shebangs (I believe this is caused by https://bugzilla.redhat.com/show_bug.cgi?id=1541318, marked WONTFIX)
 %undefine __brp_mangle_shebangs
 
-Name:           lazy-newb-pack
+Name:           linux-dwarf-pack
 Version:        0.1
 Release:        1%{?dist}
 Summary:        McArcady's Lazy Newb Pack for Dwarf Fortress
@@ -10,8 +10,8 @@ License:        Multiple
 URL:            https://github.com/McArcady/lnp-forge
 BuildArch:      x86_64
 
-BuildRequires:  gperf, qt5-qtbase-devel, ninja-build, qt5-qtdeclarative-devel
-Requires:       SDL, SDL_image, SDL_ttf, gtk2-devel, openal-soft, alsa-lib, alsa-plugins-pulseaudio, mesa-dri-drivers, python, gnome-terminal, perl, perl-XML-LibXML, perl-XML-LibXSLT, mercurial, help2man, git, java-1.8.0-openjdk, python3-tkinter, ncurses-devel, zlib-devel, mesa-libGL-devel, gcc-c++, qt5-qttools, cmake, dos2unix, texinfo
+BuildRequires:  gperf, qt5-qtbase-devel, ninja-build, qt5-qtdeclarative-devel, perl-IO-Compress, perl, perl-XML-LibXML, perl-XML-LibXSLT, mercurial, git, cmake, gcc-c++, zlib-devel, mesa-libGL-devel, ncurses-devel, gtk2-devel, dos2unix, texinfo, help2man
+Requires:       SDL, SDL_image, SDL_ttf, openal-soft, alsa-lib, alsa-plugins-pulseaudio, mesa-dri-drivers, python, gnome-terminal, java-1.8.0-openjdk, python3-tkinter, qt5-qttools
 
 %description
 A ready-to-go rpm package of McArcady's Lazy Newb Pack for Dwarf Fortress
