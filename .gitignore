@@ -14,4 +14,6 @@ config/configure.in
 x-tools
 .config.*
 *.bz2
-
+*.src.rpm
+x86_64/*.rpm
+.build-*.fc??.log
