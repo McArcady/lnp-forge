@@ -19,7 +19,8 @@ A ready-to-go rpm package of McArcady's Lazy Newb Pack for Dwarf Fortress
 %build
 ./configure --prefix=$PWD && make install
 ./bin/lnp-forge build
-cat > ./.build/src/lnp-0.14/PyLNP.user <<EOF
+LNP_VERSION=$(source .config | echo $CT_LNP_VERSION)
+cat > ./.build/src/lnp-${LNP_VERSION}/PyLNP.user <<EOF
 {
   "updateDays": 0, 
   "terminal": "nohup gnome-terminal -x", 
@@ -31,7 +32,7 @@ EOF
 
 %install
 mkdir -p %{buildroot}/%{_datadir}
-cp -r ./.build/src/lnp-0.14 %{buildroot}/%{_datadir}/%{name}
+cp -r ./.build/src/lnp-${LNP_VERSION} %{buildroot}/%{_datadir}/%{name}
 # This could be applied more selectively but, at the moment, it works
 chmod -R 777 %{buildroot}/%{_datadir}/%{name}
 # See https://lists.fedoraproject.org/pipermail/packaging/2012-December/008792.html
