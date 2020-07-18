@@ -9,6 +9,9 @@ get_embark_credits() {
 get_embark_url() {
 	echo "https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core"
 }
+get_embark_license() {
+	echo -n
+}
 
 get_embark_dir() {
 	echo "$(get_lnp_dir)/LNP/Embarks"

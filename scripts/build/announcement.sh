@@ -9,6 +9,9 @@ get_announcement_credits() {
 get_announcement_url() {
 	echo "https://github.com/BrachystochroneSD/AnnouncementWindow"
 }
+get_announcement_license() {
+	echo -n
+}
 
 get_announcement_dir() {
 	echo "$(get_lnp_dir)/AnnouncementWindow"

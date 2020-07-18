@@ -9,6 +9,9 @@ get_soundsense_credits() {
 get_soundsense_url() {
 	echo "http://df.zweistein.cz/soundsense"
 }
+get_soundsense_license() {
+	echo "GNU GPL v3"
+}
 
 get_soundsense_dir() {
 	echo "$(get_df_dir)/soundsense"

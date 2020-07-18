@@ -9,6 +9,9 @@ get_legends_credits() {
 get_legends_url() {
 	echo "https://github.com/robertjanetzko/LegendsBrowser"
 }
+get_legends_license() {
+	echo "Copyright (c) 2015 Robert Janetzko - MIT License"
+}
 
 get_legends_dir() {
 	echo "$(get_lnp_dir)"

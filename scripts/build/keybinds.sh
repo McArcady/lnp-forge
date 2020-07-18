@@ -9,6 +9,9 @@ get_keybinds_credits() {
 get_keybinds_url() {
 	echo "https://raw.githubusercontent.com/Lazy-Newb-Pack/LNP-shared-core"
 }
+get_keybinds_license() {
+	echo -n
+}
 
 get_keybinds_dir() {
 	echo "$(get_lnp_dir)/LNP/Keybinds"

@@ -9,6 +9,9 @@ get_graphics_credits() {
 get_graphics_url() {
 	echo "https://github.com/McArcady/DFgraphics.git"
 }
+get_graphics_license() {
+	echo -n
+}
 
 get_graphics_dir() {
 	echo "$(get_lnp_dir)/LNP/Graphics"

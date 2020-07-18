@@ -9,6 +9,9 @@ get_lnp_credits() {
 get_lnp_url() {
 	echo "https://github.com/Pidgeot/python-lnp"
 }
+get_lnp_license() {
+	echo "Copyright (c) 2014, Michael Madsen <michael@birdiesoft.dk> - ISC License"
+}
 
 get_lnp_dir() {
 	echo "${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}"

@@ -9,6 +9,9 @@ get_therapist_credits() {
 get_therapist_url() {
 	echo "https://github.com/Dwarf-Therapist/Dwarf-Therapist"
 }
+get_therapist_license() {
+	echo "Copyright (c) 2009,2010 Trey Stout (chmod)"
+}
 
 # Download
 do_therapist_get() {

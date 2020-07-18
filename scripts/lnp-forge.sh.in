@@ -623,7 +623,8 @@ if [ "${CT_ONLY_DOWNLOAD}" != "y" -a "${CT_ONLY_EXTRACT}" != "y" ]; then
 	CT_DoStep INFO "Building components"
 	for step in ${CT_STEPS}; do
 		var=CT_$(echo ${step} | tr 'a-z' 'A-Z')
-		eval val=\$"$var"
+		eval val=\$$var
+		CT_DoLog DEBUG "\$$var=$val"
 		eval ver=\$"${var}_VERSION"
 		if [ "${val}" = "y" ]; then
 			CT_DoStep INFO "Building ${step}-${ver}"
@@ -632,11 +633,15 @@ if [ "${CT_ONLY_DOWNLOAD}" != "y" -a "${CT_ONLY_EXTRACT}" != "y" ]; then
 			CT_DoStep INFO "Credits for ${step}-${ver}"
 			descr=$(get_${step}_description)
 			authors=$(get_${step}_credits)
+			license=$(get_${step}_license)
 			if [ "$authors" != "" ]; then
 				authors=" by $authors"
 			fi
+			if [ "$license" != "" ]; then
+ 				license="$license\n"
+ 			fi
 			url=$(get_${step}_url)
-			echo "$descr$authors - $url" >> $credits_file
+			printf "\n$descr$authors\n$license$url\n" >> $credits_file
 			CT_EndStep
 		fi
 	done

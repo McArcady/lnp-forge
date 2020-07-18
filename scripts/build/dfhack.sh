@@ -9,6 +9,9 @@ get_dfhack_credits() {
 get_dfhack_url() {
 	echo "https://github.com/DFHack/dfhack.git"
 }
+get_dfhack_license() {
+	echo "distributed under the Zlib license, with some MIT- and BSD-licensed components"
+}
 
 # Download
 do_dfhack_get() {

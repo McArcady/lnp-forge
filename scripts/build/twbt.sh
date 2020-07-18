@@ -4,11 +4,14 @@ get_twbt_description() {
 	echo "TWBT ${CT_TWBT_VERSION}"
 }
 get_twbt_credits() {
-	echo "Vitaly Pronkini, nshcat, indivisible, thurin"
+	echo "Vitaly Pronkin, nshcat, indivisible, thurin"
 }
 get_twbt_url() {
 #	echo "https://github.com/mifki/df-twbt.git"
 	echo "https://github.com/thurin/df-twbt.git"
+}
+get_twbt_license() {
+	echo -n
 }
 
 # Download
