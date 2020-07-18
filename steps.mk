@@ -19,8 +19,6 @@ help-env::
 # ----------------------------------------------------------
 # The steps list
 
-# The _for_build steps are noop for native and cross,
-# but are actual steps for canadian and cross-native.
 # Please keep the last line with a '\' and keep the following empy line:
 # it helps when diffing and merging.
 CT_STEPS := lnp			\
@@ -34,7 +32,8 @@ CT_STEPS := lnp			\
 			soundsense	\
 			legends		\
 			announcement\
-			finish		
+			appimage    \
+			finish		\
 
 # Keep an empty line above this comment, so the last
 # back-slash terminated line works as expected.

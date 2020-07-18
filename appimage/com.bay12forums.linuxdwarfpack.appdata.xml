@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>com.bay12forums.linuxdwarfpack</id>
+  <metadata_license>FSFAP</metadata_license>
+  <name>LinuxDwarfPack</name>
+  <summary>A Linux starter pack for Dwarf Fortress</summary>
+
+  <description>
+    <p>A simple ready-to-go Dwarf Fortress starter pack for Linux.</p>
+    <p>Includes:</p>
+	<ul>
+	  <li>DwarfFortress with DFHack and TWBT</li>
+	  <li>full graphic tilesets</li>
+	  <li>various keybinds and embark profiles</li>
+	  <li>Dwarf Therapist</li>
+	  <li>Legends Browser</li>
+	  <li>Announcement Window</li>
+	</ul>
+	<p>Licensing information: %LICENSE%</p>
+  </description>
+
+  <launchable type="desktop-id">com.bay12forums.linuxdwarfpack.desktop</launchable>
+
+  <screenshots>
+    <screenshot type="default">
+      <caption>Dwarf Fortress</caption>
+      <image>https://bay12games.com/dwarves/screens/dwf5.png</image>
+    </screenshot>
+  </screenshots>
+
+  <url type="homepage">http://www.bay12forums.com/smf/index.php?topic=157712</url>
+
+  <releases>
+    <release version="%VERSION%" date="%DATE%">
+    </release>
+  </releases>
+</component>

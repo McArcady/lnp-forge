@@ -1,0 +1,6 @@
+# Appimage
+
+config APPIMAGE
+    prompt "Configure for AppImage packaging"
+	bool
+	default n
