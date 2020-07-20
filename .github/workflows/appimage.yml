@@ -18,5 +18,5 @@ jobs:
     - run: ./bin/lnp-forge build
     - uses: actions/upload-artifact@v2
       with:
-        name: "LinuxDwarfPack-"${{ github.sha }}"-x86_64.AppImage"
-        path: "LinuxDwarfPack-"$(./version.sh)"-x86_64.AppImage"
+        name: LinuxDwarfPack-${{ github.sha }}-x86_64.AppImage
+        path: LinuxDwarfPack-*-x86_64.AppImage

@@ -15,9 +15,9 @@ jobs:
         sudo apt-get install libxml-libxml-perl libxml-xslt-perl libxml-filter-xslt-perl mercurial help2man git openjdk-8-jre libncurses5-dev zlib1g-dev lib32z1-dev mesa-common-dev gcc-multilib g++-multilib cmake dos2unix tcl autoconf gperf bison flex gawk libtool libsdl-dev libsdl-image1.2 libsdl-ttf2.0-0 texinfo ninja-build qt5-qmake qttools5-dev-tools qt5-default libqt5svg5-dev qt5-image-formats-plugins qtbase5-dev qtdeclarative5-dev python3-tk
     - run: ./configure --prefix=$PWD && make install
     - run: ./bin/lnp-forge build
-    - id: versions
-      run: echo "::set-output name=LNP_VERSION::$(source .config | echo $CT_LNP_VERSION)"
+    - id: version
+      run: echo "::set-output name=lnp_version::$(source .config | echo $CT_LNP_VERSION)"
     - uses: actions/upload-artifact@v2
       with:
         name: linux-dwarf-pack-${{ github.sha }}
-        path: ".build/src/lnp-${{ steps.versions.outputs.LNP_VERSION }}/"
+        path: ".build/src/lnp-${{ steps.version.outputs.lnp_version }}/"
