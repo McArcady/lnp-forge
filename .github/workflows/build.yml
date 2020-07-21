@@ -1,4 +1,4 @@
-name: Build
+name: Build LinuxDwarfPack package
 
 on:
   push:
@@ -6,18 +6,39 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-16.04
     steps:
-    - uses: actions/checkout@v2
+    - env:
+        PKG_NAME: LinuxDwarfPack-${{ github.sha }}
+    
     - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get install libxml-libxml-perl libxml-xslt-perl libxml-filter-xslt-perl mercurial help2man git openjdk-8-jre libncurses5-dev zlib1g-dev lib32z1-dev mesa-common-dev gcc-multilib g++-multilib cmake dos2unix tcl autoconf gperf bison flex gawk libtool libsdl-dev libsdl-image1.2 libsdl-ttf2.0-0 texinfo ninja-build qt5-qmake qttools5-dev-tools qt5-default libqt5svg5-dev qt5-image-formats-plugins qtbase5-dev qtdeclarative5-dev python3-tk
-    - run: ./configure --prefix=$PWD && make install
-    - run: ./bin/lnp-forge build
-    - id: version
-      run: echo "::set-output name=lnp_version::$(source .config | echo $CT_LNP_VERSION)"
-    - uses: actions/upload-artifact@v2
+
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build
+      run: |
+        autoconf && ./configure --prefix=$PWD && make install
+        ./bin/lnp-forge build
+    - name: Package
+      run: |
+        source .config && mv .build/src/lnp-${CT_LNP_VERSION} ${{ steps.env.PKG_NAME }}
+        tar cjf ${{ steps.env.PKG_NAME }}.tbz2 ${{ steps.env.PKG_NAME }}
+    
+    - name: Upload package
+      uses: actions/upload-artifact@v2
       with:
-        name: linux-dwarf-pack-${{ github.sha }}
-        path: ".build/src/lnp-${{ steps.version.outputs.lnp_version }}/"
+        path: ${{ steps.env.PKG_NAME }}.tbz2
+
+    - name: Build AppImage
+    - run: |
+        echo "CT_APPIMAGE=y" >> .config
+        ./bin/lnp-forge clean build
+
+    - name: Upload AppImage
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ steps.env.PKG_NAME }}.AppImage
+        path: LinuxDwarfPack-*-x86_64.AppImage
