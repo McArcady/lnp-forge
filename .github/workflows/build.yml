@@ -7,9 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-16.04
+    env:
+      PKG_NAME: LinuxDwarfPack-${{ github.sha }}
     steps:
-    - env:
-        PKG_NAME: LinuxDwarfPack-${{ github.sha }}
     
     - name: Install dependencies
       run: |
@@ -24,21 +24,22 @@ jobs:
         ./bin/lnp-forge build
     - name: Package
       run: |
-        source .config && mv .build/src/lnp-${CT_LNP_VERSION} ${{ steps.env.PKG_NAME }}
-        tar cjf ${{ steps.env.PKG_NAME }}.tbz2 ${{ steps.env.PKG_NAME }}
+        source .config && mv .build/src/lnp-${CT_LNP_VERSION} ${{ env.PKG_NAME }}
+        tar cjf ${{ env.PKG_NAME }}.tbz2 ${{ env.PKG_NAME }}
     
     - name: Upload package
       uses: actions/upload-artifact@v2
       with:
-        path: ${{ steps.env.PKG_NAME }}.tbz2
+        name: ${{ env.PKG_NAME }}.tbz2
+        path: ${{ env.PKG_NAME }}.tbz2
 
     - name: Build AppImage
-    - run: |
+      run: |
         echo "CT_APPIMAGE=y" >> .config
         ./bin/lnp-forge clean build
 
     - name: Upload AppImage
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ steps.env.PKG_NAME }}.AppImage
+        name: ${{ env.PKG_NAME }}.AppImage
         path: LinuxDwarfPack-*-x86_64.AppImage
