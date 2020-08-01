@@ -27,7 +27,7 @@ do_keybinds_get() {
 	fi
 	url="$(get_keybinds_url)/master/keybinds/"
     # Keybinds set from Github repo 'Lazy-Newb-Pack/LNP-shared-core'
-	for kb in Classic_LNP New_LNP PeridexisErrant; do
+    for kb in 'Laptop (no numpad)' 'AZERTY keyboard' 'Laptop with mouse'; do
 		CT_GetFile ${kb} ".txt" ${url}
 	done
 	url="https://raw.githubusercontent.com/McArcady/LNP-shared-core/master/keybinds/"
@@ -46,7 +46,7 @@ do_keybinds_extract() {
 # Build
 do_keybinds_build() {
 	# copy to dir LNP/Keybinds
-	for kb in Classic_LNP New_LNP PeridexisErrant Keyboard_FR; do
+	for kb in 'Laptop (no numpad)' 'AZERTY keyboard' 'Laptop with mouse' Keyboard_FR; do
 		CT_DoExecLog ALL cp -f "${CT_TARBALLS_DIR}/${kb}.txt" "$(get_keybinds_dir)/"
 	done
 	# backup vanilla keybinds
