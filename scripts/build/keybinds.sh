@@ -28,7 +28,7 @@ do_keybinds_get() {
 	url="$(get_keybinds_url)/master/keybinds/"
     # Keybinds set from Github repo 'Lazy-Newb-Pack/LNP-shared-core'
     for kb in 'Laptop (no numpad)' 'AZERTY keyboard' 'Laptop with mouse'; do
-		CT_GetFile ${kb} ".txt" ${url}
+		CT_GetFile "${kb}" ".txt" ${url}
 	done
 	url="https://raw.githubusercontent.com/McArcady/LNP-shared-core/master/keybinds/"
     # McArcady Keybinds
