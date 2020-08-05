@@ -18,9 +18,9 @@ echo "- created with lnp-forge: https://github.com/McArcady/lnp-forge"
 echo
 
 echo "Creating overlay of ${USER_DIR} and ${APPDIR} in ${ROOT_DIR}..."
-UID=$(id -u)
-GID=$(id -g)
-mkdir -p ${ROOT_DIR} ${USER_DIR} && unionfs -o cow,uid=${UID},gid=${GID} ${USER_DIR}=RW:${APPDIR} ${ROOT_DIR}
+myUID=$(id -u)
+myGID=$(id -g)
+mkdir -p ${ROOT_DIR} ${USER_DIR} && unionfs -o cow,uid=${myUID},gid=${myGID} ${USER_DIR}=RW:${APPDIR} ${ROOT_DIR}
 
 cd ${ROOT_DIR}
 ./startlnp.sh
