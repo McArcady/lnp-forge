@@ -1,0 +1,17 @@
+# LNP shared components
+
+config SHARED
+	prompt "Include LNP shared components"
+	bool
+	default y
+	help
+	  Select this to include LNP colors, embarks profiles, keybindings ...
+
+config SHARED_VERSION
+	prompt "Github revision of shared components"
+	string
+    default "master"
+	depends on SHARED
+	help
+	  Github revision of the shared components from https://github.com/Lazy-Newb-Pack/LNP-shared-core
+
