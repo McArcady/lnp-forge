@@ -24,6 +24,12 @@ jobs:
       run: |
         autoconf && ./configure --prefix=$PWD && make install
         ./bin/lnp-forge build
+    - name: Upload build log
+      uses: actions/upload-artifact@v2
+      with:
+        path: build.log
+      if: ${{ failure() }}
+
     - name: Package
       run: |
         source .config && mv .build/src/lnp-${CT_LNP_VERSION} ${{ env.PKG_NAME }}
@@ -39,6 +45,11 @@ jobs:
       run: |
         echo "CT_APPIMAGE=y" >> .config
         ./bin/lnp-forge clean build
+    - name: Upload build log
+      uses: actions/upload-artifact@v2
+      with:
+        path: build.log
+      if: ${{ failure() }}
 
     - name: Upload AppImage
       uses: actions/upload-artifact@v2
