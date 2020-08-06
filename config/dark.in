@@ -1,0 +1,20 @@
+# DARK options
+
+config DARK
+	bool
+	prompt "Enable Dark Ages"
+	default n
+	help
+	  Select this to enable the Dark Ages mod
+
+config DARK_VERSION
+    prompt "Dark Ages version"
+	string
+    default "4_47_04_v39"
+
+config DARK_DROPBOX_URL
+    prompt "Dark Ages Download URL"
+	string
+    default "https://www.dropbox.com/s/zvc6f34y6jiy6j9/DarkAges_4_47_04_v39.zip"
+	help
+	  The full URL to download the Dark Ages zip file

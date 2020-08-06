@@ -33,6 +33,7 @@ CT_STEPS := lnp			\
 			legends		\
 			announcement\
 			appimage    \
+			dark            \
 			finish		\
 
 # Keep an empty line above this comment, so the last
