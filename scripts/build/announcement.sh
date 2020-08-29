@@ -47,5 +47,5 @@ do_announcement_build() {
 	CT_DoExecLog ALL chmod +x "${script}"
 	
 	# add description
-	echo "[AnnouncementWindow.sh:Announcement Window:Announcement filter]" >> ${dist_dir}/utilities.txt
+	echo "[AnnouncementWindow.sh:Announcement Window:Announcement filter]" >> ${dist_dir}/LNP/Utilities/utilities.txt
 }

@@ -43,7 +43,7 @@ lnp-forge checks for the following software:
 * Qt5
 * libraries OpenAL, SDL-image & SDL-ttf
   
-Check the wiki (<https://github.com/McArcady/lnp-forge/wiki/Installing-dependencies>) for help on installing those dependencies.
+Check the wiki (<https://github.com/McArcady/lnp-forge/wiki/Installing-build-dependencies>) for help on installing those dependencies.
 
 ### Bug reports:
 Please attach the log file `build.log` to your issue report in Github.  

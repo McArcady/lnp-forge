@@ -21,20 +21,19 @@ help-env::
 
 # Please keep the last line with a '\' and keep the following empy line:
 # it helps when diffing and merging.
-CT_STEPS := lnp			\
-			df			\
-			graphics	\
-			embark		\
-			keybinds	\
-			dfhack		\
-			twbt		\
-			therapist	\
-			soundsense	\
-			legends		\
+CT_STEPS := lnp         \
+			df          \
+			graphics    \
+			shared      \
+			dfhack      \
+			twbt        \
+			therapist   \
+			soundsense  \
+			legends     \
 			announcement\
+			dark        \
 			appimage    \
-			dark            \
-			finish		\
+			finish      \
 
 # Keep an empty line above this comment, so the last
 # back-slash terminated line works as expected.
