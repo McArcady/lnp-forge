@@ -10,11 +10,13 @@ config DARK
 config DARK_VERSION
     prompt "Dark Ages version"
 	string
+	depends on DARK
     default "4_47_04_v39"
 
 config DARK_DROPBOX_URL
     prompt "Dark Ages Download URL"
 	string
+	depends on DARK
     default "https://www.dropbox.com/s/zvc6f34y6jiy6j9/DarkAges_4_47_04_v39.zip"
 	help
 	  The full URL to download the Dark Ages zip file
