@@ -31,6 +31,7 @@ CT_STEPS := lnp         \
 			soundsense  \
 			legends     \
 			announcement\
+			dark        \
 			appimage    \
 			finish      \
 
