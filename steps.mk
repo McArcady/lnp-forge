@@ -33,6 +33,7 @@ CT_STEPS := lnp         \
 			announcement\
 			dark        \
 			appimage    \
+			debian      \
 			finish      \
 
 # Keep an empty line above this comment, so the last

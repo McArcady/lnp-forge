@@ -1,0 +1,6 @@
+# Appimage
+
+config DEBIAN
+    prompt "Configure for Debian/Ubuntu packaging"
+	bool
+	default n
