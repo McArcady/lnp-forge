@@ -34,14 +34,15 @@ do_appimage_extract() {
 do_appimage_build() {	
 	# install metadata
 	lnp_dir="$(get_lnp_dir)"
+	icon_dir="/usr/share/icons/hicolor/256x256/apps"
 	prefix="com.bay12forums.linuxdwarfpack"
 	CT_DoExecLog ALL mkdir -p ${lnp_dir}/usr/share/metainfo
 	CT_DoExecLog ALL cp appimage/${prefix}.appdata.xml ${lnp_dir}/usr/share/metainfo/
 	CT_DoExecLog ALL mkdir -p ${lnp_dir}/usr/share/applications
 	CT_DoExecLog ALL cp appimage/${prefix}.desktop  ${lnp_dir}/usr/share/applications/
-	CT_DoExecLog ALL mkdir -p ${lnp_dir}/usr/share/icons/hicolor/256x256
-	CT_DoExecLog ALL cp appimage/LinuxDwarfPack.png ${lnp_dir}/usr/share/icons/hicolor/256x256/
-	CT_DoExecLog ALL cp appimage/start_appimage.sh ${lnp_dir}/
+	CT_DoExecLog ALL mkdir -p ${lnp_dir}${icon_dir}
+	CT_DoExecLog ALL cp appimage/linux-dwarf-pack.png ${lnp_dir}${icon_dir}/
+	CT_DoExecLog ALL cp appimage/linux-dwarf-pack.sh ${lnp_dir}/
 
 	# fix appdata
 	all_licenses=""
@@ -62,8 +63,20 @@ do_appimage_build() {
 	# escaping for regex replacement
 	all_licenses=$(echo "${all_licenses}" | sed 's/&/\\\&/g;')
 	echo $all_licenses
-	CT_DoExecLog ALL sed -i -e 's|%VERSION%|'"${CT_VERSION}"'|g' -e 's|%DATE%|'"${dat}"'|g' -e 's|%LICENSE%|'"${all_licenses}"'|g' ${lnp_dir}/usr/share/metainfo/${prefix}.appdata.xml
+	CT_DoExecLog ALL sed -i -e 's|%VERSION%|'"${CT_VERSION}"'|g'   \
+				 -e 's|%DATE%|'"${dat}"'|g'                        \
+				 -e 's|%LICENSE%|'"${all_licenses}"'|g'            \
+				 ${lnp_dir}/usr/share/metainfo/${prefix}.appdata.xml
+	CT_DoExecLog ALL sed -i                                        \
+				 -e 's|%EXEC%|'"linux-dwarf-pack.sh"'|g'           \
+				 -e 's|%ICON%|'"linux-dwarf-pack"'|g'              \
+				 ${lnp_dir}/usr/share/applications/${prefix}.desktop
 
 	# generate AppImage
-	CT_DoExecLog ALL ARCH=x86_64 VERSION=${CT_VERSION} ${CT_TARBALLS_DIR}/linuxdeploy-x86_64.AppImage --output appimage --appdir ${lnp_dir} --custom-apprun ${lnp_dir}/start_appimage.sh
+	CT_DoExecLog ALL ARCH=x86_64 VERSION=${CT_VERSION} ${CT_TARBALLS_DIR}/linuxdeploy-x86_64.AppImage \
+				 --output appimage                                \
+				 --appdir ${lnp_dir}                              \
+				 --custom-apprun ${lnp_dir}/linux-dwarf-pack.sh   \
+				 --icon-file=${lnp_dir}${icon_dir}/linux-dwarf-pack.png      \
+				 --desktop-file=${lnp_dir}/usr/share/applications/${prefix}.desktop
 }

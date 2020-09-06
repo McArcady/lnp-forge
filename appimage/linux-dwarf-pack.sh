@@ -1,7 +1,7 @@
 #!/bin/sh
 ROOT_DIR=$(mktemp -d -t lnp-XXXXXX)
 USER_DIR=~/.lnp/
-
+	  
 callTerm() {
   fusermount -zu ${ROOT_DIR}
   echo "${ROOT_DIR} unmounted."
@@ -10,13 +10,17 @@ callTerm() {
 }
 trap callTerm TERM INT
 
-if [ -z "${APPIMAGE}" ] || [ -z "${APPDIR}" ]; then
-  echo "env APPIMAGE or APPDIR is undefined!"
-  echo "This script is intended to be run from an AppImage."
-  exit 1
+if [ -z "${APPDIR}" ]; then
+	APPDIR="/opt/linux-dwarf-pack"
 fi
+if [ -z "${APPIMAGE}" ]; then
+	PKGNAME="LinuxDwarfPack"
+else
+	PKGNAME=$(basename ${APPIMAGE} | sed 's/.AppImage//g')	
+fi
+
 echo
-echo "Starting "$(basename ${APPIMAGE} | sed 's/.AppImage//g')
+echo "Starting ${PKGNAME}"
 echo "- configuration and game saves are stored in "$(echo ${USER_DIR})
 echo "- feedback or issues? see http://www.bay12forums.com/smf/index.php?topic=157712"
 echo "- created with lnp-forge: https://github.com/McArcady/lnp-forge"

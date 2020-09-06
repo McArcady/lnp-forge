@@ -1,6 +1,7 @@
 [Desktop Entry]
 Type=Application
-Name=LinuxDwarfPack
+Name=Dwarf Fortress
 Categories=Game;
-Icon=LinuxDwarfPack
-Exec=start_appimage.sh
+Icon=%ICON%
+Exec=%EXEC%
+Terminal=false
