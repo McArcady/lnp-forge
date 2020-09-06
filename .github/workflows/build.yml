@@ -43,9 +43,10 @@ jobs:
         name: ${{ env.PKG_NAME }}.tbz2
         path: ${{ env.PKG_NAME }}.tbz2
 
-    - name: Build AppImage
+    - name: Build AppImage and .deb
       run: |
         echo "CT_APPIMAGE=y" >> .config
+        echo "CT_DEBIAN=y" >> .config
         ./bin/lnp-forge clean build
     - name: Upload build log
       uses: actions/upload-artifact@v2
@@ -58,4 +59,10 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.PKG_NAME }}.AppImage
-        path: LinuxDwarfPack-*-x86_64.AppImage
+        path: Dwarf_Fortress-*-x86_64.AppImage
+
+    - name: Upload .deb package
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PKG_NAME }}.deb
+        path: linux-dwarf-pack_*_amd64.deb
