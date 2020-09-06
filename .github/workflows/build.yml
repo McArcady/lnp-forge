@@ -9,17 +9,22 @@ on:
 jobs:
   build:
     runs-on: ubuntu-16.04
-    env:
-      PKG_NAME: LinuxDwarfPack-${{ github.sha }}
     steps:
     
-    - name: Install dependencies
+    - name: Install build dependencies
       run: |
         sudo apt-get update
         sudo apt-get install libxml-libxml-perl libxml-xslt-perl libxml-filter-xslt-perl mercurial help2man git openjdk-8-jre libncurses5-dev zlib1g-dev lib32z1-dev mesa-common-dev gcc-multilib g++-multilib cmake dos2unix tcl autoconf gperf bison flex gawk libtool libsdl-dev libsdl-image1.2 libsdl-ttf2.0-0 texinfo ninja-build qt5-qmake qttools5-dev-tools qt5-default libqt5svg5-dev qt5-image-formats-plugins qtbase5-dev qtdeclarative5-dev python3-tk
 
     - name: Checkout
       uses: actions/checkout@v2
+    - name: Extra env variables
+      uses: rlespinasse/github-slug-action@v2.x
+        
+    - name: Name package
+      id: slug
+      run: echo "::set-env name=PKG_NAME::$(echo LinuxDwarfPack-${{ env.GITHUB_SHA_SHORT }})"
+
     - name: Build
       run: |
         autoconf && ./configure --prefix=$PWD && make install
@@ -32,16 +37,21 @@ jobs:
         path: build.log
       if: ${{ failure() }}
 
-    - name: Package
+    - name: Build tar.gz
       run: |
         source .config && mv .build/src/lnp-${CT_LNP_VERSION} ${{ env.PKG_NAME }}
         tar cjf ${{ env.PKG_NAME }}.tbz2 ${{ env.PKG_NAME }}
     
-    - name: Upload package
+    - name: Upload tar.gz
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.PKG_NAME }}.tbz2
         path: ${{ env.PKG_NAME }}.tbz2
+    
+    - name: Install packaging dependencies
+      run: |
+        sudo apt-get install ruby
+        sudo gem install -no-document fpm
 
     - name: Build AppImage and .deb
       run: |
