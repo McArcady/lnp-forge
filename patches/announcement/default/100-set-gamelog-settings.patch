@@ -1,6 +1,6 @@
---- a/Config.py	2020-06-16 20:09:37.105307516 +0200
-+++ b/Config.py	2020-06-16 20:15:58.795527637 +0200
-@@ -19,10 +19,10 @@
+--- a/Config.py	2019-04-22 15:51:21.000000000 +0200
++++ b/Config.py	2020-09-07 22:13:46.803029352 +0200
+@@ -19,12 +19,12 @@
      try:
          head, tail = os.path.split(path_)
          while tail:
@@ -11,5 +11,8 @@
 -                    if re.match('[Dd]warf\s*[Ff]ortress\s*\d+\.\d+\.\d+', item):
 +                    if re.match('[Dd]warf\s*[Ff]ortress\s*\d+\.\d+\.\d+', item) or re.match('df_\d+_\d+\_linux', item):
                          if os.path.isdir(os.path.join(head, item)):
-                             path_ = os.path.join(head, item)
+-                            path_ = os.path.join(head, item)
++                            path_ = os.path.relpath(os.path.join(head, item))
                              if os.path.isfile(os.path.join(path_, 'gamelog.txt')):
+                                 path_ = os.path.join(path_, 'gamelog.txt')
+                             break
