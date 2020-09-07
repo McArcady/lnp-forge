@@ -50,8 +50,8 @@ jobs:
     
     - name: Install packaging dependencies
       run: |
-        sudo apt-get install ruby
-        sudo gem install -no-document fpm
+        sudo apt-get install ruby ruby-dev rubygems build-essential
+        sudo gem install --no-document fpm
 
     - name: Build AppImage and .deb
       run: |
