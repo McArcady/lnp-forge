@@ -1,0 +1,6 @@
+# Arch package
+
+config ARCH
+    prompt "Configure for Arch packaging"
+	bool
+	default n

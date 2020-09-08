@@ -1,0 +1,6 @@
+# RPM package
+
+config RPM
+    prompt "Configure for RPM packaging"
+	bool
+	default n

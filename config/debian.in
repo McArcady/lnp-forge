@@ -1,4 +1,4 @@
-# Appimage
+# Debian package
 
 config DEBIAN
     prompt "Configure for Debian/Ubuntu packaging"

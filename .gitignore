@@ -19,3 +19,6 @@ x86_64/*.rpm
 .build-*.fc??.log
 *.AppImage
 *.deb
+*.pkg.tar.xz
+*.rpm
+*.tbz2
