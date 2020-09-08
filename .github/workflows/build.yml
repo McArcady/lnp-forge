@@ -82,4 +82,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.PKG_NAME }}.rpm
-        path: linux-dwarf-pack-*-1-x86_64.rpm
+        path: linux-dwarf-pack-*-1.x86_64.rpm
