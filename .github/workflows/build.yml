@@ -59,6 +59,8 @@ jobs:
         echo "CT_DEBIAN=y" >> .config
         echo "CT_ARCH=y" >> .config
         echo "CT_RPM=y" >> .config
+        sudo chmod 755 /home/runner
+        sudo chmod 755 -R /usr/share        
         ./bin/lnp-forge clean build
     - name: Upload build log
       uses: actions/upload-artifact@v2
