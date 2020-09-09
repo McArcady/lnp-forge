@@ -53,11 +53,10 @@ jobs:
         sudo apt-get install ruby ruby-dev rubygems build-essential
         sudo gem install --no-document fpm
 
-    - name: Build AppImage, deb, xz, rpm packages
+    - name: Build AppImage, deb, rpm packages
       run: |
         echo "CT_APPIMAGE=y" >> .config
         echo "CT_DEBIAN=y" >> .config
-        echo "CT_ARCH=y" >> .config
         echo "CT_RPM=y" >> .config
         ./bin/lnp-forge clean build
     - name: Upload build log
@@ -79,14 +78,8 @@ jobs:
         name: ${{ env.PKG_NAME }}.deb
         path: linux-dwarf-pack_*_amd64.deb
 
-    - name: Upload .xz package
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ env.PKG_NAME }}.pkg.tar.xz
-        path: linux-dwarf-pack-*-1-x86_64.pkg.tar.xz
-
     - name: Upload .rpm package
       uses: actions/upload-artifact@v2
       with:
         name: ${{ env.PKG_NAME }}.rpm
-        path: linux-dwarf-pack-*-1-x86_64.rpm
+        path: linux-dwarf-pack-*-1.x86_64.rpm
