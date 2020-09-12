@@ -50,13 +50,22 @@ jobs:
     
     - name: Install packaging dependencies
       run: |
-        sudo apt-get install ruby ruby-dev rubygems build-essential
+        sudo apt-get install ruby ruby-dev rubygems build-essential bsdtar
         sudo gem install --no-document fpm
 
-    - name: Build AppImage, deb, rpm packages
+    - name: Fix world writable dirs
+      run: |
+        chmod go-w $HOME
+        sudo chmod -R go-w /home/linuxbrew
+        sudo chmod -R go-w /home/runner
+        sudo chmod -R go-w /usr/share
+        sudo chmod -R go-w /opt
+
+    - name: Build AppImage, deb, xz, rpm packages
       run: |
         echo "CT_APPIMAGE=y" >> .config
         echo "CT_DEBIAN=y" >> .config
+        echo "CT_ARCH=y" >> .config
         echo "CT_RPM=y" >> .config
         ./bin/lnp-forge clean build
     - name: Upload build log
@@ -77,6 +86,12 @@ jobs:
       with:
         name: ${{ env.PKG_NAME }}.deb
         path: linux-dwarf-pack_*_amd64.deb
+
+    - name: Upload .xz package
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PKG_NAME }}.pkg.tar.xz
+        path: linux-dwarf-pack-*-1-x86_64.pkg.tar.xz
 
     - name: Upload .rpm package
       uses: actions/upload-artifact@v2
