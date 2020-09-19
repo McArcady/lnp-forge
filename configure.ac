@@ -310,14 +310,19 @@ AC_PATH_PROG([JAVA],[java])
 if test -z "$JAVA"; then
 	AC_MSG_ERROR([Java not found])
 fi
-AC_MSG_CHECKING([for java 1.8])
-$JAVA -version 2>&1 |grep "1.8" >/dev/null
-if [[ $? = 0 ]]; then
+AC_MSG_CHECKING([for java 1.8 or 11])
+JAVA_VERSION=$($JAVA -version 2>&1| awk -F '"' '/version/ {print $2}')
+version_greater_equal()
+{
+    printf '%s\n%s\n' "$2" "$1" | sort -V -C
+}
+version_greater_equal "$JAVA_VERSION" "1.8"
+if [[ "$?" == 0 ]]; then
     java8="y"
    	ACX_SET_KCONFIG_OPTION([java8])
 	AC_MSG_RESULT([yes])
 else
-	AC_MSG_WARN([Java 1.8 is missing, LegendsBrowser will not be available])
+	AC_MSG_WARN([Java 1.8 or more is missing, LegendsBrowser will not be available])
 	java8=
     AC_MSG_RESULT([no])
 	AC_MSG_CHECKING([for java 1.7])
