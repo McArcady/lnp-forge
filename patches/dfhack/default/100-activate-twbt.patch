@@ -1,8 +1,8 @@
---- dfhack-0.44.12-r3/plugins/CMakeLists.txt.orig	2020-01-21 22:51:53.331627499 +0100
-+++ dfhack-0.44.12-r3/plugins/CMakeLists.txt	2020-01-21 22:52:21.919900839 +0100
-@@ -176,6 +176,7 @@
-     dfhack_plugin(workflow workflow.cpp LINK_LIBRARIES lua)
+--- a/plugins/CMakeLists.txt	2020-10-11 15:32:14.661815957 +0200
++++ b/plugins/CMakeLists.txt	2020-10-11 15:32:24.381961312 +0200
+@@ -177,6 +177,7 @@
      dfhack_plugin(workNow workNow.cpp)
+     dfhack_plugin(xlsxreader xlsxreader.cpp LINK_LIBRARIES lua xlsxio_read_STATIC zip expat)
      dfhack_plugin(zone zone.cpp LINK_LIBRARIES lua)
 +    add_subdirectory(twbt)
  endif()
