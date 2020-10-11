@@ -18,12 +18,10 @@ jobs:
 
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Extra env variables
-      uses: rlespinasse/github-slug-action@v2.x
         
     - name: Name package
       id: slug
-      run: echo "::set-env name=PKG_NAME::$(echo LinuxDwarfPack-${{ env.GITHUB_SHA_SHORT }})"
+      run: echo "PKG_NAME=LinuxDwarfPack-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
 
     - name: Build
       run: |
