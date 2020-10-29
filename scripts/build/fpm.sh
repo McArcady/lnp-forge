@@ -54,8 +54,7 @@ do_fpm_build() {
 
 	# build pkg
 	arch="x86_64"
-	depends="libsdl-image1.2 libsdl-ttf2.0-0 gnome-terminal openjdk-8-jre python3-tk qt5-default unionfs-fuse"
-	depends=$(echo ${depends}|sed 's/ / \-d /g')
+	depends=$(echo $2|sed 's/ / \-d /g')
 	CT_DoExecLog ALL /usr/local/bin/fpm -s dir -t $1 -n ${name}          \
 				 --force                                   \
 				 --depends ${depends}                      \

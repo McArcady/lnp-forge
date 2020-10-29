@@ -23,5 +23,5 @@ do_arch_extract() {
 }
 
 do_arch_build() {
-	do_fpm_build "pacman"
+	do_fpm_build "pacman" "sdl_image sdl_ttf gnome-terminal jre8-openjdk python3 tk qt5-base unionfs-fuse"
 }
