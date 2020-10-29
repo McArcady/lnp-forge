@@ -1,7 +1,20 @@
 #!/bin/sh
 ROOT_DIR=$(mktemp -d -t lnp-XXXXXX)
-USER_DIR=~/.lnp/
-	  
+
+# select dir for conf & data
+XDG_DIR=~/.local/share/linux-dwarf-pack
+DOT_DIR=~/.lnp
+if [ ! -d "${XDG_DIR}" ]; then
+	if [ -d "${DOT_DIR}" ]; then
+		mv ${DOT_DIR} ${XDG_DIR} || (echo "Failed to move ${DOT_DIR} to ${XDG_DIR}!"; exit 1)
+		echo "Transfered data and conf from ${DOT_DIR} to ${XDG_DIR}."
+	else
+		mkdir -p ${XDG_DIR} || (echo "Failed to create ${XDG_DIR}!"; exit 1)
+		echo "Created ${XDG_DIR}."
+	fi
+fi
+USER_DIR=${XDG_DIR}
+
 callTerm() {
   fusermount -zu ${ROOT_DIR}
   echo "${ROOT_DIR} unmounted."
