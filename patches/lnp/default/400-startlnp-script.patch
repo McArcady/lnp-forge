@@ -18,8 +18,8 @@ diff -duN lnp-0.10f.orig/startlnp.sh lnp-0.10f/startlnp.sh
 +        xterm -e "echo $msg;sudo /sbin/setcap cap_sys_ptrace=eip bin/dwarftherapist"
 +    fi
 +else
-+    echo "Could not find /sbin/getcap and/or /sbin/setcap"
++    echo "Could not find /sbin/getcap and/or /sbin/setcap" >&2
 +fi
 +
 +#run Lazy Newb Pack
-+./launch.py || warn "Failed to start PyLNP"
++./launch.py || echo "Failed to start PyLNP" >&2
