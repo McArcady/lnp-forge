@@ -9,7 +9,7 @@ get_appimage_credits() {
 get_appimage_url() {
 	# broken version at "https://github.com/linuxdeploy/linuxdeploy/"
 	# see https://github.com/linuxdeploy/linuxdeploy/issues/143#issuecomment-671091455
-	echo "https://artifacts.assassinate-you.net/artifactory/list/linuxdeploy/travis-456/"
+	echo "https://artifacts.assassinate-you.net/linuxdeploy/travis-456/"
 }
 get_appimage_license() {
 	echo -n
