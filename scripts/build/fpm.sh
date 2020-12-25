@@ -61,8 +61,8 @@ do_fpm_build() {
 				 --prefix ${dist_dir}                      \
 				 --chdir ${lnp_dir}                        \
 				 --version ${CT_VERSION}                   \
-				 --maintainer "<McArcady@gihub.com>"       \
-				 --vendor "bay12forums.com"                \
+				 --maintainer "<McArcady@github.com>"      \
+				 --vendor "www.bay12forums.com"            \
 				 --url "http://www.bay12forums.com/smf/index.php?topic=157712"      \
 				 --description "A simple ready-to-play Dwarf Fortress starter pack" \
 				 --license "mixed (see ${dist_dir}/PRAISE_THE_MODDERS)"             \
