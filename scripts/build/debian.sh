@@ -23,5 +23,5 @@ do_debian_extract() {
 }
 
 do_debian_build() {
-	do_fpm_build "deb" "libsdl-image1.2 libsdl-ttf2.0-0 gnome-terminal openjdk-8-jre python3-tk qt5-default unionfs-fuse"
+	do_fpm_build "deb" "libsdl-image1.2 libsdl-ttf2.0-0 gnome-terminal openjdk-8-jre python3-tk python3-distutils qt5-default unionfs-fuse"
 }
