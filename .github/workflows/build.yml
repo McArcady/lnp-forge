@@ -50,7 +50,7 @@ jobs:
     
     - name: Install packaging dependencies
       run: |
-        sudo apt-get install ruby ruby-dev rubygems build-essential bsdtar
+        sudo apt-get install ruby ruby-dev rubygems build-essential bsdtar zstd
         sudo gem install --no-document fpm
 
     - name: Fix world writable dirs
