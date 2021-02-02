@@ -65,7 +65,6 @@ jobs:
       run: |
         echo "CT_APPIMAGE=y" >> .config
         echo "CT_DEBIAN=y" >> .config
-        echo "CT_ARCH=y" >> .config
         echo "CT_RPM=y" >> .config
         ./bin/lnp-forge clean build
     - name: Upload build log
