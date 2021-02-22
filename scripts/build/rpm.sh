@@ -23,5 +23,5 @@ do_rpm_extract() {
 }
 
 do_rpm_build() {
-	do_fpm_build "rpm" "SDL_image SDL_ttf gnome-terminal java-1.8.0-openjdk python3-tkinter funionfs"
+	do_fpm_build "rpm" "SDL_image SDL_ttf gnome-terminal java-1.8.0-openjdk python3-tkinter python3-pillow-tk funionfs"
 }
