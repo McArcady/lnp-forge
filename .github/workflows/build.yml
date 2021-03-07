@@ -59,6 +59,7 @@ jobs:
         sudo chmod -R go-w /home/linuxbrew
         sudo chmod -R go-w /home/runner
         sudo chmod -R go-w /usr/share
+        sudo chmod -R go-w /usr/local
         sudo chmod -R go-w /opt
 
     - name: Build AppImage, deb, xz, rpm packages
