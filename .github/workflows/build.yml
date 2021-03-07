@@ -59,12 +59,14 @@ jobs:
         sudo chmod -R go-w /home/linuxbrew
         sudo chmod -R go-w /home/runner
         sudo chmod -R go-w /usr/share
+        sudo chmod -R go-w /usr/local
         sudo chmod -R go-w /opt
 
-    - name: Build AppImage, deb, xz, rpm packages
+    - name: Build AppImage, deb, arch, rpm packages
       run: |
         echo "CT_APPIMAGE=y" >> .config
         echo "CT_DEBIAN=y" >> .config
+        echo "CT_ARCH=y" >> .config
         echo "CT_RPM=y" >> .config
         ./bin/lnp-forge clean build
     - name: Upload build log
@@ -86,11 +88,11 @@ jobs:
         name: ${{ env.PKG_NAME }}.deb
         path: linux-dwarf-pack_*_amd64.deb
 
-    - name: Upload .xz package
+    - name: Upload Arch package
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.PKG_NAME }}.pkg.tar.xz
-        path: linux-dwarf-pack-*-1-x86_64.pkg.tar.xz
+        name: ${{ env.PKG_NAME }}.pkg.tar.bz2
+        path: linux-dwarf-pack-*-1-x86_64.pkg.tar.bz2
 
     - name: Upload .rpm package
       uses: actions/upload-artifact@v2

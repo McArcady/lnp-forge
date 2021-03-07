@@ -7,7 +7,7 @@ get_fpm_credits() {
 	echo "Jordan Sissel"
 }
 get_fpm_url() {
-	echo "https://https://github.com/jordansissel/fpm"
+	echo "https://github.com/jordansissel/fpm"
 }
 get_fpm_license() {
 	echo -n
@@ -68,5 +68,6 @@ do_fpm_build() {
 				 --license "mixed (see ${dist_dir}/PRAISE_THE_MODDERS)"             \
 				 --after-install ${lnp_dir}/post-install.sh    \
 				 --before-remove ${lnp_dir}/pre-uninstall.sh   \
+				 $3
 
 }
