@@ -7,7 +7,7 @@ get_fpm_credits() {
 	echo "Jordan Sissel"
 }
 get_fpm_url() {
-	echo "https://https://github.com/jordansissel/fpm"
+	echo "https://github.com/jordansissel/fpm"
 }
 get_fpm_license() {
 	echo -n
