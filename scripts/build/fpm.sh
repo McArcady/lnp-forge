@@ -68,5 +68,6 @@ do_fpm_build() {
 				 --license "mixed (see ${dist_dir}/PRAISE_THE_MODDERS)"             \
 				 --after-install ${lnp_dir}/post-install.sh    \
 				 --before-remove ${lnp_dir}/pre-uninstall.sh   \
+				 $3
 
 }
