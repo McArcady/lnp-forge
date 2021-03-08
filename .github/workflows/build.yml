@@ -40,13 +40,13 @@ jobs:
     - name: Build tar.gz
       run: |
         source .config && mv .build/src/lnp-${CT_LNP_VERSION} ${{ env.DIR_NAME }}
-        tar cjf ${{ env.DIR_NAME }}.tbz2 ${{ env.DIR_NAME }}
+        tar cjf ${{ env.DIR_NAME }}.tar.bz2 ${{ env.DIR_NAME }}
     
     - name: Upload .tar package
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ env.PKG_NAME }}.tbz2
-        path: ${{ env.DIR_NAME }}.tbz2
+        name: ${{ env.PKG_NAME }}.tar.bz2
+        path: ${{ env.DIR_NAME }}.tar.bz2
     
     - name: Install packaging dependencies
       run: |
