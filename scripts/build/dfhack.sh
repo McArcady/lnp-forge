@@ -4,7 +4,7 @@ get_dfhack_description() {
 	echo "DFHack v${CT_DFHACK_VERSION}"
 }
 get_dfhack_credits() {
-	echo "lethosor, JapaMala, BenLubar, PatrikLundell"
+	echo "lethosor, JapaMala, BenLubar, PatrickLundell"
 }
 get_dfhack_url() {
 	echo "https://github.com/DFHack/dfhack.git"

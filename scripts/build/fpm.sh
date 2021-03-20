@@ -55,7 +55,7 @@ do_fpm_build() {
 	# build pkg
 	arch="x86_64"
 	depends=$(echo $2|sed 's/ / \-d /g')
-	CT_DoExecLog ALL /usr/local/bin/fpm -s dir -t $1 -n ${name}          \
+	CT_DoExecLog ALL ${FPM} -s dir -t $1 -n ${name}        \
 				 --force                                   \
 				 --depends ${depends}                      \
 				 --prefix ${dist_dir}                      \

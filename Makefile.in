@@ -84,6 +84,7 @@ export INTL_LIBS       := @INTL_LIBS@
 export curses_hdr      := @ac_ct_curses_hdr@
 export gettext         := @gettext@
 export QMAKE_QT        := @QMAKE_QT@
+export FPM             := @FPM@
 
 # config options to push down to kconfig
 KCONFIG:= @kconfig_options@
@@ -208,6 +209,7 @@ paths.mk: FORCE
 	  echo 'export patch=$(patch)';             \
 	  echo 'export gperf=$(gperf)';             \
 	  echo 'export QMAKE_QT=$(QMAKE_QT)';       \
+	  echo 'export FPM=$(FPM)';                 \
 	 ) >$@
 
 paths.sh: FORCE
@@ -226,6 +228,7 @@ paths.sh: FORCE
 	  echo 'export patch="$(patch)"';           \
 	  echo 'export gperf="$(gperf)"';           \
 	  echo 'export QMAKE_QT="$(QMAKE_QT)"';     \
+	  echo 'export FPM="$(FPM)"';               \
 	 ) >$@
 
 config/configure.in: FORCE
