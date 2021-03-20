@@ -1,6 +1,10 @@
 # Debian package
 
+comment "Debian packaging disabled, requires FPM"
+	depends on ! CONFIGURE_has_fpm
+
 config DEBIAN
+	depends on CONFIGURE_has_fpm
     prompt "Configure for Debian/Ubuntu packaging"
 	bool
 	default n

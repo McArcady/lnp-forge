@@ -336,6 +336,17 @@ else
 fi
 
 #----------------------------------------
+# Check for FPM
+AC_PATH_PROG([FPM],[fpm])
+if test -z "$FPM"; then
+	AC_MSG_WARN([Ruby gem 'fpm' (Effing package management) is missing: rpm, deb and arch packaging will not be available])
+	fpm=
+else
+    fpm="y"
+   	ACX_SET_KCONFIG_OPTION([fpm])
+fi
+
+#----------------------------------------
 # Check for Git
 AC_PATH_PROG([GIT],[git])
 if test -z "$GIT"; then

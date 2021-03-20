@@ -1,6 +1,10 @@
 # Arch package
 
+comment "Arch packaging disabled, requires FPM"
+	depends on ! CONFIGURE_has_fpm
+
 config ARCH
+	depends on CONFIGURE_has_fpm
     prompt "Configure for Arch packaging"
 	bool
 	default n

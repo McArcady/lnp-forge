@@ -1,6 +1,10 @@
 # RPM package
 
+comment "RPM packaging disabled, requires FPM"
+	depends on ! CONFIGURE_has_fpm
+
 config RPM
+	depends on CONFIGURE_has_fpm
     prompt "Configure for RPM packaging"
 	bool
 	default n
