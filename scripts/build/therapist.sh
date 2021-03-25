@@ -39,6 +39,10 @@ do_therapist_build() {
     CT_DoExecLog ALL cmake -DCMAKE_INSTALL_PREFIX=${dist_dir} -DBUILD_PORTABLE=ON ..
 	CT_DoExecLog ALL make ${JOBSFLAGS} install
 
+	# patch DF and DFHack start scripts to drop ptrace capabilities at startup,
+	# that would prevent DT to access DF memory on some distros (Ubuntu)
+	CT_DoExecLog ALL ${dt_src_dir}/dist/ptrace_scope/patch_df_ptracer $(get_df_dir)
+
 	# dl experimental layout?
 	# e.g: https://raw.githubusercontent.com/cvuchener/Dwarf-Therapist/0.47.01-memory-layouts/share/memory_layouts/linux/v0.47.02_linux64.ini
 	if [ "${CT_THERAPIST_EXPERIMENTAL_LAYOUT}" ]; then
