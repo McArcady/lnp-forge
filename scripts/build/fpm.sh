@@ -55,6 +55,7 @@ do_fpm_build() {
 	# build pkg
 	arch="x86_64"
 	depends=$(echo $2|sed 's/ / \-d /g')
+	source "${CT_LIB_DIR}/paths.sh"
 	CT_DoExecLog ALL ${FPM} -s dir -t $1 -n ${name}        \
 				 --force                                   \
 				 --depends ${depends}                      \
