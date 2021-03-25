@@ -52,6 +52,7 @@ jobs:
       run: |
         sudo apt-get install ruby ruby-dev rubygems build-essential bsdtar
         sudo gem install --no-document fpm
+        echo "/usr/local/bin" >> $GITHUB_PATH
 
     - name: Fix world writable dirs
       run: |
@@ -68,7 +69,7 @@ jobs:
         echo "CT_DEBIAN=y" >> .config
         echo "CT_ARCH=y" >> .config
         echo "CT_RPM=y" >> .config
-        ./bin/lnp-forge clean build
+        ./configure --prefix=$PWD && make install && ./bin/lnp-forge clean build
     - name: Upload build log
       uses: actions/upload-artifact@v2
       with:
