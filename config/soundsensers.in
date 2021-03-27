@@ -1,0 +1,16 @@
+# SOUNDSENSE-RS options
+
+config SOUNDSENSERS
+	bool
+	prompt "Include SoundSense-RS"
+	default n
+	help
+	  Select this to include SoundSense-RS.
+
+config SOUNDSENSERS_VERSION
+	string
+	prompt "Version"
+    default "v1.5.1"
+	depends on SOUNDSENSERS
+	help
+	  Select version of SoundSense-RS
