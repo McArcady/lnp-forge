@@ -108,6 +108,7 @@ jobs:
         echo "THERAPIST_VERSION=$(grep CT_THERAPIST_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
         echo "LEGENDS_VERSION=v$(grep CT_LEGENDS_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
         echo "ANNOUNCEMENT_VERSION=$(grep CT_ANNOUNCEMENT_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
+        echo "SOUNDSENSERS_VERSION=$(grep CT_SOUNDSENSERS_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
         
     - name: Release
       uses: softprops/action-gh-release@v1
@@ -121,6 +122,7 @@ jobs:
           - Dwarf Therapist ${{ env.THERAPIST_VERSION }}
           - Legends Browser ${{ env.LEGENDS_VERSION }}
           - Announcement Window ${{ env.ANNOUNCEMENT_VERSION }}
+          - SoundSense RS ${{ env.SOUNDSENSERS_VERSION }}
           
           Support and feedback: [Bay12 Forums](http://www.bay12forums.com/smf/index.php?topic=157712)
         files: |
