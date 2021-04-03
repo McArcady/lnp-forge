@@ -29,6 +29,7 @@ CT_STEPS := lnp         \
 			twbt        \
 			therapist   \
 			soundsense  \
+			soundsensers\
 			legends     \
 			announcement\
 			dark        \
