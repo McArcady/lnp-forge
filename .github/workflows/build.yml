@@ -100,3 +100,34 @@ jobs:
       with:
         name: ${{ env.PKG_NAME }}.rpm
         path: linux-dwarf-pack-*-1.x86_64.rpm
+
+    - name: Content versions
+      run: |
+        echo "DF_VERSION=v0.$(grep CT_DF_VERSION .config|sed -e 's|.*="\(.*\)_linux"|\1|g' -e 's|_|.|g')" >> $GITHUB_ENV
+        echo "DFHACK_VERSION=v$(grep CT_DFHACK_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
+        echo "THERAPIST_VERSION=$(grep CT_THERAPIST_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
+        echo "LEGENDS_VERSION=v$(grep CT_LEGENDS_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
+        echo "ANNOUNCEMENT_VERSION=$(grep CT_ANNOUNCEMENT_VERSION .config|sed 's|.*="\(.*\)"|\1|g')" >> $GITHUB_ENV
+        
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+        body: |
+          A simple ready-to-play pack for Linux that includes:
+          - Dwarf Fortress ${{ env.DF_VERSION }}
+          - DFHack + TwbT ${{ env.DFHACK_VERSION }}
+          - compatible DFGraphics tilesets: Spacefox, Ironhand, Phoebus, ...
+          - Dwarf Therapist ${{ env.THERAPIST_VERSION }}
+          - Legends Browser ${{ env.LEGENDS_VERSION }}
+          - Announcement Window ${{ env.ANNOUNCEMENT_VERSION }}
+          
+          Support and feedback: [Bay12 Forums](http://www.bay12forums.com/smf/index.php?topic=157712)
+        files: |
+          linux-dwarf-pack_*_amd64.deb
+          linux-dwarf-pack-*-1-x86_64.pkg.tar.bz2
+          linux-dwarf-pack-*-1.x86_64.rpm
+          Dwarf_Fortress-*-x86_64.AppImage
+          ${{ env.DIR_NAME }}.tar.bz2
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
