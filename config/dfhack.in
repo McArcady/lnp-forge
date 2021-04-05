@@ -28,3 +28,16 @@ config TWBT_VERSION
 	depends on TWBT
 	help
 	  TWBT revision from https://github.com/mifki/df-twbt
+
+config KLOKER
+	bool
+	default y
+	depends on DFHACK
+
+config KLOKER_VERSION
+	string
+	prompt "Github revision of Kloker"
+    default "0.43.05-r2"
+	depends on KLOKER
+	help
+	  Kloker revision from https://github.com/strainer/cavekeeperdf

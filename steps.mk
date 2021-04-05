@@ -27,6 +27,7 @@ CT_STEPS := lnp         \
 			shared      \
 			dfhack      \
 			twbt        \
+			kloker      \
 			therapist   \
 			soundsense  \
 			soundsensers\
