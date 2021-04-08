@@ -1,7 +1,7 @@
 # Install DFHack plugin Kloker
 
 get_kloker_description() {
-	echo "Kloker (ex-Cavern Keeper) v${CT_KLOKER_VERSION}"
+	echo "Kloker (ex-Cavern Keeper)"
 }
 get_kloker_credits() {
 	echo "Andrew Strain"
@@ -10,7 +10,7 @@ get_kloker_url() {
 	echo "https://github.com/strainer/cavekeeperdf"
 }
 get_kloker_license() {
-	echo
+	echo -n
 }
 
 # Download

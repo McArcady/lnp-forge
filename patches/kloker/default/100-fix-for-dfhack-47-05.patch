@@ -1,0 +1,20 @@
+--- a/plugins/kloker.cpp	2021-04-05 18:21:05.240235124 +0200
++++ b/plugins/kloker.cpp	2021-04-08 21:00:39.721671597 +0200
+@@ -44,7 +44,8 @@
+ #include "df/nemesis_record.h"
+ #include "df/historical_entity.h"
+ #include "df/historical_figure.h"
+ #include "df/historical_figure_info.h"
++#include "df/historical_figure_relationships.h"
+ #include "df/histfig_hf_link.h"
+ #include "df/histfig_hf_link_type.h"
+ #include "df/activity_event.h"
+@@ -6155,7 +6155,7 @@
+             rg += ",Gods " + cur->godline;
+         int rn = rg.size(), dn = ds.size();
+ 
+-        if (rn + dn > to_lim) {
++        if ((rn + dn > to_lim) && (to_lim - rn >= 3)) {
+             ds.resize(to_lim - rn - 3);
+             ds += ".. ";
+             dn = ds.size();
