@@ -1,0 +1,14 @@
+--- a/PyLNP.json	2021-04-08 22:13:02.014748467 +0200
++++ b/PyLNP.json	2021-04-16 22:37:10.851584155 +0200
+@@ -50,6 +50,10 @@
+         "Pure Bugfixes": {
+             "command": "multicmd fix/blood-del enable; repeat -time 1 -timeUnits months -command [ fix/feeding-timers ] -name feeding-timers; repeat -time 1 -timeUnits months -command [ fix/stuckdoors ] -name stuckdoors",
+             "tooltip": "bugfixes to run regularly, strongly recommended (fix: feeding prisoners, stuckdoors)"
+-        }
++        },
++		"Kloker": {
++		    "command": "enable kloker",
++			"tooltip": "kloker plugin: detailed and automatic labor control"
++		}
+     }
+ }
