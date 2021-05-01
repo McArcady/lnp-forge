@@ -43,7 +43,7 @@ do_announcement_build() {
 	# fix start script
 	echo "#!/bin/sh" > ${script}
 	echo "cd ../../announcement" >> ${script}
-	echo "exec python run.py" >> ${script}
+	echo "exec python3 run.py" >> ${script}
 	CT_DoExecLog ALL chmod +x "${script}"
 	
 	# add description
