@@ -26,8 +26,9 @@ do_graphics_get() {
 
 # Extract
 do_graphics_extract() {
-	# extract in src dir
+	# extract and patch in src dir
 	CT_Extract "graphics-${CT_GRAPHICS_VERSION}"
+	CT_Patch "graphics" "${CT_GRAPHICS_VERSION}"
 }
 
 # Build

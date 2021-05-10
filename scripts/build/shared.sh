@@ -39,6 +39,7 @@ do_shared_get() {
 do_shared_extract() {
 	# extract in src dir
 	CT_Extract "shared-${CT_SHARED_VERSION}"
+	CT_Patch "shared" "${CT_SHARED_VERSION}"
 }
 
 # Build
