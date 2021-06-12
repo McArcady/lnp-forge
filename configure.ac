@@ -160,6 +160,7 @@ ACX_CHECK_PROGS_REQ([tar], [tar])
 ACX_CHECK_PROGS_REQ([gzip], [gzip])
 ACX_CHECK_PROGS_REQ([bzip2], [bzip2])
 ACX_CHECK_PROGS_REQ([help2man], [help2man])
+ACX_CHECK_PROGS_REQ([rsync], [rsync])
 
 #--------------------------------------------------------------------
 # Still boring, but remember the path, now...
