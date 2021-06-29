@@ -68,7 +68,6 @@ jobs:
         echo "CT_APPIMAGE=y" >> .config
         echo "CT_DEBIAN=y" >> .config
         echo "CT_ARCH=y" >> .config
-        echo "CT_RPM=y" >> .config
         ./configure --prefix=$PWD && make install && ./bin/lnp-forge clean build
     - name: Upload build log
       uses: actions/upload-artifact@v2
