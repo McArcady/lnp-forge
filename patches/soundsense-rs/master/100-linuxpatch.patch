@@ -1,0 +1,112 @@
+diff --git a/web/index.html b/web/index.html
+index 959ef52..a219257 100644
+--- a/web/index.html
++++ b/web/index.html
+@@ -13,37 +13,37 @@
+         <button class='w3-button'>Load</button>
+         <div class='w3-dropdown-content w3-bar-block w3-border'>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('load_gamelog')">Load gamelog.txt</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('load_gamelog')">Load gamelog.txt</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('load_soundpack')">Load soundpack</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('load_soundpack')">Load soundpack</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('load_ignore_list')">Load ignore.txt</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('load_ignore_list')">Load ignore.txt</button>
+         </div>
+     </div>
+     <div class='w3-dropdown-hover'>
+         <button class='w3-button'>Settings</button>
+         <div class='w3-dropdown-content w3-bar-block w3-border'>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('set_default_paths')">Set current paths as default</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('set_default_paths')">Set current paths as default</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('remove_default_paths')">Delete default paths setting</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('remove_default_paths')">Delete default paths setting</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('set_default_volumes')">Set current volumes as default</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('set_default_volumes')">Set current volumes as default</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('remove_default_volumes')">Delete default volumes setting</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('remove_default_volumes')">Delete default volumes setting</button>
+         </div>
+     </div>
+     <div class='w3-dropdown-hover w3-right'>
+         <button class='w3-button'>Options</button>
+         <div class='w3-dropdown-content w3-bar-block w3-border' style='right:0'>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('link_original')">&#x1f517; - zwei's original SoundSense & soundpack</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('link_original')">&#x1f517; - zwei's original SoundSense & soundpack</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('link_fork')">&#x1f517; - jecowa's soundpack fork</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('link_fork')">&#x1f517; - jecowa's soundpack fork</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('link_source')">&#x1f517; - SoundSense-RS Github repository</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('link_source')">&#x1f517; - SoundSense-RS Github repository</button>
+             <button class='w3-bar-item w3-button'
+-                onclick="external.invoke('show_about')">&#x2139; - About</button>
++                onclick="window.webkit.messageHandlers.external.postMessage('show_about')">&#x2139; - About</button>
+         </div>
+     </div>
+ </header>
+@@ -52,4 +52,4 @@
+ <footer class='w3-bottom' id='alerts'></footer>
+ <footer class="w3-bottom" id='errors'></footer>
+ </body>
+-</html>
+\ No newline at end of file
++</html>
+diff --git a/web/script.js b/web/script.js
+index 1d1acae..2d87e36 100644
+--- a/web/script.js
++++ b/web/script.js
+@@ -2,6 +2,7 @@
+ 
+ let is_windows = null;
+ let channels = null;
++
+ function addSlider(channel_name) {
+     channels.insertAdjacentElement(
+         'beforeend',
+@@ -9,19 +10,19 @@ function addSlider(channel_name) {
+     );
+     document.getElementById(channel_name+"_slider")
+         .addEventListener(is_windows?'change':'input',function(){
+-                external.invoke("change_volume:"+channel_name+":"+this.value);
++                window.webkit.messageHandlers.external.postMessage("change_volume:"+channel_name+":"+this.value);
+             },
+             false
+         );
+     document.getElementById(channel_name+"_skip_button")
+         .addEventListener('click',function(){
+-                external.invoke("skip_current_sound:"+channel_name);
++                window.webkit.messageHandlers.external.postMessage("skip_current_sound:"+channel_name);
+             },
+             false
+         );
+     document.getElementById(channel_name+"_play_pause_button")
+         .addEventListener('click',function(){
+-                external.invoke("play_pause:"+channel_name);
++                window.webkit.messageHandlers.external.postMessage("play_pause:"+channel_name);
+             },
+             false
+         );
+@@ -151,7 +152,8 @@ function createError(name, text) {
+ }
+ 
+ function thresholdSelect(channel_name, value) {
+-    external.invoke("change_threshold:"+channel_name+":"+value);
++    window.webkit.messageHandlers.external.postMessage("change_threshold:"+channel_name+":"+value);
++
+ }
+ 
+ function main() {
+@@ -174,4 +176,4 @@ function main() {
+         window.requestAnimationFrame(step);
+     }
+     window.requestAnimationFrame(step);
+-}
+\ No newline at end of file
++}

@@ -29,9 +29,9 @@ do_soundsensers_extract() {
 
 # Build
 do_soundsensers_build() {
-	echo 
-	cd "${CT_SRC_DIR}/soundsense-rs-${CT_SOUNDSENSERS_VERSION}"
-	pwd
+
+	soundsensers_src_dir="${CT_SRC_DIR}/soundsense-rs-${CT_SOUNDSENSERS_VERSION}"
+	CT_Pushd "$soundsensers_src_dir"
 	cargo build --release --locked
 	dist_dir="$(get_lnp_dir)/soundsense-rs"
 	script="$(get_lnp_dir)/LNP/Utilities/SoundSense-RS.sh"
@@ -39,7 +39,7 @@ do_soundsensers_build() {
 #	
 #    # copy to DF dir
 	CT_DoExecLog ALL mkdir -p "${dist_dir}"
-	CT_DoExecLog ALL rsync -qa "${CT_SRC_DIR}/soundsense-rs-${CT_SOUNDSENSERS_VERSION}/target/release/${exe_name}" "${dist_dir}"
+	CT_DoExecLog ALL rsync -qa "$soundsensers_src_dir/target/release/${exe_name}" "${dist_dir}"
 	CT_DoExecLog ALL chmod +x ${dist_dir}/${exe_name}
 #	
 #	# fix start script
@@ -51,5 +51,5 @@ do_soundsensers_build() {
 #	
 #	# add description
 	echo "[SoundSense-RS.sh:SoundSense-RS:Tool that parses game logs and reacts to game events with sound effects, incidental music and dwarfy comments]" >> "$(get_lnp_dir)/LNP/Utilities/utilities.txt"
-	cd -
+	CT_Popd
 }
