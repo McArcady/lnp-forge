@@ -60,7 +60,7 @@ do_fpm_build() {
 				 --depends ${depends}                      \
 				 --prefix ${dist_dir}                      \
 				 --chdir ${lnp_dir}                        \
-				 --version ${CT_VERSION}                   \
+				 --version $(echo ${CT_VERSION}|sed 's/-/./g')                   \
 				 --maintainer "<McArcady@github.com>"      \
 				 --vendor "www.bay12forums.com"            \
 				 --url "http://www.bay12forums.com/smf/index.php?topic=157712"      \
