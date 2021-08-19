@@ -4,7 +4,7 @@ get_shared_description() {
 	echo "LNP shared components (colors, embark profiles, key bindings ...)"
 }
 get_shared_credits() {
-	echo "PeridexisErrant, lethosor, BeauBouchard, Scott Carter, Ramblurr, fricey"
+	echo "PeridexisErrant, lethosor, clinodev, BeauBouchard, Scott Carter, Ramblurr, fricey"
 }
 get_shared_url() {
 	echo "https://github.com/Lazy-Newb-Pack/LNP-shared-core"
