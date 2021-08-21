@@ -899,7 +899,7 @@ CT_GetGit() {
     # Remove potential left-over from a previous run
     CT_DoExecLog ALL rm -rf "${tmp}.tar.gz" "${tmp}.tar" "${tmp}" "${dir}"
 
-    if CT_DoExecLog ALL git clone --single-branch -b "${cset}" "${url}" "${dir}"; then
+    if CT_DoExecLog ALL git clone --single-branch --depth 1 -b "${cset}" "${url}" "${dir}"; then
         # Yep, cloned OK
         CT_Pushd "${dir}"
 		CT_DoExecLog ALL git submodule update --init
