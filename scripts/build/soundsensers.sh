@@ -32,7 +32,7 @@ do_soundsensers_build() {
 
 	soundsensers_src_dir="${CT_SRC_DIR}/soundsense-rs-${CT_SOUNDSENSERS_VERSION}"
 	CT_Pushd "$soundsensers_src_dir"
-	cargo build --release --locked
+	cargo build --release 
 	dist_dir="$(get_lnp_dir)/soundsense-rs"
 	script="$(get_lnp_dir)/LNP/Utilities/SoundSense-RS.sh"
 	exe_name="soundsense-rs"

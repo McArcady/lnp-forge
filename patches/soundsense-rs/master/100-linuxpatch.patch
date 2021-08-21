@@ -103,10 +103,3 @@ index 1d1acae..2d87e36 100644
  }
  
  function main() {
-@@ -174,4 +176,4 @@ function main() {
-         window.requestAnimationFrame(step);
-     }
-     window.requestAnimationFrame(step);
--}
-\ No newline at end of file
-+}

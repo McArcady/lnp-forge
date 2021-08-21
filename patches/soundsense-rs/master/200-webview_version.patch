@@ -1,0 +1,13 @@
+diff --git a/Cargo.toml b/Cargo.toml
+index 1074e6d..c14b218 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -19,7 +19,7 @@ quick-xml = "0.17"
+ rand = "0.7"
+ lazy_static = "1.4"
+ crossbeam = "0.7.3"
+-web-view = "0.6"
++web-view = "0.7"
+ tinyfiledialogs = "3.3.9"
+ getopts = "0.2"
+ webbrowser = "0.5.2"
