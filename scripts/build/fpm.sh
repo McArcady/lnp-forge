@@ -22,6 +22,9 @@ do_fpm_extract() {
 	echo -n
 }
 
+# $1 = output-type (rpm, deb, pacman, ...)
+# $2 = dependencies
+# $3 = additional arguments
 do_fpm_build() {
 	# add permissions RX for some dirs
 	lnp_dir="$(get_lnp_dir)"
@@ -55,12 +58,15 @@ do_fpm_build() {
 	# build pkg
 	arch="x86_64"
 	depends=$(echo $2|sed 's/ / \-d /g')
-	CT_DoExecLog ALL ${FPM} -s dir -t $1 -n ${name}        \
+	CT_DoExecLog ALL ${FPM}                                \
+				 --input-type dir                          \
+				 --output-type $1                          \
+				 --name ${name}                            \
 				 --force                                   \
 				 --depends ${depends}                      \
 				 --prefix ${dist_dir}                      \
 				 --chdir ${lnp_dir}                        \
-				 --version $(echo ${CT_VERSION}|sed 's/-/./g')                   \
+				 --version ${CT_VERSION}                   \
 				 --maintainer "<McArcady@github.com>"      \
 				 --vendor "www.bay12forums.com"            \
 				 --url "http://www.bay12forums.com/smf/index.php?topic=157712"      \

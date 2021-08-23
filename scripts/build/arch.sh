@@ -23,5 +23,7 @@ do_arch_extract() {
 }
 
 do_arch_build() {
-	do_fpm_build "pacman" "sdl_image sdl_ttf gnome-terminal jre11-openjdk python tk qt5-base unionfs-fuse" "--pacman-compression bzip2"
+	do_fpm_build "pacman" \
+				 "sdl_image sdl_ttf gnome-terminal jre11-openjdk python tk qt5-base unionfs-fuse" \
+				 "--pacman-compression bzip2 --version $(echo ${CT_VERSION}|sed 's/-/./g')"
 }
