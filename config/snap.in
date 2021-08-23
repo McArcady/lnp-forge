@@ -1,0 +1,10 @@
+# Snap package
+
+comment "Snap packaging disabled, requires FPM"
+	depends on ! CONFIGURE_has_fpm
+
+config SNAP
+	depends on CONFIGURE_has_fpm
+    prompt "Configure for Snap (Ubuntu) packaging"
+	bool
+	default n

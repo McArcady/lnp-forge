@@ -376,6 +376,13 @@ if test -z "$CARGO"; then
 fi
 
 #----------------------------------------
+# Check for squashfs-tools
+AC_PATH_PROG([MKSQUASHFS],[mksquashfs])
+if test -z "$MKSQUASHFS"; then
+	AC_MSG_ERROR([squashfs-tools not found])
+fi
+
+#----------------------------------------
 # Check for Perl + modules
 AX_PROG_PERL_MODULES( XML::LibXML XML::LibXSLT, [],
                       AC_MSG_ERROR([Need Perl and modules XML::LibXML XML::LibXSLT]) )

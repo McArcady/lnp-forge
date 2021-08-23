@@ -39,6 +39,7 @@ CT_STEPS := lnp         \
 			debian      \
 			arch        \
 			rpm         \
+            snap        \
 			finish      \
 
 # Keep an empty line above this comment, so the last

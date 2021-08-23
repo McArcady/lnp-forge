@@ -76,5 +76,4 @@ do_fpm_build() {
 				 --after-install ${lnp_dir}/post-install.sh    \
 				 --before-remove ${lnp_dir}/pre-uninstall.sh   \
 				 $3
-
 }
