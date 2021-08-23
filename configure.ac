@@ -369,6 +369,13 @@ if test -z "$NINJA"; then
 fi
 
 #----------------------------------------
+# Check for Cargo (rust)
+AC_PATH_PROG([CARGO],[cargo])
+if test -z "$CARGO"; then
+	AC_MSG_ERROR([Cargo (for Rust) not found])
+fi
+
+#----------------------------------------
 # Check for Perl + modules
 AX_PROG_PERL_MODULES( XML::LibXML XML::LibXSLT, [],
                       AC_MSG_ERROR([Need Perl and modules XML::LibXML XML::LibXSLT]) )
