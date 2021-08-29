@@ -23,5 +23,5 @@ do_rpm_extract() {
 }
 
 do_rpm_build() {
-	do_fpm_build "rpm" "SDL_image SDL_ttf gnome-terminal java-11-openjdk python3-tkinter python3-pillow-tk funionfs"
+	do_fpm_build "rpm" "SDL SDL_image SDL_ttf openal-soft alsa-lib alsa-plugins-pulseaudio mesa-dri-drivers mesa-libGLU gnome-terminal java-11-openjdk python3-tkinter qt5-qttools fuse-overlayfs"
 }
