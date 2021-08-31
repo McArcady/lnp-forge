@@ -1,0 +1,10 @@
+--- a/plugins/CMakeLists.txt	2021-04-05 17:47:01.148189093 +0200
++++ b/plugins/CMakeLists.txt	2021-04-05 17:49:44.366894564 +0200
+@@ -134,6 +134,7 @@
+     dfhack_plugin(isoworldremote isoworldremote.cpp PROTOBUFS isoworldremote)
+     dfhack_plugin(jobutils jobutils.cpp)
+     add_subdirectory(labormanager)
++    dfhack_plugin(kloker kloker.cpp)
+     dfhack_plugin(lair lair.cpp)
+     dfhack_plugin(liquids liquids.cpp Brushes.h LINK_LIBRARIES lua)
+     dfhack_plugin(luasocket luasocket.cpp LINK_LIBRARIES clsocket lua dfhack-tinythread)

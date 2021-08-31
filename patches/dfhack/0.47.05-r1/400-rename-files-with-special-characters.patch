@@ -1,0 +1,32 @@
+From 7b7b80499f2ef7e017d49698d6c23477b8957305 Mon Sep 17 00:00:00 2001
+From: McArcady <mcarcady@github.com>
+Date: Fri, 3 Sep 2021 13:35:24 +0200
+Subject: [PATCH] Rename files with special characters, which disturbs some
+ packaging tools (like rpmbuild)
+
+---
+ GUI.cpp                                             |   2 +-
+ ...{Sir_Henry's_32x32.png => Sir_Henry_s_32x32.png} | Bin
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename resources/{Sir_Henry's_32x32.png => Sir_Henry_s_32x32.png} (100%)
+
+diff --git a/GUI.cpp b/GUI.cpp
+index 43cd3b0..1e6310c 100644
+--- a/plugins/stonesense/GUI.cpp
++++ b/plugins/stonesense/GUI.cpp
+@@ -1249,7 +1249,7 @@ void loadGraphicsFromDisk()
+     if(!load_from_path(p, "engravings_right.png", IMGEngRightSheet)) {
+         return;
+     }
+-    if(!load_from_path(p, "Sir_Henry's_32x32.png", IMGLetterSheet)) {
++    if(!load_from_path(p, "Sir_Henry_s_32x32.png", IMGLetterSheet)) {
+         return;
+     }
+     al_destroy_path(p);
+diff --git a/plugins/stonesense/resources/Sir_Henry's_32x32.png b/plugins/stonesense/resources/Sir_Henry_s_32x32.png
+similarity index 100%
+rename from resources/Sir_Henry's_32x32.png
+rename to resources/Sir_Henry_s_32x32.png
+-- 
+2.20.1
+

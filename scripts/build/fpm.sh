@@ -59,6 +59,7 @@ do_fpm_build() {
 	arch="x86_64"
 	depends=$(echo $2|sed 's/ / \-d /g')
 	CT_DoExecLog ALL ${FPM}                                \
+				 --verbose                                 \
 				 --input-type dir                          \
 				 --output-type $1                          \
 				 --name ${name}                            \
