@@ -27,7 +27,7 @@ jobs:
 
     - name: Build
       run: |
-        autoconf && ./configure --prefix=$PWD && make install
+        autoreconf && ./configure --prefix=$PWD && make install
         echo "CT_LOG_PROGRESS_BAR=n" >> .config
         ./bin/lnp-forge build
     - name: Upload build log
