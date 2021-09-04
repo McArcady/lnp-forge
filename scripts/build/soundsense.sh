@@ -12,6 +12,9 @@ get_soundsense_url() {
 get_soundsense_license() {
 	echo "GNU GPL v3"
 }
+get_soundsense_spdx() {
+	echo "GPL-3.0-only"
+}
 
 get_soundsense_dir() {
 	echo "$(get_df_dir)/soundsense"

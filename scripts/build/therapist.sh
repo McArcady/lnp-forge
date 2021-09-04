@@ -10,7 +10,10 @@ get_therapist_url() {
 	echo "https://github.com/Dwarf-Therapist/Dwarf-Therapist"
 }
 get_therapist_license() {
-	echo "Copyright (c) 2009,2010 Trey Stout (chmod)"
+	echo "Copyright (c) 2009,2010 Trey Stout (chmod) - MIT License"
+}
+get_therapist_spdx() {
+	echo "MIT"
 }
 
 # Download

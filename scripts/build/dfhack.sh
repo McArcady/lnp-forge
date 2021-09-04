@@ -12,6 +12,9 @@ get_dfhack_url() {
 get_dfhack_license() {
 	echo "distributed under the Zlib license, with some MIT- and BSD-licensed components"
 }
+get_dfhack_spdx() {
+	echo "Zlib AND MIT AND BSD-2-Clause AND BSD-3-Clause"
+}
 
 # Download
 do_dfhack_get() {

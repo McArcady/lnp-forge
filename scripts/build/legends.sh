@@ -12,6 +12,9 @@ get_legends_url() {
 get_legends_license() {
 	echo "Copyright (c) 2015 Robert Janetzko - MIT License"
 }
+get_legends_spdx() {
+	echo "MIT"
+}
 
 get_legends_dir() {
 	echo "$(get_lnp_dir)"

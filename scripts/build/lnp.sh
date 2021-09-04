@@ -12,6 +12,9 @@ get_lnp_url() {
 get_lnp_license() {
 	echo "Copyright (c) 2014, Michael Madsen <michael@birdiesoft.dk> - ISC License"
 }
+get_lnp_spdx() {
+	echo "ISC"
+}
 
 get_lnp_dir() {
 	echo "${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}"

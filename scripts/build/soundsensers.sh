@@ -12,6 +12,9 @@ get_soundsensers_url() {
 get_soundsensers_license() {
 	echo "MIT License"
 }
+get_soundsensers_spdx() {
+	echo "MIT"
+}
 
 # Download
 do_soundsensers_get() {

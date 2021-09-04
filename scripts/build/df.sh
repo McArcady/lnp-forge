@@ -13,6 +13,9 @@ get_df_license() {
 	year=$(date +%Y)
 	echo "Copyright (c) 2002-${year} - All rights are retained by Tarn Adams"
 }
+get_df_spdx() {
+	echo "UNLICENSED"
+}
 
 get_df_dir() {
 	echo "$(get_lnp_dir)/df_${CT_DF_VERSION}"
