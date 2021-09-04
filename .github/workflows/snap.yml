@@ -1,0 +1,43 @@
+name: Build LinuxDwarfPack snap package
+
+on: push
+
+jobs:
+  snapcraft:
+    runs-on: ubuntu-18.04
+    steps:
+      
+    - name: Check out Git repository
+      uses: actions/checkout@v2
+        
+    - name: Name package
+      id: slug
+      run: |
+        echo "PKG_NAME=LinuxDwarfPack-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        echo "DIR_NAME=LinuxDwarfPack-$(source version.sh)" >> $GITHUB_ENV
+    
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        source scripts/build/debian.sh
+        sudo apt-get install $(get_debian_build_dependencies)
+
+    - name: Install Snapcraft with LXD
+      uses: samuelmeuli/action-snapcraft@v1
+      with:
+        use_lxd: true
+
+    - name: Build snap
+      run: |
+        echo "CT_SNAP=y" >> .config
+        autoreconf && ./configure --prefix=$PWD && make install && ./bin/lnp-forge build
+        sg lxd -c 'snapcraft --debug --use-lxd'
+    
+    - name: Upload traces
+      uses: actions/upload-artifact@v2
+      with:
+        name: traces
+        path: |
+          /home/runner/work/lnp-forge/lnp-forge/build.log
+          snapcraft.yaml
+#      if: ${{ failure() }}

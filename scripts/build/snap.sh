@@ -28,6 +28,7 @@ do_snap_build() {
 	dist_dir="/opt/${name}"
 	deps=$(get_debian_dependencies | sed 's/ /, /g')
 	build_deps=$(get_debian_build_dependencies | sed 's/ /, /g')
+	# beware the indentation below! (each line must begin with 1 tab, then spaces only)
 	tr -d '\t' > ${yname} << EOF
 	name: ${name}
 	base: core18
@@ -38,24 +39,28 @@ do_snap_build() {
 	confinement: devmode
 	apps:
 	  linux-dwarf-pack:
-	    command: ${dist_dir}/linux-dwarf-pack.sh
+	    command: ./linux-dwarf-pack.sh
 	parts:
 	  linux-dwarf-pack:
-	    build-packages: [${build_deps}]
+	    build-packages: [${build_deps}, wget, rsync]
 	    stage-packages: [${deps}]
 	    plugin: autotools
-		source: .
-		override-build: |
-		  autoconf && ./configure --prefix=. && make install
-		  echo "CT_LOG_PROGRESS_BAR=n" >> .config
-		  ./bin/lnp-forge build
-		  mkdir -p /opt/linux-dwarf-pack
-		  rsync -qa .build/src/lnp-0.14a/* /opt/linux-dwarf-pack
+	    source: .
+	    override-build: |
+	      echo CT_LOG_PROGRESS_BAR=n >> .config
+	      echo CT_ALLOW_BUILD_AS_ROOT_SURE=y >> .config
+	      autoconf
+	      ./configure --prefix=$PWD
+	      make install
+	      LD_LIBRARY_PATH= LIBRARY_PATH= LPATH= CFLAGS= CXXFLAGS= GREP_OPTIONS= bin/lnp-forge build
+	      find / -name "lnp-0.14a" 2>/dev/null | xargs ls -al
+	      rsync -qa ".build/src/lnp-0.14a/*" $SNAPCRAFT_PART_INSTALL
 	architectures:
 	  - build-on: amd64
 	contact: http://www.bay12forums.com/smf/index.php?topic=157712
 	website: http://www.bay12forums.com/smf/index.php?topic=157712
-#	donate: https://www.paypal.com/donate/?business=mcarcady%40gmail.com&item_name=Create+and+expand+the+LinuxDwarfPack%21&currency_code=EUR
+	source-code: https://github.com/McArcady/lnp-forge
+	donation: https://www.paypal.com/donate/?business=mcarcady%40gmail.com&item_name=Create+and+expand+the+LinuxDwarfPack%21&currency_code=EUR
 #	icon: /usr/share/icons/hicolor/256x256/apps/linux-dwarf-pack.png
 	license: Proprietary
 EOF

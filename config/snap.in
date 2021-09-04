@@ -5,6 +5,6 @@ comment "Snap packaging disabled, requires FPM"
 
 config SNAP
 	depends on CONFIGURE_has_fpm
-    prompt "Configure for Snap (Ubuntu) packaging"
+    prompt "Generate snapcraft.yaml"
 	bool
 	default n
