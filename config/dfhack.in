@@ -27,7 +27,7 @@ config TWBT_VERSION
     default "v6.34"
 	depends on TWBT
 	help
-	  TWBT revision from https://github.com/mifki/df-twbt
+	  TWBT revision from https://github.com/thurin/df-twbt
 
 config KLOKER
 	bool
