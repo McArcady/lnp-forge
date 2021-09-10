@@ -23,7 +23,13 @@ do_arch_extract() {
 }
 
 do_arch_build() {
+	if [[ ${CT_SOUNDSENSERS} = "y" ]];then
+		arch_soundsensers_deps="webkit2gtk"
+	else
+		arch_soundsensers_deps=""
+	fi
+
 	do_fpm_build "pacman" \
-				 "sdl_image sdl_ttf gnome-terminal jre11-openjdk python tk qt5-base unionfs-fuse" \
+				 "sdl_image sdl_ttf gnome-terminal jre11-openjdk python tk qt5-base unionfs-fuse ${arch_soundsensers_deps}" \
 				 "--pacman-compression bzip2 --version $(echo ${CT_VERSION}|sed 's/-/./g')"
 }
