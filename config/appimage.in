@@ -4,3 +4,9 @@ config APPIMAGE
     prompt "Configure for AppImage packaging"
 	bool
 	default n
+
+config APPIMAGE_WITH_DEPENDENCIES
+	prompt "Embark all dependencies into the AppImage (Debian only)"
+	bool
+	default n
+	depends on APPIMAGE

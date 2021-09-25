@@ -19,7 +19,7 @@ get_appimage_dir() {
 	echo -n
 }
 
-# Download appImage of linuxdeploy
+# Download linuxdeploy
 do_appimage_get() {
     CT_GetFile "linuxdeploy-x86_64" ".AppImage" \
                "$(get_appimage_url)/"
@@ -31,7 +31,7 @@ do_appimage_extract() {
 	echo -n
 }
 
-do_appimage_build() {	
+do_appimage_build() {
 	# install metadata
 	lnp_dir="$(get_lnp_dir)"
 	icon_dir="/usr/share/icons/hicolor/256x256/apps"
@@ -62,7 +62,7 @@ do_appimage_build() {
 	all_licenses=$(echo "${all_licenses}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g')
 	# escaping for regex replacement
 	all_licenses=$(echo "${all_licenses}" | sed 's/&/\\\&/g;')
-	echo $all_licenses
+	#echo $all_licenses
 	CT_DoExecLog ALL sed -i -e 's|%VERSION%|'"${CT_VERSION}"'|g'   \
 				 -e 's|%DATE%|'"${dat}"'|g'                        \
 				 -e 's|%LICENSE%|'"${all_licenses}"'|g'            \
@@ -72,8 +72,37 @@ do_appimage_build() {
 				 -e 's|%ICON%|'"linux-dwarf-pack"'|g'              \
 				 ${lnp_dir}/usr/share/applications/${prefix}.desktop
 
+	ldpath=""
+	if [ "${CT_APPIMAGE_WITH_DEPENDENCIES}" = "y" ]; then
+		if ! command -v apt -v &> /dev/null; then
+			CT_Abort "'apt' not found - requires a Debian/Ubuntu system"
+		fi
+		# download all dependencies
+		dldir="depdebs"
+		CT_DoExecLog ALL mkdir -p ${dldir}
+		CT_Pushd ${dldir}
+		deps=$(apt-rdepends $(get_debian_dependencies) |grep -v "^ " |sort)
+		# hidden dependency
+		deps="${deps} freeglut3"
+		for _dep in ${deps}; do
+			# downloadable file?
+			if apt-cache show ${_dep}|grep -q Filename; then
+				CT_DoExecLog ALL apt-get download ${_dep}
+			fi
+		done
+		CT_Popd
+		# extract each deb file
+		for _deb in $(ls ${dldir}/*.deb); do
+			CT_DoExecLog ALL dpkg --extract "${_deb}" ${lnp_dir}
+		done
+		# remove troublesome .desktop files
+		CT_DoExecLog ALL find ${lnp_dir} -type f -name '*.desktop' |grep -v ${prefix} |xargs rm --force
+		# patch LD_PATH for linuxdeploy
+		ldpath="${lnp_dir}/usr/lib/jvm/java-11-openjdk-amd64/lib/server:${lnp_dir}/usr/lib/x86_64-linux-gnu:${lnp_dir}/usr/lib/cdebconf"
+	fi
+
 	# generate AppImage
-	CT_DoExecLog ALL ARCH=x86_64 VERSION=${CT_VERSION} ${CT_TARBALLS_DIR}/linuxdeploy-x86_64.AppImage \
+	CT_DoExecLog ALL ARCH=x86_64 VERSION=${CT_VERSION} LD_LIBRARY_PATH=${ldpath} ${CT_TARBALLS_DIR}/linuxdeploy-x86_64.AppImage \
 				 --output appimage                                \
 				 --appdir ${lnp_dir}                              \
 				 --custom-apprun ${lnp_dir}/linux-dwarf-pack.sh   \

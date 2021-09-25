@@ -1,0 +1,43 @@
+name: Build a LinuxDwarfPack AppImage with all dependencies
+
+on: [ push, pull_request ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    steps:
+
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Install build dependencies
+      run: |
+        sudo apt-get update
+        source scripts/build/debian.sh
+        sudo apt-get install $(get_debian_build_dependencies) apt-rdepends
+        
+    - name: Name package
+      id: slug
+      run: |
+        echo "PKG_NAME=LinuxDwarfPack-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+        echo "DIR_NAME=LinuxDwarfPack-$(source version.sh)" >> $GITHUB_ENV
+
+    - name: Build
+      run: |
+        echo "CT_LOG_PROGRESS_BAR=n" >> .config
+        echo "CT_APPIMAGE=y" >> .config
+        echo "CT_APPIMAGE_WITH_DEPENDENCIES=y" >> .config
+        autoreconf && ./configure --prefix=$PWD && make install && bin/lnp-forge build
+
+    - name: Upload build log
+      uses: actions/upload-artifact@v2
+      with:
+        name: build.log
+        path: build.log
+      if: ${{ failure() }}
+
+    - name: Upload AppImage
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PKG_NAME }}.AppImage
+        path: Dwarf_Fortress-*-x86_64.AppImage
