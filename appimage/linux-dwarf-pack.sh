@@ -16,10 +16,16 @@ fi
 USER_DIR=${XDG_DIR}
 
 callTerm() {
-  fusermount -zu ${ROOT_DIR}
-  echo "${ROOT_DIR} unmounted."
-  rmdir ${ROOT_DIR}
-  exit 0
+	if ! fusermount -zu ${ROOT_DIR} 2>/dev/null; then
+		if ! pkill -nf ${ROOT_DIR}; then
+			echo "Failed to unmount ${ROOT_DIR}!"
+			echo "Please unmount it manually with 'fusermount -u ${ROOT_DIR}'."
+		fi
+	fi
+	echo "${ROOT_DIR} unmounted."
+	# wait a little for the unionfs process to end
+	sleep 0.1 && rmdir ${ROOT_DIR}
+	exit 0
 }
 trap callTerm TERM INT
 
@@ -53,7 +59,7 @@ if ! unionfs --version > /dev/null 2>&1; then
     UNIONFS="fuse-overlayfs -o squash_to_uid=${myUID},squash_to_gid=${myGID},upperdir=${USER_DIR},lowerdir=${APPDIR},workdir=${HOME}/tmp ${ROOT_DIR}"
   fi
 else
-  UNIONFS="unionfs -o cow,uid=${myUID},gid=${myGID} ${USER_DIR}=RW:${APPDIR} ${ROOT_DIR}"
+  UNIONFS="unionfs -o cow,auto_unmount,uid=${myUID},gid=${myGID} ${USER_DIR}=RW:${APPDIR} ${ROOT_DIR}"
 fi
 
 echo "Creating overlay of ${USER_DIR} and ${APPDIR} in ${ROOT_DIR}..."

@@ -13,9 +13,15 @@ jobs:
     - name: Install build dependencies
       run: |
         sudo apt-get update
+        # lnp-forge build dependencies
         source scripts/build/debian.sh
         sudo apt-get install $(get_debian_build_dependencies) apt-rdepends
-        
+        # install appimagetool AppImage
+        sudo apt install -y python3-pip python3-setuptools patchelf desktop-file-utils libgdk-pixbuf2.0-dev fakeroot strace fuse
+        sudo wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage -O /usr/local/bin/appimagetool
+        sudo chmod +x /usr/local/bin/appimagetool
+        sudo pip3 install appimage-builder
+
     - name: Name package
       id: slug
       run: |
@@ -29,11 +35,16 @@ jobs:
         echo "CT_APPIMAGE_WITH_DEPENDENCIES=y" >> .config
         autoreconf && ./configure --prefix=$PWD && make install && bin/lnp-forge build
 
+    # see https://appimage-builder.readthedocs.io/en/latest/intro/tutorial.html#script-step
+    # for creating AppImage with deps
+          
     - name: Upload build log
       uses: actions/upload-artifact@v2
       with:
         name: build.log
-        path: build.log
+        path: |
+            build.log
+            AppImageBuilder.yml
       if: ${{ failure() }}
 
     - name: Upload AppImage
