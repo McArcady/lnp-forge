@@ -1,0 +1,18 @@
+--- a/src/sound/sound_manager.rs	2021-08-10 03:37:44.000000000 +0200
++++ b/src/sound/sound_manager.rs	2021-11-01 23:33:07.702275420 +0100
+@@ -655,7 +655,7 @@
+     /// Write the current slider values into the soundsense-rs/default-volumes.ini file.
+     pub fn set_current_volumes_as_default(&self, mut file: File) -> Result<()> {
+         use std::io::Write;
+-        writeln!(&mut file, "all={}", (self.total_volume.get()*100.0) as u32)?;
++        writeln!(&mut file, "total={}", (self.total_volume.get()*100.0) as u32)?;
+         for (channel_name, channel) in self.channels.iter() {
+             writeln!(&mut file, "{}={}", channel_name, (channel.get_local_volume()*100.0) as u32)?;
+         }
+@@ -747,4 +747,4 @@
+         }
+     }
+     Ok(path_vec)
+-}
+\ No newline at end of file
++}
