@@ -16,10 +16,18 @@ fi
 USER_DIR=${XDG_DIR}
 
 callTerm() {
-  fusermount -zu ${ROOT_DIR}
-  echo "${ROOT_DIR} unmounted."
-  rmdir ${ROOT_DIR}
-  exit 0
+	if ! fusermount -zu ${ROOT_DIR} 2>/dev/null; then
+		if ! pkill -nf ${ROOT_DIR}; then
+			echo "Failed to unmount ${ROOT_DIR}!"
+			echo "Please unmount it manually with 'fusermount -u ${ROOT_DIR}'."
+		else
+			# wait a bit for the unionfs process to end
+			sleep 0.1
+		fi
+	fi
+	echo "${ROOT_DIR} unmounted."
+	rmdir ${ROOT_DIR}
+	exit 0
 }
 trap callTerm TERM INT
 
