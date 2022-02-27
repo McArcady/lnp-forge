@@ -30,9 +30,9 @@ lnp-forge checks for the following software:
 * make & cmake
 * Tcl/Tk
 * python3 + module Tkinter
-* java 8
+* java 8 or 11
 * perl + modules XML::LibXML & XML::LibXSLT
-* ncurses
+* ncurses, rsync, help2man
 * Qt5
 * libraries OpenAL, SDL-image & SDL-ttf
   
