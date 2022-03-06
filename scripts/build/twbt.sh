@@ -30,6 +30,8 @@ do_twbt_extract() {
 		CT_Extract nochdir "twbt-${CT_TWBT_VERSION}"
 		CT_DoExecLog ALL rm -f twbt
 		CT_DoExecLog ALL ln -s twbt-${CT_TWBT_VERSION} twbt
+		# patch
+		CT_Patch nochdir "twbt" "${CT_TWBT_VERSION}"
 		CT_Popd
 	else
 		CT_Abort "DFHack plugins directory $dfhack_plugins_dir not found!"
