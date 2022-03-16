@@ -1,0 +1,18 @@
+--- a/Cargo.toml	2022-03-16 18:50:07.431269837 +0100
++++ b/Cargo.toml	2022-03-16 18:50:27.351474054 +0100
+@@ -19,7 +19,7 @@
+ rand = "0.7"
+ lazy_static = "1.4"
+ crossbeam = "0.7.3"
+-web-view = "0.6"
++web-view = "0.7"
+ getopts = "0.2"
+ webbrowser = "0.5.2"
+ dirs = "2.0"
+@@ -44,4 +44,4 @@
+ opt-level = 0
+ 
+ [package.metadata.winres]
+-LegalCopyright = "© 2019-2020 prixt"
+\ No newline at end of file
++LegalCopyright = "© 2019-2020 prixt"
