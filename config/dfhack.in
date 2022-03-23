@@ -18,6 +18,7 @@ config DFHACK_VERSION
 
 config TWBT
 	bool
+	prompt "with plugin TWBT"
 	default y
 	depends on DFHACK
 
@@ -31,7 +32,8 @@ config TWBT_VERSION
 
 config KLOKER
 	bool
-	default y
+	prompt "with plugin Kloker"
+	default n
 	depends on DFHACK
 
 config KLOKER_VERSION
