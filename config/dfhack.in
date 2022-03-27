@@ -43,3 +43,9 @@ config KLOKER_VERSION
 	depends on KLOKER
 	help
 	  Kloker revision from https://github.com/strainer/cavekeeperdf
+
+config BIOME
+	bool
+	prompt "with script BiomeManipulator"
+	default y
+	depends on DFHACK
