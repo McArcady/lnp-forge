@@ -23,5 +23,5 @@ do_debian_extract() {
 }
 
 do_debian_build() {
-	do_fpm_build "deb" "libsdl-image1.2 libsdl-ttf2.0-0 libopenal1 libsndfile1 gnome-terminal openjdk-11-jre python3-tk python3-distutils python3-pil.imagetk libqt5qml5 libqt5concurrent5 libqt5gui5 unionfs-fuse libcanberra-gtk-module libwebkit2gtk-4.0"
+	do_fpm_build "deb" "libsdl-image1.2 libsdl-ttf2.0-0 libopenal1 libsndfile1 gnome-terminal openjdk-11-jre python3-tk python3-distutils python3-pil.imagetk libqt5qml5 libqt5concurrent5 libqt5gui5 unionfs-fuse libcanberra-gtk-module libwebkit2gtk-4.0-37"
 }
