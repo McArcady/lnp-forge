@@ -29,6 +29,7 @@ CT_STEPS := lnp         \
 			twbt        \
 			kloker      \
 			biome       \
+			librarian   \
 			therapist   \
 			soundsense  \
 			soundsensers\

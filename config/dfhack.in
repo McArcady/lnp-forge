@@ -49,3 +49,9 @@ config BIOME
 	prompt "with script BiomeManipulator"
 	default y
 	depends on DFHACK
+
+config LIBRARIAN
+	bool
+	prompt "with script The Librarian"
+	default y
+	depends on DFHACK
