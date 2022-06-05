@@ -48,7 +48,7 @@ do_legends2_build() {
 	# fix start script
 	echo "#!/bin/sh" > ${script}
 	echo "cd ../../" >> ${script}
-	echo "exec legendsbrowser" >> ${script}
+	echo "exec ./legendsbrowser" >> ${script}
 	CT_DoExecLog ALL chmod +x "${script}"
 	
 	# add description

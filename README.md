@@ -19,8 +19,8 @@ Does include:
 * full DFGraphics tilesets
 * various keybinds and embark profiles
 * Dwarf Therapist
-* SoundSense
-* Legends Browser
+* SoundSense-RS
+* Legends Browser 1 & 2
 * Announcement Window
 
 ### Dependencies:
