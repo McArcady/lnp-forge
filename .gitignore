@@ -22,3 +22,11 @@ x86_64/*.rpm
 *.pkg.tar.xz
 *.rpm
 *.tbz2
+tmp
+appimage-builder-cache
+AppDir
+.AppDir
+.INSTALL
+.MTREE
+.PKGINFO
+notes

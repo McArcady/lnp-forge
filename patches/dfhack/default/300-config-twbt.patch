@@ -1,10 +1,9 @@
---- a/dfhack.init-example	2018-07-12 21:59:04.643606075 +0200
-+++ b/dfhack.init-example	2018-07-12 21:59:51.332312720 +0200
-@@ -284,3 +284,14 @@
- 
- # Run commands in this file when a world loads
- sc-script add SC_WORLD_LOADED onLoad.init-example
-+
+--- a/dfhack.init-example	2022-06-05 13:11:45.285701674 +0200
++++ b/dfhack.init-example	2022-06-05 13:12:35.067445005 +0200
+@@ -294,3 +294,14 @@
+ # Create a file named "onLoad.init" to run commands when a world is loaded
+ # and/or create a file named "onMapLoad.init" to run commands when a map is
+ # loaded. See the hack/examples/init/ directory for useful pre-made init files.
 +
 +#######################################################
 +# Loading TWBT Default multirender                    #
@@ -15,3 +14,4 @@
 +
 +# making the shadow a little darker, better for a bright tileset.
 +multilevel shadowcolor 0 0 0 0.5
++
