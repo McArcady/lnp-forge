@@ -38,7 +38,7 @@ do_legends_extract() {
 # Build
 do_legends_build() {
 	dist_dir="$(get_lnp_dir)/LNP/Utilities"
-	script="${dist_dir}/LegendsBrowser.sh"
+	script="${dist_dir}/LegendsBrowserLegacy.sh"
 	jarname="legendsbrowser-${CT_LEGENDS_VERSION}.jar"
 	
 	# fix start script
@@ -52,5 +52,5 @@ do_legends_build() {
 	echo "root=df_${CT_DF_VERSION}" > "$(get_lnp_dir)/legendsbrowser.properties"
 	
 	# add description
-	echo "[LegendsBrowser.sh:Legends Browser:Web-based legends viewer]" >> ${dist_dir}/utilities.txt
+	echo "[LegendsBrowserLegacy.sh:Legends Browser (legacy):Web-based legends viewer]" >> ${dist_dir}/utilities.txt
 }

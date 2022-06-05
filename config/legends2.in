@@ -1,0 +1,16 @@
+# LEGENDS2 options
+
+config LEGENDS2
+	bool
+	prompt "Include Legends Browser 2"
+	default y
+	help
+	  Select this to include Legends Browser 2 utility.
+
+config LEGENDS2_VERSION
+	string
+	prompt "Github revision of Legends Browser 2"
+    default "2.0.1"
+	depends on LEGENDS2
+	help
+	  Release version from https://github.com/robertjanetzko/LegendsBrowser2/releases
