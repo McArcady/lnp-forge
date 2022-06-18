@@ -1,0 +1,11 @@
+--- a/twbt/CMakeLists.txt	2022-02-27 22:16:28.235905552 +0100
++++ b/twbt/CMakeLists.txt	2022-02-27 22:16:20.447956221 +0100
+@@ -14,7 +14,7 @@
+     SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++0x -stdlib=libstdc++ -Wno-tautological-compare -framework OpenGL -mmacosx-version-min=10.6 -undefined dynamic_lookup" )
+   ENDIF()
+ ELSE( APPLE )
+-  SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x" )
++  SET( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++0x -fpermissive" )
+ ENDIF( APPLE )
+ 
+ DFHACK_PLUGIN( twbt ${PROJECT_SRCS} )

@@ -28,10 +28,13 @@ CT_STEPS := lnp         \
 			dfhack      \
 			twbt        \
 			kloker      \
+			biome       \
+			librarian   \
 			therapist   \
 			soundsense  \
 			soundsensers\
 			legends     \
+			legends2    \
 			announcement\
 			dark        \
 			appimage    \

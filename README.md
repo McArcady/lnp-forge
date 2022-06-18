@@ -19,8 +19,8 @@ Does include:
 * full DFGraphics tilesets
 * various keybinds and embark profiles
 * Dwarf Therapist
-* SoundSense
-* Legends Browser
+* SoundSense-RS
+* Legends Browser 1 & 2
 * Announcement Window
 
 ### Dependencies:
@@ -30,9 +30,9 @@ lnp-forge checks for the following software:
 * make & cmake
 * Tcl/Tk
 * python3 + module Tkinter
-* java 8
+* java 8 or 11
 * perl + modules XML::LibXML & XML::LibXSLT
-* ncurses
+* ncurses, rsync, help2man
 * Qt5
 * libraries OpenAL, SDL-image & SDL-ttf
   

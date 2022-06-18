@@ -7,9 +7,9 @@ get_appimage_credits() {
 	echo "TheAssassin"
 }
 get_appimage_url() {
-	# broken version at "https://github.com/linuxdeploy/linuxdeploy/"
-	# see https://github.com/linuxdeploy/linuxdeploy/issues/143#issuecomment-671091455
-	echo "https://artifacts.assassinate-you.net/linuxdeploy/travis-456/"
+	# continuous build of linuxdeploy
+	# https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage
+	echo "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous"
 }
 get_appimage_license() {
 	echo -n
@@ -60,7 +60,7 @@ do_appimage_build() {
 			fi
 		fi
 	done
-	dat=$(date +%d-%m-%Y)
+	dat=$(date --iso-8601)
 	# escaping for xml
 	all_licenses=$(echo "${all_licenses}" | sed 's/&/\&amp;/g; s/</\&lt;/g; s/>/\&gt;/g; s/"/\&quot;/g; s/'"'"'/\&#39;/g')
 	# escaping for regex replacement

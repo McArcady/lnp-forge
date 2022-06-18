@@ -20,11 +20,13 @@ callTerm() {
 		if ! pkill -nf ${ROOT_DIR}; then
 			echo "Failed to unmount ${ROOT_DIR}!"
 			echo "Please unmount it manually with 'fusermount -u ${ROOT_DIR}'."
+		else
+			# wait a bit for the unionfs process to end
+			sleep 0.1
 		fi
 	fi
 	echo "${ROOT_DIR} unmounted."
-	# wait a little for the unionfs process to end
-	sleep 0.1 && rmdir ${ROOT_DIR}
+	rmdir ${ROOT_DIR}
 	exit 0
 }
 trap callTerm TERM INT

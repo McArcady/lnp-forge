@@ -355,13 +355,6 @@ if test -z "$GIT"; then
 fi
 
 #----------------------------------------
-# Check for Mercurial
-AC_PATH_PROG([MERCURIAL],[hg])
-if test -z "$MERCURIAL"; then
-	AC_MSG_ERROR([Mercurial not found])
-fi
-
-#----------------------------------------
 # Check for Ninja
 AC_PATH_PROG([NINJA],[ninja])
 if test -z "$NINJA"; then
