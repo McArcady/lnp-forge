@@ -240,7 +240,7 @@ fi
 
 #----------------------------------------
 # Check for qmake >= 4
-AC_PATH_PROGS([QMAKE_QT],[qmake-qt5 qmake-qt4 qmake])
+AC_PATH_PROGS([QMAKE_QT],[qmake-qt5 qmake5 qmake-qt4 qmake4 qmake])
 if test -z "$QMAKE_QT"; then
    AC_MSG_ERROR([could not find QT/QMake >=4])
 fi
