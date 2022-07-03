@@ -22,4 +22,4 @@ diff -duN lnp-0.10f.orig/startlnp.sh lnp-0.10f/startlnp.sh
 +fi
 +
 +#run Lazy Newb Pack
-+./launch.py || echo "Failed to start PyLNP" >&2
++./launch.py $* || echo "Failed to start PyLNP" >&2

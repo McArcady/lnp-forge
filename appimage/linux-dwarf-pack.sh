@@ -73,6 +73,6 @@ if ! $( ${UNIONFS} ); then
 fi
 
 cd ${ROOT_DIR}
-./startlnp.sh
+./startlnp.sh $*
 
 callTerm
