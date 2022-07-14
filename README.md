@@ -2,14 +2,15 @@
 Builder script for the LinuxDwarfPack.
 
 ### Usage:
-`./configure --prefix=$PWD && make install`  
+`$ ./configure --prefix=$PWD && make install`  
 -> configures the tool for your system and install in a local directory (`./bin/`)  
-`./bin/lnp-forge menuconfig`  
+`$ ./bin/lnp-forge menuconfig`  
 -> change DF version and other stuff (optional), select types of package to build  
-`./bin/lnp-forge build`  
+`$ ./bin/lnp-forge build`  
 -> downloads and builds components of your pack  
 
-The pack is ready to use in: `.build/src/lnp-x.xx` (and can be renamed/moved elsewhere)
+The pack is ready to use in: `.build/src/lnp-x.xx` (and can be renamed/moved elsewhere).  
+Other packages (deb, rpm, arch ...) are created in the local directory.
 
 ### Features:
 Components of the pack are downloaded and built from their original repository. No prebuilt binaries from Armok knows where!  
