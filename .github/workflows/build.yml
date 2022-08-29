@@ -128,6 +128,8 @@ jobs:
           - SoundSense RS ${{ env.SOUNDSENSERS_VERSION }}
           
           Support and feedback: [Bay12 Forums](http://www.bay12forums.com/smf/index.php?topic=157712)
+          
+          [![bay12](https://www.bay12games.com/dwarves/imgs/support_large.png)](http://www.bay12games.com/support.html) or [![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif)](https://www.paypal.com/donate?business=mcarcady%40gmail.com&item_name=Create+and+expand+the+LinuxDwarfPack%21&currency_code=EUR) or [buy me a coffee!](https://www.buymeacoffee.com/mcarcady)
         files: |
           linux-dwarf-pack_*_amd64.deb
           linux-dwarf-pack-*-1-x86_64.pkg.tar.bz2
