@@ -4,7 +4,7 @@ get_dfhack_description() {
 	echo "DFHack v${CT_DFHACK_VERSION}"
 }
 get_dfhack_credits() {
-	echo "lethosor, JapaMala, BenLubar, PatrikLundell"
+	echo "lethosor, JapaMala, BenLubar, PatrikLundell, myk"
 }
 get_dfhack_url() {
 	echo "https://github.com/DFHack/dfhack.git"
@@ -41,6 +41,7 @@ do_dfhack_extract() {
 do_dfhack_build() {
 	dfhack_src_dir="${CT_SRC_DIR}/dfhack-${CT_DFHACK_VERSION}"
 	df_dir=${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}/df_${CT_DF_VERSION}
+	dfhack_init_dir="${dfhack_src_dir}/dfhack-config/init"
 
 	# 64-bit compile?
 	if [ "${CT_DFHACK_VERSION}" \> "0.43.05" ]; then
@@ -57,6 +58,6 @@ do_dfhack_build() {
 	echo "#define DFHACK_GIT_XML_MATCH" >> ../library/include/git-describe.h
 	CT_DoExecLog ALL ninja -j5 install
 	CT_DoExecLog ALL rm -f "${df_dir}/libs/libstdc++.so.6"
-	CT_DoExecLog ALL cp -f "${df_dir}/dfhack.init-example" "${df_dir}/dfhack.init"
+	CT_DoExecLog ALL cp -f "${dfhack_init_dir}/dfhack.init" "${df_dir}/dfhack.init"
  	CT_Popd
 }
