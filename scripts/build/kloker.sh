@@ -32,7 +32,9 @@ do_kloker_extract() {
 		# copy kloker.cpp to dfhack plugins
 		CT_DoExecLog ALL rsync -qa ${kloker_src_dir}/plugins/* ${dfhack_plugins_dir}
 		# activate
-		echo "dfhack_plugin(kloker kloker.cpp)" >> ${dfhack_plugins_dir}/CMakeLists.custom.txt
+		if grep --quiet --invert-match kloker ${dfhack_plugins_dir}/CMakeLists.custom.txt; then
+			echo "dfhack_plugin(kloker kloker.cpp)" >> ${dfhack_plugins_dir}/CMakeLists.custom.txt
+		fi
 	else
 		CT_Abort "DFHack plugins directory $dfhack_plugins_dir not found!"
 	fi
