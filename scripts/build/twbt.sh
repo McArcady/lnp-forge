@@ -33,7 +33,7 @@ do_twbt_extract() {
 		# patch
 		CT_Patch nochdir "twbt" "${CT_TWBT_VERSION}"
 		# activate
-		if grep --quiet --invert-match twbt ${dfhack_plugins_dir}/CMakeLists.custom.txt; then
+		if ! test -f ${dfhack_plugins_dir}/CMakeLists.custom.txt || grep --quiet --invert-match twbt ${dfhack_plugins_dir}/CMakeLists.custom.txt; then
 			echo "add_subdirectory(twbt)" >> ${dfhack_plugins_dir}/CMakeLists.custom.txt
 		fi
 		CT_Popd
