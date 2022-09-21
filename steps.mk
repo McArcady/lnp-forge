@@ -42,6 +42,7 @@ CT_STEPS := lnp         \
 			debian      \
 			arch        \
 			rpm         \
+			alpine      \
 			finish      \
 
 # Keep an empty line above this comment, so the last

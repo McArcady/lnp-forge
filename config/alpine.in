@@ -1,0 +1,10 @@
+# Alpine package
+
+comment "Alpine packaging disabled, requires FPM"
+	depends on ! CONFIGURE_has_fpm
+
+config ALPINE
+	depends on CONFIGURE_has_fpm
+    prompt "Configure for Alpine packaging"
+	bool
+	default n
