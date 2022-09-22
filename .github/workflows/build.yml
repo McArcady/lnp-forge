@@ -64,12 +64,13 @@ jobs:
         sudo chmod -R go-w /usr/local
         sudo chmod -R go-w /opt
 
-    - name: Build AppImage, deb, arch, rpm packages
+    - name: Build AppImage, deb, arch, rpm, apk packages
       run: |
         echo "CT_APPIMAGE=y" >> .config
         echo "CT_DEBIAN=y" >> .config
         echo "CT_ARCH=y" >> .config
         echo "CT_RPM=y" >> .config
+        echo "CT_ALPINE=y" >> .config
         ./configure --prefix=$PWD && make install && ./bin/lnp-forge clean build
     - name: Upload build log
       uses: actions/upload-artifact@v2
@@ -101,6 +102,12 @@ jobs:
       with:
         name: ${{ env.PKG_NAME }}.rpm
         path: linux-dwarf-pack-*-1.x86_64.rpm
+
+    - name: Upload Alpine package
+      uses: actions/upload-artifact@v2
+      with:
+        name: ${{ env.PKG_NAME }}.apk
+        path: linux-dwarf-pack_*_x86_64.apk
 
     - name: Content versions
       run: |
@@ -134,6 +141,7 @@ jobs:
           linux-dwarf-pack_*_amd64.deb
           linux-dwarf-pack-*-1-x86_64.pkg.tar.bz2
           linux-dwarf-pack-*-1.x86_64.rpm
+          linux-dwarf-pack_*_x86_64.apk
           Dwarf_Fortress-*-x86_64.AppImage
           ${{ env.DIR_NAME }}.tar.bz2
       env:
