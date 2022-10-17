@@ -17,6 +17,7 @@ AC_CONFIG_AUX_DIR([scripts])
 m4_include([m4/ax_prog_perl_modules.m4])
 m4_include([m4/ac_python_module.m4])
 m4_include([m4/ax_prog_tcl.m4])
+m4_include([m4/ax_cxx_compile_stdcxx.m4])
 
 #--------------------------------------------------------------------
 # A few helper macros
@@ -142,6 +143,10 @@ AC_PROG_CC
 AS_IF([test -z "$CC"],
       [AC_MSG_ERROR([no suitable compiler found])])
 AC_PROG_CPP
+
+# c++14 for dwarf therapist
+AC_MSG_CHECKING([whether compiler supports c++14])
+AX_CXX_COMPILE_STDCXX(14, noext, mandatory)
 
 AC_PROG_RANLIB
 ACX_PATH_TOOL_REQ([OBJCOPY], [gobjcopy objcopy])
