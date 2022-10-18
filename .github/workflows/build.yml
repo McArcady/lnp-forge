@@ -50,7 +50,7 @@ jobs:
     
     - name: Install packaging dependencies
       run: |
-        sudo apt-get install ruby ruby-dev rubygems build-essential bsdtar
+        sudo apt-get install ruby ruby-dev rubygems build-essential libarchive-tools
         sudo gem install public_suffix -v 4.0.7
         sudo gem install --no-document fpm
         echo "/usr/local/bin" >> $GITHUB_PATH
