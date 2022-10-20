@@ -17,7 +17,7 @@ jobs:
         sudo apt-get install libxml-libxml-perl libxml-xslt-perl libxml-filter-xslt-perl mercurial help2man git openjdk-8-jre libncurses5-dev zlib1g-dev lib32z1-dev mesa-common-dev gcc-multilib g++-multilib cmake dos2unix tcl autoconf gperf bison flex gawk libtool libsdl-dev libsdl-image1.2 libsdl-ttf2.0-0 texinfo ninja-build qt5-qmake qttools5-dev-tools qt5-default libqt5svg5-dev qt5-image-formats-plugins qtbase5-dev qtdeclarative5-dev python3-tk libasound2-dev libgtk-3-dev libwebkit2gtk-4.0-dev
 
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
         
     - name: Name package
       id: slug
@@ -31,7 +31,7 @@ jobs:
         echo "CT_LOG_PROGRESS_BAR=n" >> .config
         ./bin/lnp-forge build
     - name: Upload build log
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: build.log
         path: build.log
@@ -43,7 +43,7 @@ jobs:
         tar cjf ${{ env.DIR_NAME }}.tar.bz2 ${{ env.DIR_NAME }}
     
     - name: Upload .tar package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PKG_NAME }}.tar.bz2
         path: ${{ env.DIR_NAME }}.tar.bz2
@@ -73,38 +73,38 @@ jobs:
         echo "CT_ALPINE=y" >> .config
         ./configure --prefix=$PWD && make install && ./bin/lnp-forge clean build
     - name: Upload build log
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: build.log
         path: build.log
       if: ${{ failure() }}
 
     - name: Upload AppImage
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PKG_NAME }}.AppImage
         path: Dwarf_Fortress-*-x86_64.AppImage
 
     - name: Upload .deb package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PKG_NAME }}.deb
         path: linux-dwarf-pack_*_amd64.deb
 
     - name: Upload Arch package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PKG_NAME }}.pkg.tar.bz2
         path: linux-dwarf-pack-*-1-x86_64.pkg.tar.bz2
 
     - name: Upload .rpm package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PKG_NAME }}.rpm
         path: linux-dwarf-pack-*-1.x86_64.rpm
 
     - name: Upload Alpine package
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.PKG_NAME }}.apk
         path: linux-dwarf-pack_*_x86_64.apk
