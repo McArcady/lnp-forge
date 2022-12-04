@@ -612,6 +612,10 @@ if [ -z "${CT_RESTART}" ]; then
     fi
 fi
 
+# support file
+support_file="SUPPORT"
+CT_DoExecLog DEBUG cp "${support_file}" "$(get_lnp_dir)/"
+
 # credits file
 credits_file="$(get_lnp_dir)/PRAISE_THE_MODDERS"
 CT_DoExecLog DEBUG rm -f "${credits_file}"
