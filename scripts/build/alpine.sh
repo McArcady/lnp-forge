@@ -23,6 +23,6 @@ do_alpine_extract() {
 }
 
 do_alpine_build() {
-	do_fpm_build "apk" "sdl_image sdl_ttf openal-soft libsndfile xterm openjdk11 python3-tkinter py3-distutils-extra py3-pillow qt5-qtdeclarative unionfs-fuse libcanberra-gtk3 webkit2gtk" \
+	do_fpm_build "apk" "sdl2_image sdl2_ttf openal-soft libsndfile xterm python3-tkinter py3-distutils-extra py3-pillow qt5-qtdeclarative unionfs-fuse libcanberra-gtk3" \
 				 "--version $(echo ${CT_VERSION}|sed 's/_/-/g') --architecture x86_64"
 }
