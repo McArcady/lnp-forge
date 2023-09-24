@@ -30,3 +30,4 @@ AppDir
 .MTREE
 .PKGINFO
 notes
+stderr.txt

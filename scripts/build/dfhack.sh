@@ -41,14 +41,9 @@ do_dfhack_extract() {
 do_dfhack_build() {
 	dfhack_src_dir="${CT_SRC_DIR}/dfhack-${CT_DFHACK_VERSION}"
 	df_dir=${CT_SRC_DIR}/lnp-${CT_LNP_VERSION}/df_${CT_DF_VERSION}
-	dfhack_init_dir="${dfhack_src_dir}/dfhack-config/init"
+	dfhack_init_dir="${dfhack_src_dir}/data/dfhack-config/init"
 
-	# 64-bit compile?
-	if [ "${CT_DFHACK_VERSION}" \> "0.43.05" ]; then
-		extra_args=" -DDFHACK_BUILD_ARCH=64 -DBUILD_STONESENSE=1 -DBUILD_ISOWORLD=0"
-	else
-		extra_args=" -DBUILD_STONESENSE=1 -DBUILD_ISOWORLD=0"
-	fi
+	extra_args=" -DDFHACK_BUILD_ARCH=64 -DBUILD_STONESENSE=1 -DBUILD_ISOWORLD=0"
 	
 	CT_Pushd "${dfhack_src_dir}/build"
     CT_DoExecLog ALL cmake .. -G Ninja -DCMAKE_BUILD_TYPE:string=Release -DCMAKE_INSTALL_PREFIX=${df_dir} ${extra_args}
