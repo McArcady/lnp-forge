@@ -1,10 +1,12 @@
 name: Build LinuxDwarfPack package
 
+# automatic buid deactivated to avoid distribution of the DF Vanilla binaries (might be forbidden by license since v0.50)
 on:
-  push:
-  pull_request:
-  schedule:
-    - cron: '0 0 * * 1'
+  workflow_dispatch
+#   push:
+#   pull_request:
+#   schedule:
+#     - cron: '0 0 * * 1'
 
 jobs:
   build:
