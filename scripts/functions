@@ -587,7 +587,7 @@ CT_DoGetFile() {
     else
         T="-T ${CT_CONNECT_TIMEOUT}"
     fi
-    if CT_DoExecLog ALL wget --passive-ftp --tries=3 -nc    \
+    if CT_DoExecLog ALL wget --tries=3 -nc    \
                              --progress=dot:binary          \
                              ${T}                           \
                              -O "${tmp}"                    \
